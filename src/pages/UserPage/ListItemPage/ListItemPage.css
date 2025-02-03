@@ -1,0 +1,23 @@
+#ItemDetailsPage {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Full height of the viewport */
+}
+
+#ItemDetailsPage .ItemDetailsPage-Container {
+  flex: 1; /* Make this container grow to fill available space */
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  padding: 20px; /* Add some padding */
+}
+
+#ItemDetailsPage .item-details {
+  max-width: 600px; /* Max width for the details */
+  text-align: center; /* Center text */
+}
+
+#ItemDetailsPage .not-found {
+  color: red; /* Color for "not found" message */
+  font-size: 1.5rem; /* Larger font size */
+}

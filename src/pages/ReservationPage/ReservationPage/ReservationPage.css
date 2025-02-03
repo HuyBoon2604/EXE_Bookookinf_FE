@@ -1,0 +1,23 @@
+#Reservation {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Đảm bảo chiều cao tối thiểu là toàn bộ màn hình */
+  }
+  
+  #Reservation > Header {
+    position: sticky; /* Đảm bảo Header luôn ở trên cùng */
+    top: 0;
+    z-index: 1000; /* Đặt z-index cao để nó luôn hiển thị phía trên */
+    background-color: #fff; /* Đặt màu nền nếu cần */
+  }
+  
+  #Reservation > Footer {
+    margin-top: auto; /* Đẩy Footer xuống dưới cùng */
+  
+  }
+  
+  #Reservation > .LabTabs {
+    flex: 1; /* Đảm bảo phần nội dung chiếm hết không gian giữa Header và Footer */
+    overflow-y: auto; /* Thêm cuộn dọc nếu nội dung quá dài */
+  }
+  

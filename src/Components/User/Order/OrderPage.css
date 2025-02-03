@@ -1,0 +1,137 @@
+#OrderPage .container-order {
+    width: 100%;
+    height: 50vh;
+    margin-top: 10vh;
+    display: flex;
+    margin-bottom: 20vh;
+}
+
+#OrderPage .infoorder-stu {
+    width: 70%;
+    /* border: 1px solid black; */
+    /* overflow-y: scroll; */
+}
+
+/* #OrderPage .infoorder-stu::-webkit-scrollbar {
+    width: 10px; 
+}
+
+#OrderPage .infoorder-stu::-webkit-scrollbar-thumb {
+    background-color: black; 
+    border-radius: 5px;
+}
+
+#OrderPage .infoorder-stu::-webkit-scrollbar-track {
+    background-color: #f1f1f1; 
+} */
+
+#OrderPage .infouser-order {
+    width: 30%;
+    border: 1px solid black;
+    text-align: center;
+    height: 50vh;
+    margin-top: 5vh;
+    box-shadow: 5px 10px;
+    margin-right: 3vh;
+}
+
+#OrderPage .infoorderstu-item {
+    display: flex;
+    border: 1px solid black;
+    height: 50vh;
+    padding: 10px;
+    box-shadow: 5px 10px;
+    width: 90%;
+    margin-left: 2vh;
+    margin-top: 3vh;
+}
+
+#OrderPage .imageorder-con {
+    width: 100%;
+    height: 100%;
+}
+
+#OrderPage .imageorder-stu {
+    width: 80%;
+    height: 50vh;
+}
+
+#OrderPage .stu-infoorder {
+    width: 70%;
+}
+
+#OrderPage .chuavuine {
+    margin-top: 7vh;
+    margin-left: 4vh;
+    animation: leFadeInLeft 2s ease-in-out;
+}
+
+#OrderPage .custumor-title {
+    animation: leFadeInLeft 2s ease-in-out;
+}
+
+#OrderPage .chuavuive {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+#OrderPage .phonevui {
+    text-align: left;
+    flex: 1;
+}
+
+#OrderPage .kovui {
+    text-align: right;
+    flex: 1;
+}
+
+#OrderPage .chuainfoorder {
+    margin: 0 auto;
+    max-width: 600px; /* Adjust as per your needs */
+    padding: 20px;
+}
+
+#OrderPage .chuainfovui {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    animation: leFadeInLeft 2s ease-in-out;
+    margin-top: 3vh;
+}
+
+#OrderPage .customername,
+#OrderPage .Priceorder,
+#OrderPage .quantityhour,
+#OrderPage .totalpricevui {
+    flex: 1;
+    text-align: left;
+}
+
+#OrderPage .kovui {
+    text-align: right;
+}
+
+#OrderPage .buttonorder {
+    height: 5vh;
+}
+
+#OrderPage .ordernut {
+    height: 5vh;
+    border-radius: 20px;
+    background-color: #9747FF;
+    color: white;
+    margin-left: 5vh;
+    margin-top: 10vh;
+}
+
+#OrderPage @keyframes leFadeInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-60px);
+    }
+    to {
+        opacity: 1;
+    }
+}

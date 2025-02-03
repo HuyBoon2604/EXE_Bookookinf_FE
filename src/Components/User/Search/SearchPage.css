@@ -1,0 +1,65 @@
+.search-page {
+    padding: 16px;
+  }
+  
+  
+  
+  .studio-cardd {
+   
+    
+    overflow: hidden;
+    background-color: #fff;
+  
+    transition: transform 0.2s ease;
+    height: 60vh;
+  }
+  
+  .studio-cardd:hover {
+    transform: translateY(-4px);
+  }
+  
+  .studio-image4 .image-search {
+    width:348px;
+    height: 278px;
+    border-radius: 10px;
+  }
+  
+  .studio-info4 {
+    
+    width: 100%;
+    
+    text-align: left;
+   
+  }
+  .chua-studio-name4{
+    margin-bottom: 5px;
+    
+  }
+  .studio-name4 {
+    font-size: 15px;
+   
+    font-weight: bold;
+  }
+  .studio-address4{
+    font-size: 12px;
+   
+  }
+  .chua-studio-address4{
+    margin-bottom: 5px;
+  }
+  
+  .studio-details4 {
+    font-size: 0.9rem;
+    color: #666;
+  }
+  
+  .studio-description4 {
+    margin: 8px 0;
+    width: 70%;
+  }
+  
+  .studio-price4 {
+    font-weight: bold;
+    color: black;
+  }
+  

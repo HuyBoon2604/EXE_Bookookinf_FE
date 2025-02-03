@@ -1,0 +1,433 @@
+#StudioInfor .studio-page {
+  font-family: Arial, sans-serif;
+  margin: 10px;
+}
+
+#StudioInfor .image-gallery {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#StudioInfor .gallery-img {
+  width: 150px;
+  height: auto;
+  display: block;
+  cursor: pointer;
+  border: 1px solid #ddd;
+  transition: transform 0.3s ease;
+}
+
+#StudioInfor .gallery-img:hover {
+  transform: scale(1.1);
+}
+
+#StudioInfor .grouped-images {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 150px;
+  border-radius: 20px;
+  background-color: #f0f0f0;
+  cursor: pointer;
+  border: 1px dashed #ccc;
+}
+
+#StudioInfor .grouped-images-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: #555;
+}
+
+#StudioInfor .grouped-images-expanded {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+#StudioInfor .modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+#StudioInfor .modal-content {
+  position: relative;
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  max-width: 80%;
+  height: 105vh;
+}
+
+#StudioInfor .modal-image {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  height: 100vh;
+}
+
+#StudioInfor .close-button {
+  position: absolute;
+  top: 10px;
+  right: 5px;
+  font-size: 24px;
+  color: #000;
+  cursor: pointer;
+}
+
+#StudioInfor .close-button:hover {
+  color: red;
+}
+
+#StudioInfor .studio-info {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  height: 60vh;
+}
+
+#StudioInfor .studio-tags .tag {
+  display: inline-block;
+  padding: 5px 10px;
+  margin-right: 10px;
+  background: #eee;
+  border-radius: 5px;
+}
+
+#StudioInfor .booking-section {
+  position: absolute;
+  left: 65%;
+}
+
+#StudioInfor .price-details {
+  display: flex;
+  gap: 10px;
+}
+
+#StudioInfor .booking-button:hover {
+  background: #9f62ef;
+}
+
+#StudioInfor .image-thumbnails {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  height: 70vh;
+}
+
+#StudioInfor .image-gallery {
+  display: grid;
+  grid-template-areas:
+      "image-main image-thumbnails"
+      "image-main image-thumbnails";
+  gap: 20px;
+}
+
+#StudioInfor .image-item {
+  height: 34vh;
+}
+
+#StudioInfor .gallery-img {
+  width: 100%;
+  height: 34vh;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out;
+}
+
+#StudioInfor .grouped-images-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f0f0f0;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+#StudioInfor .grouped-images {
+  width: 100%;
+  height: 34vh;
+}
+
+#StudioInfor .review-vui {
+  display: flex;
+}
+
+#StudioInfor .rate-review {
+  color: black;
+  margin-top: 4vh;
+  margin-left: 6px;
+}
+
+#StudioInfor .star-review {
+  color: yellow;
+  background-color: black;
+  border-radius: 50%;
+  margin-top: 6.1vh;
+  margin-left: 3px;
+  width: 2vh;
+  height: 2vh;
+}
+
+#StudioInfor .info-title {
+  text-align: left;
+  width: 60%;
+  justify-items: left;
+  height: 30vh;
+  margin-bottom: 30vh;
+}
+
+#StudioInfor .studio-name {
+  margin-left: 5vh;
+  font-size: larger;
+  width: 70%;
+  text-align: left;
+}
+
+#StudioInfor .studio-adress {
+  margin-left: 5vh;
+  font-size: 80%;
+  color: grey;
+}
+
+#StudioInfor .studio-title {
+  font-weight: bold;
+  margin-top: 5vh;
+  margin-left: 5vh;
+}
+
+#StudioInfor .price-details {
+  color: black;
+  border: 2px solid black;
+  height: 5vh;
+  align-items: center;
+}
+
+#StudioInfor .price-details .discount {
+  margin-left: 25vh;
+  border: 2px solid black;
+  border-radius: 20px;
+}
+
+#StudioInfor .price-title {
+  margin-left: 20vh;
+}
+
+#StudioInfor .booking-form {
+  border: 2px solid black;
+  height: 50vh;
+  margin-top: 3px;
+  color: black;
+}
+
+#StudioInfor .btn-booking {
+  margin-top: 1vh;
+}
+
+#StudioInfor .start-Date {
+  width: 100%;
+  margin-left: 7vh;
+}
+
+#StudioInfor #date {
+  width: 80%;
+  height: 5vh;
+  background-color: white;
+  color: black;
+}
+
+#StudioInfor .dateandtime {
+  margin-left: 30%;
+}
+
+#StudioInfor .timechua {
+  margin-left: 7vh;
+  width: 100%;
+}
+
+#StudioInfor #time {
+  width: 35%;
+  height: 5vh;
+  background-color: white;
+  color: black;
+}
+
+#StudioInfor .booking-button {
+  width: 70%;
+  padding: 10px;
+  margin-top: 10vh;
+  margin-left: 7vh;
+  background-color: #9747FF;
+  color: white;
+  font-weight: bold;
+  border: 2px solid black;
+}
+
+#StudioInfor .reviews-section {
+  color: black;
+  margin-top: 20px;
+  width: 60%;
+}
+
+#StudioInfor .review-chua {
+  margin-left: 5vh;
+}
+
+#StudioInfor .review {
+  width: 100%;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  display: flex;
+  border-bottom: 1px solid #ccc;
+}
+
+#StudioInfor .amenities-list {
+  color: black;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#StudioInfor .amenities-list .type-amen {
+  list-style: none;
+  padding: 5px 0;
+  width: 50%;
+  margin-top: 20px;
+}
+
+#StudioInfor .phukien {
+  margin-left: 5px;
+}
+
+#StudioInfor .amenities-section {
+  margin-bottom:10rem ;
+  width: 50%;
+}
+
+#StudioInfor .price-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+#StudioInfor .dollar {
+  font-size: 24px;
+  color: black;
+}
+
+#StudioInfor .price-text {
+  font-size: 18px;
+  color: black;
+}
+
+#StudioInfor .dancer-masters-list {
+  color: black;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#StudioInfor .dance-master-chua {
+  width: 100%;
+}
+
+#StudioInfor .dancer-master-item {
+  width: 50%;
+  list-style: none;
+}
+
+#StudioInfor .info-dancer {
+  width: 100%;
+}
+
+#StudioInfor .image-main {
+  width: 100%;
+  height: 70vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+#StudioInfor .main-img {
+  width: 100%;
+  height: 70vh;
+  transition: transform 0.3s ease;
+}
+
+#StudioInfor .main-img:hover {
+  transform: scale(1.1);
+}
+
+#StudioInfor .hinh-dancer {
+  border-radius: 50%;
+  height: 8vh;
+  width: 8vh;
+  border: 1px solid black;
+}
+
+#StudioInfor .review-title {
+  margin-top: 40px;
+  color: black;
+}
+
+#StudioInfor .hinh-reviewer {
+  border-radius: 50%;
+  height: 8vh;
+  width: 8vh;
+  border: 1px solid black;
+}
+
+#StudioInfor .amen-title {
+  margin-bottom: 20px;
+  font-weight: bold;
+  color: black;
+  margin-left: 5vh;
+}
+
+#StudioInfor .image-with-overlay {
+  position: relative;
+  display: inline-block;
+}
+
+#StudioInfor .overlay-text {
+  position: absolute;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white; /* Màu chữ */
+  background-color: rgba(0, 0, 0, 0.5); /* Nền mờ */
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+}
+#StudioInfor .reviewdate{
+  color: rgb(189, 185, 185);
+}
+.show-more-button {
+  margin-top: 20px;
+  padding: 10px 15px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  background-color: white;
+  color: black;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+.show-more-button:hover {
+  background-color: rgb(164, 159, 159);
+}

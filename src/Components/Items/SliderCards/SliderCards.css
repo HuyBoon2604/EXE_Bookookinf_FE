@@ -1,0 +1,46 @@
+#slider-cards {
+  width: 1080px;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+#slider-cards .arrow {
+  position: absolute;
+  background-color: white;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  box-shadow: 1px 0px 1px 1px rgb(177, 177, 177);
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.arrow.disabled {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+#slider-cards .arrow svg {
+  font-size: 28px;
+}
+
+#slider-cards .right {
+  right: -15px;
+}
+
+#slider-cards .left {
+  left: -15px;
+}
+
+#slider-cards #slider-cards-container {
+  white-space: nowrap;
+  overflow-x: scroll;
+  scrollbar-width: none;
+  scroll-behavior: smooth;
+  display: flex;
+  padding-bottom: 20px;
+}

@@ -1,0 +1,269 @@
+#ListItem {
+  display: flex;
+  flex-direction: row;
+}
+
+#ListItem .ListItem-Container1 {
+  margin-top: 64px;
+}
+
+#ListItem .ListItem-Container2 {
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  width: 100%;
+  margin: 0 auto;
+  margin-top: 60px;
+  margin-right: 150px;
+}
+
+#ListItem .ListItem-Container2 .ListItemPage-Container {
+  background-color: white;
+  margin-top: 50px;
+}
+
+/* Filter container */
+#ListItem .ListItem-Container2 .filter-container {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center; /* Căn giữa các phần tử */
+  width: 100%; /* Đảm bảo filter container chiếm hết chiều rộng */
+}
+
+/* Các phần tử bên trong filter-container */
+#ListItem .ListItem-Container2 .filter-input {
+  padding: 10px;
+  width: 70%; /* Đảm bảo chiều rộng hợp lý cho input */
+  max-width: 850px; /* Thêm kích thước tối đa để tránh kéo dài quá nhiều */
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+#ListItem .ListItem-Container2 .filter-button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  background-color: #ff5722;
+  color: white;
+  cursor: pointer;
+  margin-left: 10px; /* Thêm khoảng cách bên trái cho nút */
+}
+
+/* Danh sách sản phẩm */
+#ListItem .ListItem-Container2 .products-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 cột */
+  gap: 50px; /* Giảm khoảng cách giữa các sản phẩm */
+  padding: 10px; /* Bỏ padding bên trái và bên phải */
+  min-height: 200px; /* Thêm chiều cao tối thiểu cho container */
+}
+
+#ListItem .ListItem-Container2 .list-item {
+  width: 100%; /* Chiều rộng đầy đủ trong cột */
+  max-width: 200px; /* Kích thước tối đa của mỗi sản phẩm */
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column; /* Sắp xếp các phần tử theo chiều dọc */
+}
+
+#ListItem .ListItem-Container2 .list-item:hover {
+  transform: translateY(-5px);
+}
+
+#ListItem .ListItem-Container2 .list-item-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+/* Placeholder cho hình ảnh sản phẩm */
+#ListItem .ListItem-Container2 .product-image {
+  width: 100%;
+  height: 180px; /* Chiều cao hình ảnh */
+  background-color: #f0f0f0; /* Màu nền cho chỗ trống */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px; /* Kích thước chữ cho placeholder */
+  color: #ccc; /* Màu chữ cho placeholder */
+}
+
+/* Chi tiết sản phẩm */
+#ListItem .ListItem-Container2 .product-details {
+  padding: 10px;
+  display: flex;
+  flex-direction: column; /* Sắp xếp các phần tử theo chiều dọc */
+  align-items: flex-start; /* Căn bên trái */
+  flex-grow: 1; /* Để chi tiết sản phẩm có thể mở rộng */
+  height: 150px; /* Chiều cao tối đa để đảm bảo căn chỉnh đồng đều */
+}
+
+#ListItem .ListItem-Container2 .product-title {
+  font-size: 14px;
+  font-weight: bold;
+  margin: 0;
+  color: #333;
+}
+
+#ListItem .ListItem-Container2 .product-description {
+  font-size: 12px;
+  color: #666;
+  margin: 5px 0;
+  margin-top: auto;
+  display: -webkit-box; /* Để hỗ trợ line-clamp */
+  -webkit-line-clamp: 2; /* Giới hạn hiển thị 2 dòng */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+#ListItem .ListItem-Container2 .product-price {
+  font-size: 16px;
+  font-weight: bold;
+  color: #ff5722;
+  margin-top: auto; /* Đẩy giá xuống cuối cùng của khối */
+}
+
+/* Phân trang */
+#ListItem .ListItem-Container2 .pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+#ListItem .ListItem-Container2 .pagination button {
+  margin: 0 5px;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  background-color: #ddd;
+  cursor: pointer;
+}
+
+#ListItem .ListItem-Container2 .pagination button.active {
+  background-color: #ff5722;
+  color: white;
+}
+
+/* Định vị biểu tượng giỏ hàng ở góc dưới bên phải */
+#ListItem .ListItem-Container2 .cart-icon-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #f0f0f0;
+  padding: 10px;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#ListItem .ListItem-Container2 .cart-icon {
+  font-size: 24px;
+  color: #333;
+}
+
+#ListItem .ListItem-Container2 .cart-count {
+  margin-left: 8px;
+  font-size: 16px;
+  background-color: red;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 50%;
+}
+
+#ListItem .ListItem-Container2 .add-to-cart-button {
+  display: flex; /* Sử dụng flex để căn chỉnh biểu tượng và văn bản */
+  align-items: center; /* Căn giữa theo chiều dọc */
+  justify-content: center; /* Căn giữa theo chiều ngang */
+  background-color: #f0a500; /* Màu nền của nút, bạn có thể thay đổi theo ý muốn */
+  color: white; /* Màu chữ trắng */
+  font-size: 16px; /* Kích thước chữ */
+  padding: 10px 20px; /* Khoảng cách trong nút (trên/dưới, trái/phải) */
+  border: none; /* Bỏ viền */
+  border-radius: 5px; /* Bo góc của nút */
+  cursor: pointer; /* Thay đổi con trỏ khi hover */
+  transition: background-color 0.3s, transform 0.3s; /* Hiệu ứng chuyển màu nền và hiệu ứng khi hover */
+}
+
+#ListItem .ListItem-Container2 .add-to-cart-button:hover {
+  background-color: #ff7f00; /* Thay đổi màu nền khi hover */
+  transform: scale(1.05); /* Phóng to nút một chút khi hover */
+}
+
+#ListItem .ListItem-Container2 .add-to-cart-button svg {
+  margin-right: 8px; /* Khoảng cách giữa biểu tượng và văn bản */
+  font-size: 20px; /* Kích thước biểu tượng */
+}
+
+/* *********************************************************************************************************************** */
+
+#ListItem .ListItem-Container1 .task-view {
+  position: sticky; /* Giữ thanh bên ở vị trí */
+  top: 0; /* Bắt đầu dính ở đỉnh của khung nhìn */
+  width: 250px; /* Width of the sidebar */
+  padding: 20px; /* Inner spacing */
+  background-color: #ffffff; /* Background color */
+  border-right: 1px solid #ddd; /* Right border */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Shadow effect */
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; /* Modern font */
+  color: #333; /* Main text color */
+  border-radius: 8px; /* Rounded corners */
+}
+
+#ListItem .ListItem-Container1 h4 {
+  margin: 20px 0 10px; /* Spacing above and below sub-titles */
+  font-size: 18px; /* Subtitle font size */
+  font-weight: bold; /* Bold subtitle */
+}
+
+#ListItem .ListItem-Container1 .sort-buttons,
+#ListItem .ListItem-Container1 .filter-type,
+#ListItem .ListItem-Container1 .price-range {
+  margin-top: 20px; /* Top spacing between sections */
+}
+
+#ListItem .ListItem-Container1 .sort-buttons button,
+#ListItem .ListItem-Container1 .filter-type button,
+#ListItem .ListItem-Container1 .price-range .price-select {
+  margin: 5px 0; /* Spacing between buttons and select */
+  padding: 12px; /* Button height */
+  background-color: #007bff; /* Button background color */
+  color: white; /* Button text color */
+  border: none; /* Remove border */
+  border-radius: 4px; /* Rounded corners for buttons */
+  cursor: pointer; /* Pointer cursor on hover */
+  width: 100%; /* Full width */
+  font-size: 14px; /* Font size for buttons */
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Transition effects */
+}
+
+#ListItem .ListItem-Container1 .sort-buttons button:hover,
+#ListItem .ListItem-Container1 .filter-type button:hover {
+  background-color: #0056b3; /* Darker background on hover */
+  transform: translateY(-2px); /* Slight lift effect on hover */
+}
+
+#ListItem .ListItem-Container1 .price-range .price-select {
+  padding: 10px; /* Inner padding for select */
+  border: 1px solid #ddd; /* Border for select */
+  border-radius: 4px; /* Rounded corners for select */
+  width: 100%; /* Full width */
+  font-size: 14px; /* Font size for select */
+  color: #333; /* Text color */
+  background-color: #fff; /* Background color */
+}
+
+#ListItem .ListItem-Container1 .price-range label {
+  font-size: 14px; /* Label font size */
+  color: #555; /* Label color */
+  margin-bottom: 5px; /* Spacing below the label */
+  display: block; /* Make labels block for clear separation */
+}

@@ -1,0 +1,650 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "username": "user1",
+      "password": "password1",
+      "email": "admin@example.com",
+      "roleId": 1,
+      "name": "Admin",
+      "phone": "0327377569",
+      "address": "146/59/40D Vũng Tùng",
+      "imageUrl": "https://img.icons8.com/bubbles/100/000000/user.png",
+      "cart": [
+        {
+          "productId": "1",
+          "quantity": 1
+        },
+        {
+          "productId": "2",
+          "quantity": 2
+        }
+      ],
+      "orders": [
+        {
+          "orderId": "1001",
+          "date": "2023-11-01",
+          "status": "Delivered",
+          "total": "477000",
+          "items": [
+            {
+              "productId": "1",
+              "quantity": 1
+            },
+            {
+              "productId": "3",
+              "quantity": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "userId": "2",
+      "username": "user2",
+      "password": "password2",
+      "email": "admin2@example.com",
+      "roleId": 1,
+      "phone": "6444444",
+      "address": "6th Floor, OneHub Saigon, High-Tech Park, Tan Phu Ward, District 9, Ho Chi Minh City",
+      "name": "Lê Công Hưngg",
+      "imageUrl": "https://scontent.fsgn12-1.fna.fbcdn.net/v/t39.30808-6/459447748_2023642684720561_7279930858435127852_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=IpHviU6Nd9IQ7kNvgHxPzXE&_nc_zt=23&_nc_ht=scontent.fsgn12-1.fna&_nc_gid=AGK_qdUmP_nM1CjGeoM2Y8N&oh=00_AYAxkPgVS_3_mx9eoUIOCDreYTOfv61K8e9ykn4Le0CVrQ&oe=67337998",
+      "cart": [
+        {
+          "productId": "4",
+          "quantity": 1
+        },
+        {
+          "productId": "5",
+          "quantity": 3
+        }
+      ],
+      "orders": [
+        {
+          "orderId": "1002",
+          "date": "2023-11-02",
+          "status": "Pending",
+          "total": "1609000",
+          "items": [
+            {
+              "productId": "2",
+              "quantity": 1
+            },
+            {
+              "productId": "4",
+              "quantity": 2
+            }
+          ]
+        }
+      ],
+      "id": "b226"
+    },
+    {
+      "id": "3",
+      "username": "user3",
+      "password": "password3",
+      "email": "admin3@example.com",
+      "roleId": 1,
+      "phone": "6444444",
+      "address": "6th Floor, OneHub Saigon, High-Tech Park, Tan Phu Ward, District 9, Ho Chi Minh City",
+      "name": "Lê Công Hưngg",
+      "imageUrl": "https://scontent.fsgn12-1.fna.fbcdn.net/v/t39.30808-6/459447748_2023642684720561_7279930858435127852_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=IpHviU6Nd9IQ7kNvgHxPzXE&_nc_zt=23&_nc_ht=scontent.fsgn12-1.fna&_nc_gid=AGK_qdUmP_nM1CjGeoM2Y8N&oh=00_AYAxkPgVS_3_mx9eoUIOCDreYTOfv61K8e9ykn4Le0CVrQ&oe=67337998",
+      "cart": [
+        {
+          "productId": "3",
+          "quantity": 1
+        },
+        {
+          "productId": "6",
+          "quantity": 2
+        }
+      ],
+      "orders": [
+        {
+          "orderId": "1003",
+          "date": "2023-11-03",
+          "status": "Shipped",
+          "total": "285000",
+          "items": [
+            {
+              "productId": "5",
+              "quantity": 1
+            },
+            {
+              "productId": "6",
+              "quantity": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "4",
+      "username": "user4",
+      "password": "password4",
+      "email": "admin4@example.com",
+      "roleId": 1,
+      "phone": "0349140524",
+      "address": "6th Floor, OneHub Saigon, High-Tech Park, Tan Phu Ward, District 9, Ho Chi Minh City",
+      "name": "Lê Công Hưngg",
+      "imageUrl": "https://scontent.fsgn12-1.fna.fbcdn.net/v/t39.30808-6/459447748_2023642684720561_7279930858435127852_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=IpHviU6Nd9IQ7kNvgHxPzXE&_nc_zt=23&_nc_ht=scontent.fsgn12-1.fna&_nc_gid=AGK_qdUmP_nM1CjGeoM2Y8N&oh=00_AYAxkPgVS_3_mx9eoUIOCDreYTOfv61K8e9ykn4Le0CVrQ&oe=67337998",
+      "cart": [
+        {
+          "productId": "2",
+          "quantity": 1
+        }
+      ],
+      "orders": [
+        {
+          "orderId": "1004",
+          "date": "2023-11-04",
+          "status": "Delivered",
+          "total": "586000",
+          "items": [
+            {
+              "productId": "7",
+              "quantity": 1
+            },
+            {
+              "productId": "8",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "orderId": "1005",
+          "date": "2023-11-03",
+          "status": "Shipped",
+          "total": "585000",
+          "items": [
+            {
+              "productId": "11",
+              "quantity": 1
+            },
+            {
+              "productId": "12",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "orderId": "14662096",
+          "date": "10-11-2024 05:05:20",
+          "status": "Processing",
+          "total": "1584000",
+          "items": [
+            {
+              "productId": "1",
+              "quantity": 1,
+              "image": "/Product/24.jpg",
+              "title": "Combo tự chế máy rót rượu tự động V1",
+              "price": "220000",
+              "description": "Combo hoàn chỉnh để tự chế máy rót rượu tự động, phù hợp với các DIYer và những ai đam mê sáng tạo.",
+              "id": "cd87"
+            },
+            {
+              "productId": "2",
+              "quantity": 1,
+              "image": "/Product/24.jpg",
+              "title": "Combo tự chế máy rót rượu tự động V2",
+              "price": "257000",
+              "description": "Phiên bản cải tiến của máy rót rượu tự động, mang đến hiệu quả cao hơn và dễ dàng lắp đặt.",
+              "id": "26b9"
+            },
+            {
+              "productId": "3",
+              "quantity": 3,
+              "image": "/Product/25.jpg",
+              "title": "Combo tự làm xe 3 bánh tránh vật cản Arduino",
+              "price": "369000",
+              "description": "Combo tự làm xe 3 bánh Arduino, có khả năng tránh vật cản, phù hợp cho các dự án học tập và nghiên cứu.",
+              "id": "d334"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "userId": "5",
+      "username": "admin",
+      "password": "adminpassword",
+      "email": "admin6@example.com",
+      "roleId": 2,
+      "id": "0131"
+    }
+  ],
+  "products": [
+    {
+      "productId": "1",
+      "image": "/Product/24.jpg",
+      "title": "Combo tự chế máy rót rượu tự động V1",
+      "price": "220000",
+      "quantity": "100",
+      "description": "Combo hoàn chỉnh để tự chế máy rót rượu tự động, phù hợp với các DIYer và những ai đam mê sáng tạo.",
+      "id": "cd87"
+    },
+    {
+      "productId": "2",
+      "image": "/Product/24.jpg",
+      "title": "Combo tự chế máy rót rượu tự động V2",
+      "price": "257000",
+      "quantity": "100",
+      "description": "Phiên bản cải tiến của máy rót rượu tự động, mang đến hiệu quả cao hơn và dễ dàng lắp đặt.",
+      "id": "26b9"
+    },
+    {
+      "productId": "3",
+      "image": "/Product/25.jpg",
+      "title": "Combo tự làm xe 3 bánh tránh vật cản Arduino",
+      "price": "369000",
+      "quantity": "100",
+      "description": "Combo tự làm xe 3 bánh Arduino, có khả năng tránh vật cản, phù hợp cho các dự án học tập và nghiên cứu.",
+      "id": "d334"
+    },
+    {
+      "productId": "4",
+      "image": "/Product/26.jpg",
+      "title": "Combo xe đa hướng Arduino - Điều khiển bluetooth",
+      "price": "1240000",
+      "quantity": "100",
+      "description": "Xe điều khiển đa hướng qua Bluetooth với Arduino, giúp bạn dễ dàng điều khiển xe qua smartphone.",
+      "id": "e516"
+    },
+    {
+      "productId": "5",
+      "image": "/Product/21.jpg",
+      "title": "Combo xe điều khiển từ xa có camera giám sát",
+      "price": "560000",
+      "quantity": "100",
+      "description": "Combo xe điều khiển từ xa có camera giám sát là combo do chính NSHOP biên soạn, thường được sử dụng để học tập, nghiên cứu, giải trí…v…v. Kết hợp với module ESP32-Camera, chúng ta có thể điều khiển thông qua wifi đang sử dụng bằng website thông qua địa chỉ IP và không cần phải theo dõi khi điều khiển như combo dùng bluetooth vì đã được tích hợp thêm camera có thể giám sát qua màn hình và điều khiển đi bất kì đâu. Lưu ý: combo này là tự ráp, quý khách chỉ cần đấu nối và nạp code theo đúng sơ đồ là chạy, quý khách có thể chỉnh sửa lại code để tối ưu hơn.",
+      "images": [
+        "/Product/21.jpg",
+        "/Product/21.1.jpg",
+        "/Product/21.2.jpg",
+        "/Product/21.3.jpg",
+        "/Product/21.4.jpg",
+        "/Product/21.5.jpg",
+        "/Product/21.6.jpg",
+        "/Product/21.7.jpg",
+        "/Product/21.8.jpg",
+        "/Product/21.9.jpg",
+        "/Product/21.10.jpg",
+        "/Product/21.11.jpg",
+        "/Product/21.12.jpg"
+      ],
+      "status": "Còn hàng",
+      "additionalInfo": {
+        "loyaltyPoints": "❤️ Công thêm 56 điểm tích lũy",
+        "shipping": {
+          "hcm": "Miễn phí vận chuyển [tối đa 35000]",
+          "other": "Miễn phí vận chuyển [tối đa 35000]"
+        },
+        "storeAvailability": "Xem chi nhánh còn hàng",
+        "details": {
+          "productList": [
+            "Khung xe robot 3 bánh",
+            "Mạch thu phát Wifi BLE ESP32-CAM Ai-Thinker",
+            "Mạch Điều Khiển Động Cơ DC L298N",
+            "Hộp Pin 18650 2 cell có nắp và công tắc",
+            "Pin cell 18650 2000mAh (1 pin màu sắc ngẫu nhiên)",
+            "Test board cắm mini, Breadboard Mini SYB-170 (màu sắc ngẫu nhiên)",
+            "Dây Cắm Test Board Đực Cái 20 cm"
+          ],
+          "weight": "290g",
+          "demoVideo": "https://youtu.be/-2QauRxO-iA",
+          "referenceCode": "Code tham khảo: [Code đầy đủ](https://www.mediafire.com/file/ikjbz0g7zqwj417/ESP32-CAR.rar/file)",
+          "codeSnippet": "/* ESP32 Camera Car */\n#include \"esp_camera.h\"\n#include <WiFi.h>\n#define CAMERA_MODEL_AI_THINKER\nconst char* ap_ssid = \"ESP32-CAR\";\nconst char* ap_password = \"12345678\";\n\n#if defined(CAMERA_MODEL_WROVER_KIT)\n#define PWDN_GPIO_NUM    -1\n#define RESET_GPIO_NUM   -1\n#define XCLK_GPIO_NUM    21\n#define SIOD_GPIO_NUM    26\n#define SIOC_GPIO_NUM    27\n#define Y9_GPIO_NUM      35\n#define Y8_GPIO_NUM      34\n#define Y7_GPIO_NUM      39\n#define Y6_GPIO_NUM      36\n#define Y5_GPIO_NUM      19\n#define Y4_GPIO_NUM      18\n#define Y3_GPIO_NUM       5\n#define Y2_GPIO_NUM       4\n#define VSYNC_GPIO_NUM   25\n#define HREF_GPIO_NUM    23\n#define PCLK_GPIO_NUM    22\n#elif defined(CAMERA_MODEL_AI_THINKER)\n#define PWDN_GPIO_NUM     32\n#define RESET_GPIO_NUM    -1\n#define XCLK_GPIO_NUM      0\n#define SIOD_GPIO_NUM     26\n#define SIOC_GPIO_NUM     27\n#define Y9_GPIO_NUM       35\n#define Y8_GPIO_NUM       34\n#define Y7_GPIO_NUM       39\n#define Y6_GPIO_NUM       36\n#define Y5_GPIO_NUM       21\n#define Y4_GPIO_NUM       19\n#define Y3_GPIO_NUM       18\n#define Y2_GPIO_NUM        5\n#define VSYNC_GPIO_NUM    25\n#define HREF_GPIO_NUM     23\n#define PCLK_GPIO_NUM     22\n#else\n#error \"Camera model not selected\"\n#endif\n\nextern int IN1 =  2;\nextern int IN2 = 14;\nextern int IN3 = 15;\nextern int IN4 = 13;\nextern int LED =  4;\nextern String WiFiAddr =\"\";\nvoid startCameraServer();\nvoid setup() {\n  Serial.begin(115200);\n  Serial.setDebugOutput(true);\n  Serial.println();\n  pinMode(IN1, OUTPUT);\n  pinMode(IN2, OUTPUT);\n  pinMode(IN3, OUTPUT);\n  pinMode(IN4, OUTPUT);\n  pinMode(LED, OUTPUT);\n  digitalWrite(IN1, LOW);\n  digitalWrite(IN2, LOW);\n  digitalWrite(IN3, LOW);\n  digitalWrite(IN4, LOW);\n  digitalWrite(LED, LOW);\n\n  camera_config_t config;\n  config.ledc_channel = LEDC_CHANNEL_0;\n  config.ledc_timer = LEDC_TIMER_0;\n  config.pin_d0 = Y2_GPIO_NUM;\n  config.pin_d1 = Y3_GPIO_NUM;\n  config.pin_d2 = Y4_GPIO_NUM;\n  config.pin_d3 = Y5_GPIO_NUM;\n  config.pin_d4 = Y6_GPIO_NUM;\n  config.pin_d5 = Y7_GPIO_NUM;\n  config.pin_d6 = Y8_GPIO_NUM;\n  config.pin_d7 = Y9_GPIO_NUM;\n  config.pin_xclk = XCLK_GPIO_NUM;\n  config.pin_pclk = PCLK_GPIO_NUM;\n  config.pin_vsync = VSYNC_GPIO_NUM;\n  config.pin_href = HREF_GPIO_NUM;\n  config.pin_sscb_sda = SIOD_GPIO_NUM;\n  config.pin_sscb_scl = SIOC_GPIO_NUM;\n  config.pin_pwdn = PWDN_GPIO_NUM;\n  config.pin_reset = RESET_GPIO_NUM;\n  config.xclk_freq_hz = 20000000;\n  config.pixel_format = PIXFORMAT_JPEG;\n  if(psramFound()){\n    config.frame_size = FRAMESIZE_UXGA;\n    config.jpeg_quality = 10;\n    config.fb_count = 2;\n  } else {\n    config.frame_size = FRAMESIZE_SVGA;\n    config.jpeg_quality = 12;\n    config.fb_count = 1;\n  }\n  esp_err_t err = esp_camera_init(&config);\n  if (err != ESP_OK) {\n    Serial.printf(\"Camera init failed with error 0x%x\", err);\n    return;\n  }\n  sensor_t * s = esp_camera_sensor_get();\n  s->set_framesize(s, FRAMESIZE_CIF);\n  WiFi.softAP(ap_ssid, ap_password);\n  IPAddress IP = WiFi.softAPIP();\n  Serial.print(\"Access Point Started! Use 'http://\");\n  Serial.print(IP);\n  WiFiAddr = IP.toString();\n  Serial.println(\"' to connect\");\n  startCameraServer();\n}\n\nvoid loop() {}"
+        }
+      },
+      "id": "96af"
+    },
+    {
+      "productId": "6",
+      "image": "/Product/1.jpg",
+      "title": "Mạch đảo chiều động cơ từ xa",
+      "price": "235000",
+      "quantity": "100",
+      "description": "Mạch điều khiển đảo chiều động cơ, phù hợp với các dự án điều khiển tự động.",
+      "id": "5cca"
+    },
+    {
+      "productId": "7",
+      "image": "/Product/2.jpg",
+      "title": "Mạch sạc và bảo vệ pin",
+      "price": "50000",
+      "quantity": "100",
+      "description": "Mạch sạc và bảo vệ pin, bảo vệ hệ thống của bạn khỏi các sự cố về điện.",
+      "id": "f904"
+    },
+    {
+      "productId": "8",
+      "image": "/Product/3.jpg",
+      "title": "Mạch sạc pin lithium 12V",
+      "price": "75000",
+      "quantity": "100",
+      "description": "Mạch sạc pin lithium 12V, dùng để sạc cho các thiết bị điện tử hoặc xe điện.",
+      "id": "c848"
+    },
+    {
+      "productId": "9",
+      "image": "/Product/9.jpg",
+      "title": "Nguồn tổ ong 12V 5A",
+      "price": "1690000",
+      "quantity": "100",
+      "description": "Nguồn tổ ong 12V 5A, lý tưởng cho các mạch điều khiển động cơ hoặc các thiết bị điện tử công suất lớn.",
+      "id": "1979"
+    },
+    {
+      "productId": "10",
+      "image": "/Product/5.jpg",
+      "title": "Mạch sạc và bảo vệ pin 3S 20A",
+      "price": "58000",
+      "quantity": "100",
+      "description": "Mạch bảo vệ pin lithium 3S 20A, bảo vệ pin khỏi các sự cố về quá tải hoặc ngắn mạch.",
+      "id": "6a10"
+    },
+    {
+      "productId": "11",
+      "image": "/Product/10.jpg",
+      "title": "Module nguồn AC-DC 100W",
+      "price": "154000",
+      "quantity": "100",
+      "description": "Module nguồn AC-DC 100W, chuyển đổi điện AC sang DC, rất thích hợp cho các ứng dụng điện tử.",
+      "id": "6c42"
+    },
+    {
+      "productId": "12",
+      "image": "/Product/11.jpg",
+      "title": "Bộ điều khiển LM8-RRD",
+      "price": "2021000",
+      "quantity": "100",
+      "description": "Bộ điều khiển LM8-RRD, cung cấp khả năng điều khiển các thiết bị điện tử công suất lớn.",
+      "id": "9aec"
+    },
+    {
+      "productId": "13",
+      "image": "/Product/16.jpg",
+      "title": "Mạch tăng áp 1500W",
+      "price": "359000",
+      "quantity": "100",
+      "description": "Mạch tăng áp 1500W, giúp tăng điện áp cho các thiết bị điện tử cần nguồn điện áp cao.",
+      "id": "e08c"
+    },
+    {
+      "productId": "14",
+      "image": "/Product/12.jpg",
+      "title": "Thẻ RFID Mifare Sao",
+      "price": "11000",
+      "quantity": "100",
+      "description": "Thẻ RFID Mifare, thường sử dụng trong các hệ thống nhận dạng và bảo mật.",
+      "id": "eff6"
+    },
+    {
+      "productId": "15",
+      "image": "/Product/8.jpg",
+      "title": "USB tester điện áp",
+      "price": "65000",
+      "quantity": "100",
+      "description": "Thiết bị đo điện áp USB, giúp bạn kiểm tra nguồn điện của các thiết bị USB một cách dễ dàng.",
+      "id": "376e"
+    },
+    {
+      "productId": "16",
+      "image": "/Product/9.jpg",
+      "title": "Nguồn tổ ong 30A",
+      "price": "390000",
+      "quantity": "100",
+      "description": "Nguồn tổ ong 30A, lý tưởng cho các dự án lớn và các hệ thống có nhu cầu điện năng cao.",
+      "id": "ff00"
+    },
+    {
+      "productId": "17",
+      "image": "/Product/5.jpg",
+      "title": "Mạch sạc 3S 15A",
+      "price": "50000",
+      "quantity": "100",
+      "description": "Mạch sạc pin lithium 3S 15A, bảo vệ hệ thống khỏi quá dòng và sạc an toàn.",
+      "id": "e99b"
+    },
+    {
+      "productId": "18",
+      "image": "/Product/6.jpg",
+      "title": "Mạch sạc pin lithium 8.4V",
+      "price": "15000",
+      "quantity": "100",
+      "description": "Mạch sạc pin lithium 8.4V, thiết kế nhỏ gọn và dễ sử dụng cho các dự án DIY.",
+      "id": "19b5"
+    },
+    {
+      "productId": "19",
+      "image": "/Product/5.jpg",
+      "title": "Mạch bảo vệ pin 3S 30A",
+      "price": "75000",
+      "quantity": "100",
+      "description": "Mạch bảo vệ pin 3S 30A giúp bảo vệ pin khỏi các tình trạng quá dòng hoặc quá nhiệt.",
+      "id": "fd10"
+    },
+    {
+      "productId": "20",
+      "image": "/Product/6.jpg",
+      "title": "Mạch sạc pin 2S 8.4V",
+      "price": "15000",
+      "quantity": "100",
+      "description": "Mạch sạc pin 2S 8.4V giúp sạc an toàn cho các pin lithium 2S.",
+      "id": "f28e"
+    },
+    {
+      "productId": "21",
+      "image": "/Product/17.jpg",
+      "title": "Antena Wifi Bluetooth",
+      "price": "29000",
+      "quantity": "100",
+      "description": "Antena Wifi Bluetooth, giúp cải thiện khả năng kết nối không dây cho các thiết bị của bạn.",
+      "id": "43dd"
+    },
+    {
+      "productId": "22",
+      "image": "/Product/13.jpg",
+      "title": "Bộ nguồn AC-DC",
+      "price": "169000",
+      "quantity": "100",
+      "description": "Bộ nguồn AC-DC giúp chuyển đổi nguồn điện xoay chiều AC thành dòng điện một chiều DC.",
+      "id": "ae61"
+    },
+    {
+      "productId": "23",
+      "image": "/Product/18.jpg",
+      "title": "Mạch điều khiển DC Motor",
+      "price": "120000",
+      "quantity": "100",
+      "description": "Mạch điều khiển động cơ DC, giúp bạn điều khiển tốc độ và hướng của động cơ.",
+      "id": "3faa"
+    },
+    {
+      "productId": "24",
+      "image": "/Product/19.jpg",
+      "title": "Mạch LED RGB",
+      "price": "85000",
+      "quantity": "100",
+      "description": "Mạch LED RGB với khả năng thay đổi màu sắc, phù hợp cho các dự án trang trí và ánh sáng.",
+      "id": "50e3"
+    },
+    {
+      "productId": "25",
+      "image": "/Product/20.jpg",
+      "title": "Cảm biến nhiệt độ và độ ẩm",
+      "price": "45000",
+      "quantity": "100",
+      "description": "Cảm biến nhiệt độ và độ ẩm, giúp theo dõi môi trường cho các ứng dụng IoT.",
+      "id": "ae96"
+    },
+    {
+      "productId": "26",
+      "image": "/Product/27.jpg",
+      "title": "Mạch phát sóng Bluetooth",
+      "price": "150000",
+      "quantity": "100",
+      "description": "Mạch phát sóng Bluetooth giúp kết nối các thiết bị không dây một cách hiệu quả.",
+      "id": "4229"
+    },
+    {
+      "productId": "27",
+      "image": "/Product/28.jpg",
+      "title": "Combo bộ cảm biến mưa và ánh sáng",
+      "price": "90000",
+      "quantity": "100",
+      "description": "Combo cảm biến mưa và ánh sáng, phù hợp cho các dự án tự động hóa.",
+      "id": "e981"
+    },
+    {
+      "productId": "28",
+      "image": "/Product/29.jpg",
+      "title": "Thẻ nhớ MicroSD",
+      "price": "55000",
+      "quantity": "100",
+      "description": "Thẻ nhớ MicroSD dung lượng cao giúp lưu trữ dữ liệu trong các hệ thống nhúng.",
+      "id": "15dc"
+    },
+    {
+      "productId": "29",
+      "image": "/Product/30.jpg",
+      "title": "Mạch điều khiển động cơ bước",
+      "price": "130000",
+      "quantity": "100",
+      "description": "Mạch điều khiển động cơ bước, lý tưởng cho các dự án điều khiển chuyển động chính xác.",
+      "id": "ce2f"
+    },
+    {
+      "productId": "30",
+      "image": "/Product/31.jpg",
+      "title": "Mạch điều khiển servo",
+      "price": "618000",
+      "quantity": "100",
+      "description": "Mạch điều khiển servo, cho phép điều khiển chính xác góc quay của động cơ.",
+      "id": "af89"
+    },
+    {
+      "productId": "31",
+      "image": "/Product/32.jpg",
+      "title": "Arduino UNO R3 DIP",
+      "price": "215000",
+      "quantity": "100",
+      "description": "Arduino UNO, board vi điều khiển phổ biến, phù hợp cho các dự án điện tử và lập trình.",
+      "id": "3b67"
+    },
+    {
+      "productId": "32",
+      "image": "/Product/33.jpg",
+      "title": "Mạch Arduino UNO",
+      "price": "215000",
+      "quantity": "100",
+      "description": "Mạch arduino uno tích hợp đầy đủ trên một bo mạch: Uno R3 ATmega 328 và WiFi ESP8266 với bộ nhớ 32Mb (MegaByte). Tất cả các module có thể làm việc cùng nhau hoặc riêng rẽ. Giải pháp tiện lợi cho việc phát triển các dự án mới yêu cầu Uno và WiFi. ",
+      "id": "81ce"
+    },
+    {
+      "productId": "33",
+      "image": "/Product/34.jpg",
+      "title": "Combo module thực hành công nghệ 8 Cảm biến độ ẩm đất",
+      "price": "75000",
+      "quantity": "100",
+      "description": "Combo module thực hành công nghệ 8 là bộ combo các module mạch điện có trong phần thực hành đấu nối được shop tổng hợp theo các bài tập trong sách công nghệ 8 đã cho.",
+      "id": "c6de"
+    },
+    {
+      "productId": "34",
+      "image": "/Product/4.jpg",
+      "title": "Mạch điều khiển LCD 16x2",
+      "price": "45000",
+      "quantity": "100",
+      "description": "Mạch điều khiển màn hình LCD 16x2, giúp hiển thị thông tin cho các dự án điện tử.",
+      "id": "e7b5"
+    },
+    {
+      "productId": "35",
+      "image": "/Product/10.jpg",
+      "title": "Cảm biến nhận diện vật cản",
+      "price": "65000",
+      "quantity": "100",
+      "description": "Cảm biến nhận diện vật cản, lý tưởng cho các dự án robot và tự động hóa.",
+      "id": "8fb4"
+    }
+  ],
+  "orderAll": [
+    {
+      "orderId": "1001",
+      "userId": "1",
+      "date": "01-10-2024",
+      "status": "Delivered",
+      "total": "477000",
+      "items": [
+        {
+          "productId": "1",
+          "quantity": 1
+        },
+        {
+          "productId": "2",
+          "quantity": 1
+        }
+      ],
+      "id": "45d8"
+    },
+    {
+      "orderId": "1002",
+      "userId": "2",
+      "date": "10-10-2024",
+      "status": "In Transit",
+      "total": "1.609000",
+      "items": [
+        {
+          "productId": "3",
+          "quantity": 1
+        },
+        {
+          "productId": "4",
+          "quantity": 1
+        }
+      ],
+      "id": "bd43"
+    },
+    {
+      "orderId": "1003",
+      "userId": "3",
+      "date": "15-10-2024",
+      "status": "Delivered",
+      "total": "285000",
+      "items": [
+        {
+          "productId": "6",
+          "quantity": 1
+        },
+        {
+          "productId": "6",
+          "quantity": 1
+        }
+      ],
+      "id": "9cd9"
+    },
+    {
+      "orderId": "1004",
+      "userId": "4",
+      "date": "20-10-2024",
+      "status": "Delivered",
+      "total": "586000",
+      "items": [
+        {
+          "productId": "8",
+          "quantity": 1
+        },
+        {
+          "productId": "9",
+          "quantity": 1
+        },
+        {
+          "productId": "10",
+          "quantity": 1
+        }
+      ],
+      "id": "2bca"
+    }
+  ]
+}

@@ -1,0 +1,188 @@
+#Studio .studioManager {
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    font-family: Montserrat, sans-serif;
+}
+
+#Studio .mainContent {
+    display: flex;
+    margin-top: 116px;
+    width: 100%;
+    flex-direction: column;
+    padding: 0 24px 0 78px;
+}
+
+#Studio .heading {
+    color: #484848;
+    font-size: 38px;
+    font-weight: 800;
+    align-self: start;
+}
+
+#Studio .contentWrapper {
+    display: flex;
+    margin-top: 50px;
+    gap: 19px;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+
+#Studio .navigationSection {
+    display: flex;
+    gap: 40px; /* Khoảng cách giữa các mục nav */
+    font-size: 18px;
+    color: #484848;
+    font-weight: 700;
+    white-space: nowrap;
+    text-align: center;
+}
+
+#Studio .orderText {
+    align-self: center;
+}
+
+#Studio .divider {
+    background-color: #484848;
+    display: flex;
+    margin-top: 24px;
+    height: 3px;
+    border: 1px solid #AD49E1;
+}
+
+#Studio .placeholder {
+    width: 80px; /* Kích thước placeholder */
+    height: 80px;
+    background-color: #9A9A9A;
+    border-radius: 8px; /* Bo góc cho placeholder */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#Studio .placeholder img {
+    width: 40px;
+    height: 40px;
+}
+
+#Studio .customerList {
+    display: flex; /* Flexbox để sắp xếp ngang */
+    align-items: center; /* Căn giữa các thành phần theo chiều dọc */
+    justify-content: space-between; /* Đẩy các thành phần ra hai bên */
+    width: 100%;
+    padding: 10px 20px; /* Thêm khoảng cách bên trong */
+    margin-top: 20px;
+    background-color: #fff;
+    border-radius: 8px; /* Bo góc */
+
+}
+
+#Studio .customerInfo {
+    display: flex;
+    align-items: center;
+    gap: 100px; /* Khoảng cách giữa placeholder và thông tin */
+}
+
+#Studio .customerDetails {
+    display: flex;
+    flex-direction: column;
+    gap: 5px; /* Khoảng cách giữa các thông tin */
+}
+
+#Studio .customerName {
+    font-size: 16px;
+    font-weight: 700;
+    color: #484848;
+}
+
+#Studio .checkInDate,
+#Studio .studioType,
+#Studio .timeSlot {
+    display: flex;
+    align-items: center; /* Căn giữa các nhãn và nội dung */
+    gap: 5px;
+    font-size: 14px;
+    color: #9A9A9A;
+}
+
+#Studio .checkInLabel,
+#Studio .timeLabel,
+#Studio .typeLabel {
+    font-weight: 600;
+    color: #484848;
+}
+
+#Studio .price {
+    font-weight: 700;
+    font-size: 16px;
+    color: #484848;
+}
+
+#Studio .contactButton {
+    border-radius: 20px;
+    background-color: #9747FF;
+    font-size: 14px;
+    color: #fff;
+    font-weight: 600;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#Studio .contactButton:hover {
+    background-color: #8033FF;
+}
+
+#Studio .contactButton:focus {
+    outline: 2px solid #AD49E1;
+    outline-offset: 2px;
+}
+
+#Studio .footer {
+    background-color: #000;
+    display: flex;
+    margin-top: 315px;
+    width: 100%;
+    flex-direction: column;
+    overflow: hidden;
+    color: #fff;
+}
+
+/* Media query cho responsive layout */
+@media (max-width: 991px) {
+    #Studio .mainContent {
+        max-width: 100%;
+        margin-top: 40px;
+        padding: 0 20px;
+    }
+
+    #Studio .contentWrapper {
+        max-width: 100%;
+        margin-top: 40px;
+    }
+
+    #Studio .navigationSection {
+        white-space: initial;
+        gap: 20px; /* Thu hẹp khoảng cách trên màn hình nhỏ */
+    }
+
+    #Studio .mainSection {
+        max-width: 100%;
+    }
+
+    #Studio .customerList {
+        flex-wrap: wrap; /* Các phần tử tự xuống dòng khi không đủ không gian */
+        padding: 15px; /* Điều chỉnh padding */
+    }
+
+    #Studio .contactButton {
+        padding: 10px 20px;
+    }
+
+    #Studio .footer {
+        max-width: 100%;
+        margin-top: 40px;
+    }
+}

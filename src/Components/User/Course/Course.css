@@ -1,0 +1,729 @@
+
+#Course .pageContainer {
+  min-height: 100vh;
+  background-color: #FFFFFF;
+}
+
+#Course .mainContent {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+#Course .galleryContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+#Course .mainImageContainer {
+  position: relative;
+  width: 100%;
+  height: 527px;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+#Course .mainImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+#Course .mainImage:hover {
+  transform: scale(1.05);
+}
+
+#Course .priceOverlay {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background-color: rgba(0, 0, 0, 0.8);
+  border-radius: 30px;
+  padding: 8px 16px;
+}
+
+#Course .price {
+  color: #FFFFFF;
+  font-family: Montserrat, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+#Course .hostInfo {
+  position: absolute;
+  bottom: 180px;
+  left: 380px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 12px;
+  border-radius: 12px;
+  z-index: 999; /* Ưu tiên hiển thị cao */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Tạo bóng cho nổi bật */
+}
+
+#Course .hostAvatar {
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+#Course .hostDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+#Course .listedBy {
+  color: #484848;
+  font-family: Montserrat, sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+#Course .hostName {
+  color: #484848;
+  font-family: Montserrat, sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0;
+}
+
+#Course .priceRange {
+  color: #484848;
+  font-family: Montserrat, sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+#Course .thumbnailGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  width: 100%;
+}
+
+#Course .thumbnail {
+  position: relative;
+  aspect-ratio: 1.15;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+#Course .thumbnail:hover {
+  transform: translateY(-2px);
+}
+
+#Course .thumbnail:focus-visible {
+  outline: 3px solid #9747FF;
+  outline-offset: 2px;
+}
+
+#Course .thumbnailImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+#Course .selected {
+  border: 3px solid #9747FF;
+}
+
+#Course .moreOverlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #FFFFFF;
+  font-family: Montserrat, sans-serif;
+}
+
+#Course .moreCount {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+#Course .moreText {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+#Course .contentGrid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 40px;
+  margin-top: 40px;
+}
+
+#Course .classInfo {
+  padding: 24px;
+  background-color: #FFFFFF;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+#Course .className {
+  font-family: Montserrat, sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: #484848;
+  margin: 0 0 12px 0;
+}
+
+#Course .teacherName {
+  font-family: Montserrat, sans-serif;
+  font-size: 16px;
+  color: #9A9A9A;
+  margin: 0 0 32px 0;
+}
+
+#Course .sectionTitle {
+  font-family: Montserrat, sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: #0E2A46;
+  text-transform: uppercase;
+  margin: 0 0 16px 0;
+}
+
+#Course .description {
+  font-family: Montserrat, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #9A9A9A;
+  margin: 0;
+}
+
+#Course .rightColumnCover {
+  position: sticky;
+  top: 100px;
+  height: fit-content;
+}
+
+#Course .reviewsSection {
+  padding: 40px 0;
+  width: 100%;
+}
+
+#Course .reviewsHeader {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+#Course .reviewsTitle {
+  font-family: Montserrat, sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: #484848;
+  margin: 0;
+}
+
+#Course .rating {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+#Course .starIcon {
+  width: 30px;
+  height: 30px;
+}
+
+#Course .ratingScore {
+  font-family: Montserrat, sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: #484848;
+}
+
+#Course .reviewsList {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+#Course .reviewCard {
+  padding: 24px;
+  background-color: #FFFFFF;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+#Course .reviewerInfo {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+#Course .reviewerAvatar {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+#Course .reviewerDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+#Course .reviewerName {
+  font-family: Montserrat, sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: #484848;
+  margin: 0;
+}
+
+#Course .reviewDate {
+  font-family: Montserrat, sans-serif;
+  font-size: 14px;
+  color: #9A9A9A;
+}
+
+#Course .reviewText {
+  font-family: Montserrat, sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  color: #9A9A9A;
+  margin: 0;
+}
+
+#Course .showAllButton {
+  margin-top: 32px;
+  padding: 16px 32px;
+  background-color: #FFFFFF;
+  border: 1px solid #484848;
+  border-radius: 6px;
+  font-family: Montserrat, sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: #484848;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+#Course .showAllButton:hover {
+  background-color: #484848;
+  color: #FFFFFF;
+}
+
+#Course .showAllButton:focus-visible {
+  outline: 2px solid #9747FF;
+  outline-offset: 2px;
+}
+
+/* #Course .bookingCard {
+  background-color: #FFFFFF;
+  border: 1px solid #000000;
+  border-radius: 8px;
+  padding: 24px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#Course .priceHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #E0E0E0;
+}
+
+#Course .priceIcon {
+  width: 24px;
+  height: 24px;
+}
+
+#Course .priceAmount {
+  font-family: Montserrat, sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: #484848;
+}
+
+#Course .priceDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 16px;
+}
+
+#Course .priceText {
+  font-family: Montserrat, sans-serif;
+  font-size: 16px;
+  color: #9A9A9A;
+}
+
+#Course .priceCTA {
+  padding: 16px;
+  background-color: #9747FF;
+  color: #FFFFFF;
+  border-radius: 6px;
+  text-align: center;
+  font-family: Montserrat, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+#Course .priceCTA:hover {
+  background-color: #7A39C4;
+}
+
+#Course .priceCTA:focus-visible {
+  outline: 3px solid #FFFFFF;
+  outline-offset: 2px;
+} */
+
+#Course .priceContainer {
+  display: flex;
+  max-width: 393px;
+  flex-direction: column;
+  overflow: hidden;
+  font-size: 20px;
+  padding: 17px 0;
+  border: 1px solid rgba(1, 1, 1, 1);
+}
+
+#Course .priceHeader {
+  align-self: center;
+  display: flex;
+  /* width: 80px; */
+  font-family: Montserrat, sans-serif;
+  color: rgba(0, 0, 0, 1);
+  font-weight: 900;
+  white-space: nowrap;
+  
+}
+
+#Course .priceIcon {
+  aspect-ratio: 1;
+  object-fit: contain;
+  object-position: center;
+  width: 24px;
+  
+}
+
+#Course .feeContainer {
+  display: flex;
+  margin-top: 20px;
+  /* width: 100%; */
+
+  gap: 20px;
+  overflow: hidden;
+  font-size: 16px;
+  justify-content: space-between;
+  padding: 26px 20px 26px 48px;
+  border-top: 1px solid rgb(0 0 0);
+  border-bottom: 1px solid rgb(0 0 0);
+  border-left: none;
+  border-right: none;
+}
+
+#Course .courseFee {
+  color: rgba(51, 57, 49, 1);
+  font-family: Sora, sans-serif;
+  font-weight: 400;
+  margin: auto 0;
+}
+
+#Course .priceTag {
+  border-radius: 30px;
+  background-color: rgba(224, 226, 230, 1);
+  font-family: Montserrat, sans-serif;
+  color: rgba(0, 0, 0, 1);
+  font-weight: 700;
+  white-space: nowrap;
+  padding: 5px 18px;
+}
+
+#Course .detailsContainer {
+  background-color: rgba(255, 255, 255, 1);
+  display: flex;
+  /* gap: 40px 41px; */
+
+  color: rgba(77, 87, 86, 1);
+  padding: 25px 47px;
+  font: 400 16px/2 Sora, sans-serif;
+  border-bottom: 1px solid rgb(0 0 0);
+}
+
+#Course .leftColumn {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+#Course .rightColumn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+#Course .rightInner {
+  display: flex;
+  padding-left: 24px;
+  flex-direction: column;
+}
+
+#Course .skillLevel {
+  align-self: start;
+  margin-top: 39px;
+}
+
+#Course .classDay {
+  margin-top: 39px;
+}
+
+#Course .danceStyle {
+  align-self: start;
+  margin-top: 36px;
+}
+
+#Course .startDate {
+  align-self: start;
+}
+
+#Course .basic {
+  align-self: end;
+  margin-top: 39px;
+}
+
+#Course .schedule {
+  margin-top: 39px;
+}
+
+#Course .hiphop {
+  align-self: end;
+  margin-top: 36px;
+}
+
+#Course .bookingButton {
+  background-color: rgba(151, 71, 255, 1);
+  align-self: center;
+  margin-top: 18px;
+  width: 100%;
+  max-width: 282px;
+  overflow: hidden;
+  font-family: Montserrat, sans-serif;
+  color: rgba(255, 255, 255, 1);
+  font-weight: 900;
+  white-space: nowrap;
+  padding: 15px 70px;
+  border: 1px solid rgba(0, 0, 0, 1);
+  cursor: pointer;
+}
+
+#Course .visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+#Course .bookingButton:hover {
+  background-color: #7A39C4;
+}
+
+#Course .bookingButton:focus-visible {
+  outline: 3px solid #FFFFFF;
+  outline-offset: 2px;
+}
+
+#Course .titleHeader {
+  display: flex;
+  max-width: 733px;
+  align-items: flex-start;
+  /* gap: 40px 100px; */
+  overflow: hidden;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+/* #Course .titleContainer {
+  align-self: start;
+  display: flex;
+  margin-top: -6
+<<<<<<< HEAD
+} */
+#Course img {
+  height: 35px;
+}
+#Course .image-gallery {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#Course .image-gallery {
+  display: grid;
+  grid-template-areas:
+      "image-main image-thumbnails"
+      "image-main image-thumbnails";
+  gap: 20px;
+}
+#Course .image-main {
+  width: 100%;
+  height: 70vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+#Course .main-img {
+  width: 100%;
+  height: 70vh;
+  transition: transform 0.3s ease;
+}
+#Course .main-img:hover {
+  transform: scale(1.1);
+}
+#Course .image-thumbnails {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  height: 70vh;
+}
+#Course .image-item {
+  height: 34vh;
+}
+#Course .gallery-img {
+  width: 150px;
+  height: auto;
+  display: block;
+  cursor: pointer;
+  border: 1px solid #ddd;
+  transition: transform 0.3s ease;
+}
+#Course .gallery-img:hover {
+  transform: scale(1.1);
+}
+#Course .gallery-img {
+  width: 100%;
+  height: 34vh;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out;
+}
+#Course .grouped-images {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 150px;
+  border-radius: 20px;
+  background-color: #f0f0f0;
+  cursor: pointer;
+  border: 1px dashed #ccc;
+}
+#Course .grouped-images {
+  width: 100%;
+  height: 34vh;
+}
+#Course .grouped-images-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: #555;
+}
+
+#Course .grouped-images-expanded {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+#Course .grouped-images-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f0f0f0;
+  border-radius: 8px;
+  cursor: pointer;
+}
+#Course .image-with-overlay {
+  position: relative;
+  display: inline-block;
+}
+#Course .overlay-text {
+  position: absolute;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white; /* Màu chữ */
+  background-color: rgba(0, 0, 0, 0.5); /* Nền mờ */
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+}
+#Course .grouped-images-expanded {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+#Course .modal-image {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  height: 100vh;
+}
+#Course .modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+#Course .modal-content {
+  position: relative;
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  max-width: 80%;
+  height: 105vh;
+}
+#Course .close-button {
+  position: absolute;
+  top: 10px;
+  right: 5px;
+  font-size: 24px;
+  color: #000;
+  cursor: pointer;
+}
+
+#Course .close-button:hover {
+  color: red;
+}
+

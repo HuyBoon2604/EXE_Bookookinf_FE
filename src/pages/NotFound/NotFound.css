@@ -1,0 +1,32 @@
+/* src/pages/NotFound/NotFound.css */
+.not-found-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; /* Full viewport height */
+  background-color: #f8f9fa; /* Light background color */
+  color: #343a40; /* Dark text color */
+  text-align: center; /* Center text */
+}
+
+.not-found-title {
+  font-size: 5rem; /* Large title size */
+  font-weight: bold;
+  margin: 0; /* Remove default margin */
+}
+
+.not-found-message {
+  font-size: 1.5rem; /* Medium message size */
+  margin: 1rem 0; /* Add margin for spacing */
+}
+
+.not-found-link {
+  font-size: 1rem; /* Standard link size */
+  color: #007bff; /* Link color */
+  text-decoration: none; /* Remove underline */
+}
+
+.not-found-link:hover {
+  text-decoration: underline; /* Add underline on hover */
+}
