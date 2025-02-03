@@ -64,7 +64,7 @@ const HomeTro = () => {
     {
         title: "Linh hoạt dành cho mọi người",
         description:
-            "Tìm các lựa chọn không gian đa dạng và dễ dàng đặt lịch chỉ với một lần bấm.",
+            "Tìm các lựa chọn không gian đa dạng và dễ dàng đặt lịch chỉ với một lần bấmmm.",
     },
 ];
 const { t, i18n } = useTranslation();
