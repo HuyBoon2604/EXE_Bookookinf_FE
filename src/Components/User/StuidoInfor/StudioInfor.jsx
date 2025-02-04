@@ -15,27 +15,44 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
 import useAuth from '../../../hooks/useAuth';
+dayjs.extend(utc);
+dayjs.extend(timezone);
+
+
+dayjs.tz.setDefault('Asia/Ho_Chi_Minh'); 
 const StudioInfor = () => {
   const [selectedImage, setSelectedImage] = useState(null); 
   const [isGroupOpened, setIsGroupOpened] = useState(false); 
   const [studio, setstudio] = useState([]);
-  const [stardate, setstardate] = useState(dayjs("2025-01-01T09:00"));
-const [checkin, setcheckin] = useState(dayjs("2025-01-02T10:00"));
-const [checkout, setcheckout] = useState(dayjs("2025-01-02T18:00"));
-  const [review, setreview] = useState([]);
-  const { id } = useParams();
-  const { auth } = useAuth();
-  const [BookingId, setBookingId] = useState([]);
-
+  const [stardate, setstardate] = useState(dayjs("2025-01-01T09:00").tz('Asia/Ho_Chi_Minh'));
+const [checkin, setcheckin] = useState(dayjs("2025-01-02T10:00").tz('Asia/Ho_Chi_Minh'));
+const [checkout, setcheckout] = useState(dayjs("2025-01-02T18:00").tz('Asia/Ho_Chi_Minh'));
+const [review, setreview] = useState([]);
+const { id } = useParams();
+const { auth } = useAuth();
+const [BookingId, setBookingId] = useState([]);
+ 
  
   const navigate = useNavigate();
   const [images, setImages] = useState([]);
+  const handleDateChange = (newDate) => {
+    setstardate(newDate.tz('Asia/Ho_Chi_Minh'));
+  };
+
+  const handleTimeChange = (newValue, setState) => {
+    const localTime = newValue?.tz('Asia/Ho_Chi_Minh'); 
+    setState(localTime);
+  };
+  
+
 
   const fetchStudio = useCallback(async () => {
     try {
       const response = await api.get(
-        `https://localhost:7199/Get-All-Image-Of-Studio-By-StudioId?StudioId=${id}`
+        `/Get-All-Image-Of-Studio-By-StudioId?StudioId=${id}`
       );
   
       console.log("API response:", response.data);
@@ -121,43 +138,48 @@ const [checkout, setcheckout] = useState(dayjs("2025-01-02T18:00"));
     setSelectedImage(null);
   };
  
-  const handleDateChange = (newDate) => {
-    setstardate(newDate); // Cập nhật giá trị stardate
-  };
+  // const handleDateChange = (newDate) => {
+  //   setstardate(newDate); // Cập nhật giá trị stardate
+  // };
   const handleNavigate = (accountId) => {
     navigate(`/Profile/${accountId}`);
   };
-
+  const validateTime = (checkin, checkout) => {
+    return checkout.isAfter(checkin);
+  };
   
-  const handleBooking = async () => { 
-
+  const handleBooking = async () => {
+    if (!validateTime(checkin, checkout)) {
+      toast.error("Thời gian checkout phải lớn hơn thời gian checkin!");
+      return;
+    }
+  
+    
+    console.log("Booking Date:", stardate.format('YYYY-MM-DD HH:mm:ss'));
+    console.log("Check-in:", checkin.format('YYYY-MM-DD HH:mm:ss'));
+    console.log("Check-out:", checkout.format('YYYY-MM-DD HH:mm:ss'));
+  
     try {
       const url = '/Add-New-Booking';
       const data = {
         accountId: auth.user.id,
-        studioId:id,
-        bookingDate:stardate,
-        checkIn:checkin,
-        checkOut:checkout,
+        studioId: id,
+        bookingDate: stardate.format('YYYY-MM-DD HH:mm:ss'), 
+        checkIn: checkin.format('YYYY-MM-DD HH:mm:ss'), 
+        checkOut: checkout.format('YYYY-MM-DD HH:mm:ss'), 
       };
-
+  
       const response = await api.post(url, data);
       if (response.status === 200 && response.data && response.data.id) {
         const cBookingId = response.data.id;
         alert('Create Booking Success!');
-      navigate(`/order/${cBookingId}`);
+        navigate(`/order/${cBookingId}`);
         console.log("cBooking created successfully, ID:", cBookingId);
-        console.log("cBooking created successfully, ID:", checkin,checkout);
-        
       } else {
         console.error("cBooking creation failed or response is missing 'id'.", response);
       }
-      console.log(response.data);
-      
-
     } catch (error) {
       console.error(error);
-      
     }
   };
   // useEffect(() => {
@@ -316,7 +338,7 @@ const [checkout, setcheckout] = useState(dayjs("2025-01-02T18:00"));
             <div className="start-Date">
             <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DemoContainer  components={['DatePicker']}>
-        <DatePicker value={stardate} onChange={(newValue)=>setstardate(newValue)} label="Ngày bắt đầu" />
+        <DatePicker value={stardate}   onChange={handleDateChange} label="Ngày bắt đầu" />
       </DemoContainer>
     </LocalizationProvider>
     </div>
@@ -327,7 +349,7 @@ const [checkout, setcheckout] = useState(dayjs("2025-01-02T18:00"));
       <TimePicker
        id="time"
   value={checkin}
-  onChange={(newValue) => setcheckin(newValue)}
+  onChange={(newValue) => handleTimeChange(newValue, setcheckin)}
   label="Thời gian bắt đầu"
 />
       </DemoContainer>
@@ -337,11 +359,16 @@ const [checkout, setcheckout] = useState(dayjs("2025-01-02T18:00"));
       <TimePicker
       id="time"
   value={checkout}
-  onChange={(newValue) => setcheckout(newValue)}
+  onChange={(newValue) => handleTimeChange(newValue, setcheckout)}
   label="Thời gian kết thúc"
 />
       </DemoContainer>
     </LocalizationProvider>
+    {!validateTime(checkin, checkout) && (
+    <p style={{ color: 'red', fontSize: '14px', marginTop: '5px' }}>
+      Thời gian checkout phải lớn hơn thời gian checkin!
+    </p>
+  )}
 
             {/* <input type="time" id="time" className="starttime" value={checkin} onChange={(e)=> setcheckin(e.target.value)} />
             <input type="time" id="time" className="endtime" value={checkout} onChange={(e)=> setcheckout(e.target.value)} /> */}
