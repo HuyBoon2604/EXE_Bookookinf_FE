@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, {useRef, useState, useEffect, useCallback } from 'react';
 import './Studio.css'; // Thay vì import styles từ file CSS module, sử dụng file CSS thông thường
 import api from '../../utils/requestAPI';
 import useAuth from '../../../hooks/useAuth';
@@ -10,9 +10,38 @@ export default function Studio() {
   const [orders, setOrders] = useState([]);
   const [studioIsActive, setStudioIsActive] = useState([]);
   const [studioIsUnactive, setStudioIsUnactive] = useState([]);
+  const [ordersData, setOrdersData] = useState([]);
+  const [ordersDataSuccess, setOrdersDataSuccess] = useState([]);
+  const [studio, setStudio] = useState([]);
   const { auth } = useAuth();
   const accountId = auth.user.id;
 
+  // Tạo ref để tham chiếu đến input file
+  const fileInputRef = useRef(null);
+
+  // Khi click vào hình ảnh, kích hoạt click cho input file
+  const handleImageClick = () => {
+    fileInputRef.current.click();
+  };
+
+  // Xử lý khi người dùng chọn file
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      // Tạo URL tạm thời cho file ảnh được chọn
+      const previewURL = URL.createObjectURL(file);
+      // Cập nhật state của formData để lưu file và URL preview
+      setFormData((prev) => ({
+        ...prev,
+        // poster: file,  
+        // img: previewURL, 
+        img: file,
+        poster :previewURL,    
+      }));
+    }
+  };
+  
+    
   const customerData = [
     {
       name: 'Customer1',
@@ -63,6 +92,9 @@ export default function Studio() {
   };
 
   const [formData, setFormData] = useState({
+    poster: "",
+    id : "",
+    img:"",
     name: "",
     price: "",
     detail: "",
@@ -73,12 +105,22 @@ export default function Studio() {
     setIsEditing(true); // Chuyển sang chế độ chỉnh sửa
     setEditingCustomer(customer); // Lưu thông tin studio
     setFormData({
-      name: customer.name || "",
-      price: customer.price || "",
-      detail: customer.detail || "",
-      address: customer.address || "",
+      id : customer.id,
+      poster : customer.imageStudio || "https://via.placeholder.com/40",
+      img : customer.imageStudio || "https://via.placeholder.com/40",
+      name: customer.studioName || "",
+      price: customer.pricing || "",
+      detail: customer.studioDescription || "",
+      address: customer.studioAddress || "",
     });
   };
+
+  // <img src= { customer.imageStudio ||
+  // "https://via.placeholder.com/40"} alt="icon" />
+  // <td className="editCell">{customer.studioName}</td>
+  //           <td className="editCell">{customer.pricing}</td>
+  //           <td className="editCell">{customer.studioAddress}</td>
+  //           <td className="editCell">{customer.studioDescription}</td>
 
   const handleInputChange = (field) => (e) => {
     setFormData((prev) => ({
@@ -87,67 +129,63 @@ export default function Studio() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("Dữ liệu được gửi:", formData);
-    setIsEditing(false); // Quay lại chế độ xem sau khi lưu
-    setEditingCustomer(null);
+  
+    try {
+      // Tạo đối tượng FormData
+      const data = new FormData();
+      
+      // Append các trường dữ liệu (đảm bảo các tên trường khớp với yêu cầu của API)
+      data.append("StudioName", formData.name);
+      data.append("StudioDescription", formData.detail); // hoặc formData.description tùy cách bạn lưu trữ
+      data.append("Pricing", formData.price);
+      data.append("StudioAddress", formData.address);
+      
+      // Các trường poster (có thể là rỗng nếu không có file được chọn)
+      // Ví dụ: nếu bạn lưu file được chọn trong formData.poster (một đối tượng File)
+      if (formData.img) {
+        data.append("poster", formData.img);
+      } else {
+        // Nếu không có file mới, bạn có thể để trống hoặc không append trường này,
+        // tùy theo yêu cầu của API.
+        data.append("poster", "");
+      }
+      
+      // Nếu API yêu cầu các trường poster khác (poster1, poster2, v.v.) thì bạn cần append chúng ở đây,
+      // ví dụ:
+      data.append("poster1", "");
+      data.append("poster2", "");
+      data.append("poster3", "");
+      data.append("poster4", "");
+      data.append("poster5", "");
+      // Và các trường khác nếu cần:
+      data.append("Quantity", "");  // Nếu có
+      data.append("SizeId", "");    // Nếu có
+  
+      // Gọi API cập nhật studio với FormData
+      const response = await api.put(
+        `api/Studio/Update-Studio-With-Capacity-Image?studioId=${formData.id}&accountId=${accountId}`,
+        data,
+       
+      );
+      
+      console.log("Cập nhật thành công:", response.data);
+      
+      // Sau khi cập nhật thành công, chuyển sang chế độ xem
+      setIsEditing(false);
+      setEditingCustomer(null);
+    } catch (error) {
+      console.error("Cập nhật studio thất bại:", error);
+    }
   };
+  
 
   const handleCancel = () => {
     setIsEditing(false); // Quay lại chế độ xem khi hủy
     setEditingCustomer(null);
   };
-
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        // Bước 1: Lấy tất cả các order
-        const ordersResponse = await api.get("/Get-All-Order");
-        // Giả sử API trả về dữ liệu theo dạng: { $values: [...] } hoặc trực tiếp là mảng
-        const ordersData = ordersResponse.data.$values || ordersResponse.data;
-        console.log(ordersData)
-
-        // Bước 2 & 3: Với mỗi order, lấy thông tin studio và tài khoản
-        const enrichedOrders = await Promise.all(
-          ordersData.map(async (order) => {
-            const studioId = order.booking?.studioId;
-        const accountId = order.booking?.accountId;
-
-        // Gọi API để lấy thông tin studio nếu studioId tồn tại
-        let studioDetails = null;
-        if (studioId) {
-          const studioResponse = await api.get(`/api/Studio/Get-Studio-By-Id?id=${studioId}`);
-          studioDetails = studioResponse.data;
-          console.log("aaaa",studioDetails)
-        }
-
-        // Gọi API để lấy thông tin account nếu accountId tồn tại
-        let accountDetails = null;
-        if (accountId) {
-          const accountResponse = await api.get(`/api/Account/get-by-id?accountId=${accountId}`);
-          accountDetails = accountResponse.data;
-          console.log("bbbbb",accountDetails)
-        }
-
-            // Trả về một đối tượng order mới, gộp thêm thông tin studio và account
-            return {
-              ...order,
-              studioDetails,
-              accountDetails,
-            };
-          })
-        );
-
-        // Cập nhật state với các order đã được enrich dữ liệu
-        setOrders(enrichedOrders);
-      } catch (error) {
-        console.error("Lỗi khi lấy dữ liệu orders:", error);
-      }
-    }
-
-    fetchData();
-  }, []);
 
   useEffect(() => {
     // Hàm fetch dữ liệu studio đã được duyệt theo accountId
@@ -157,7 +195,7 @@ export default function Studio() {
         //   `/api/Studio/Get-All-Studio-With-IsActive-True?accountId=${accountId}`
           const [approvedResponse, unapprovedResponse] = await Promise.all([
             api.get(`/api/Studio/Get-All-Studio-With-IsActive-True?accountId=${accountId}`),
-            api.get(`/api/Studio/Get-All-Studio-With-IsActive-False?accountId=${accountId}`)
+            api.get(`/api/Studio/Get-All-Studio-With-IsActive-False?accountId=${accountId}`),
           ]);
           const approvedStudios = approvedResponse.data.$values || approvedResponse.data;
         const unapprovedStudios = unapprovedResponse.data.$values || unapprovedResponse.data;
@@ -166,10 +204,12 @@ export default function Studio() {
           // Nếu dữ liệu được bọc trong $values thì lấy mảng đó, ngược lại lấy response.data
           setStudioIsActive(approvedStudios);
           setStudioIsUnactive(unapprovedStudios)
+          
 
         } else {
           throw new Error("Không thể lấy thông tin studio đã được duyệt.");
         }
+        
       } catch (err) {
         console.error("Error fetching approved studios:", err);
      
@@ -185,6 +225,127 @@ export default function Studio() {
   } 
   fetchStudios();
 }, [accountId]);
+
+useEffect(() => {
+  async function fetchData() {
+    try {
+      if (!accountId) {
+        throw new Error("AccountId không tồn tại");
+      }
+
+      // Bước 1: Lấy danh sách các studio mà account đang sở hữu
+      const studiosResponse = await api.get(
+        `/api/Studio/Get-All-Studio-By-AccountId?AccountId=${accountId}`
+      );
+      // Nếu dữ liệu được bọc trong $values, lấy mảng đó; nếu không thì lấy trực tiếp
+      const studios = studiosResponse.data.$values || studiosResponse.data;
+      console.log("Studios:", studios);
+
+      // Bước 2: Với mỗi studio, gọi API lấy các order theo studio id
+      const studiosOrders = await Promise.all(
+        studios.map(async (studio) => {
+          const ordersResponse = await api.get(
+            `/Get-All-Order-By-StudioId?StudioId=${studio.id}`
+          );
+          // Nếu dữ liệu được bọc trong $values thì lấy mảng đó, ngược lại lấy trực tiếp
+          const orders = ordersResponse.data.$values || ordersResponse.data;
+
+          // Bước 3: Với mỗi order, lấy thông tin account từ accountId có trong booking
+          const enrichedOrders = await Promise.all(
+            orders.map(async (order) => {
+              const orderAccountId = order.booking?.accountId;
+              let accountDetails = null;
+              if (orderAccountId) {
+                const accountResponse = await api.get(
+                  `/api/Account/get-by-id?accountId=${orderAccountId}`
+                );
+                accountDetails = accountResponse.data;
+                console.log("Account details for order", order.id, accountDetails,order);
+              }
+              return {
+                ...order,
+                studioDetails: studio,
+                accountDetails,
+              };
+            })
+          );
+
+          return enrichedOrders;
+        })
+      );
+
+      // studiosOrders là một mảng các mảng (mỗi studio trả về mảng order)
+      // Dùng flat() để gộp thành một mảng duy nhất
+      const flattenedOrders = studiosOrders.flat();
+      setOrdersData(flattenedOrders);
+    } catch (err) {
+      console.error("Lỗi khi lấy dữ liệu orders từ các studio:", err);
+    }
+  }
+
+  fetchData();
+}, [accountId]);
+
+useEffect(() => {
+  async function fetchDataSuccess() {
+    try {
+      if (!accountId) {
+        throw new Error("AccountId không tồn tại");
+      }
+
+      // Bước 1: Lấy danh sách các studio mà account đang sở hữu
+      const studiosResponse = await api.get(
+        `/api/Studio/Get-All-Studio-By-AccountId?AccountId=${accountId}`
+      );
+      // Nếu dữ liệu được bọc trong $values, lấy mảng đó; nếu không thì lấy trực tiếp
+      const studios = studiosResponse.data.$values || studiosResponse.data;
+      console.log("Studios:", studios);
+
+      // Bước 2: Với mỗi studio, gọi API lấy các order theo studio id
+      const studiosOrders = await Promise.all(
+        studios.map(async (studio) => {
+          const ordersResponse = await api.get(
+            `/Get-All-Order-Success-By-StudioId?studioId=${studio.id}`
+          );
+          // Nếu dữ liệu được bọc trong $values thì lấy mảng đó, ngược lại lấy trực tiếp
+          const orders = ordersResponse.data.$values || ordersResponse.data;
+
+          // Bước 3: Với mỗi order, lấy thông tin account từ accountId có trong booking
+          const enrichedOrders = await Promise.all(
+            orders.map(async (order) => {
+              const orderAccountId = order.booking?.accountId;
+              let accountDetails = null;
+              if (orderAccountId) {
+                const accountResponse = await api.get(
+                  `/api/Account/get-by-id?accountId=${orderAccountId}`
+                );
+                accountDetails = accountResponse.data;
+                console.log("Account details for order", order.id, accountDetails,order);
+              }
+              return {
+                ...order,
+                studioDetails: studio,
+                accountDetails,
+              };
+            })
+          );
+
+          return enrichedOrders;
+        })
+      );
+
+      // studiosOrders là một mảng các mảng (mỗi studio trả về mảng order)
+      // Dùng flat() để gộp thành một mảng duy nhất
+      const flattenedOrders = studiosOrders.flat();
+      setOrdersDataSuccess(flattenedOrders);
+    } catch (err) {
+      console.error("Lỗi khi lấy dữ liệu orders từ các studio:", err);
+    }
+  }
+
+  fetchDataSuccess();
+}, [accountId]);
+
 
   return (
     <div id="Studio">
@@ -242,8 +403,8 @@ export default function Studio() {
                   </tr>
                 </thead>
                 <tbody>
-                    {orders.length > 0 ? (
-                      orders.map((order, index) => (
+                    {ordersData.length > 0 ? (
+                      ordersData.map((order, index) => (
                         <tr className="editCard" key={`order-${index}`}>
                           <td className="editCell">
                             {/* Ví dụ: hiển thị hình ảnh của studio, nếu có */}
@@ -260,14 +421,7 @@ export default function Studio() {
                           {/* <td className="editCell">{order.studioDetails?.studioSize}</td> */}
                           <td className="editCell">{order.booking?.checkIn}</td>
                           <td className="editCell">{order.booking?.checkOut}</td>
-                          <td className="editCell">
-                            <button
-                              className="editButton"
-                              aria-label={`Edit Order ${order.id}`}
-                            >
-                              Chỉnh Sửa
-                            </button>
-                          </td>
+                          <td className="editCell">{order.status ? "true" : "false"}</td>
                         </tr>
                       ))
                     ) : (
@@ -294,7 +448,7 @@ export default function Studio() {
     </tr>
   </thead>
   <tbody>
-    {orders.map((customer, index) => (
+    {ordersDataSuccess.map((customer, index) => (
       <tr className="editCard" key={`customer-${index}`}>
         {/* <td className="editCell">
           <img src="https://via.placeholder.com/40" alt="icon" />
@@ -328,8 +482,9 @@ export default function Studio() {
             <div className="formLayout">
               <div className="imageColumn">
                 <div className="imageSection">
+                  {/* Hiển thị ảnh từ formData.img */}
                   <img
-                    src="https://cdn.builder.io/api/v1/image/assets/c05fb6b607a34c3cab6bc37bd3664ed7/f93d3346142bc49372484ec44867abca05026fd0557be16daf66d1d9380ac6d7?apiKey=c05fb6b607a34c3cab6bc37bd3664ed7&"
+                    src={formData.poster || "https://via.placeholder.com/40"}
                     alt="Product preview"
                     className="productImage"
                   />
@@ -339,54 +494,77 @@ export default function Studio() {
                       src="https://cdn.builder.io/api/v1/image/assets/c05fb6b607a34c3cab6bc37bd3664ed7/ba92d3688b6fd9de0346bb5670f498b04e1cea50f5dd4e592aee512ab7910bd3?apiKey=c05fb6b607a34c3cab6bc37bd3664ed7&"
                       alt="Size control"
                       className="controlIcon"
+                      onClick={handleImageClick} // Kích hoạt sự kiện chọn file
+                      style={{ cursor: "pointer" }}
+                    />
+                    {/* Input file ẩn */}
+                    <input
+                      type="file"
+                      ref={fileInputRef}
+                      style={{ display: "none" }}
+                      onChange={handleFileChange}
+                      accept="image/*"
                     />
                   </div>
                 </div>
               </div>
               <div className="inputColumn">
-  <div className="inputGroup">
-    {[
-      { id: "name", label: "Tên Studio" },
-      { id: "price", label: "Giá một giờ" },
-      { id: "detail", label: "Chi tiết" },
-      { id: "address", label: "Địa chỉ" },
-    ].map((field) => (
-      <div key={field.id} className="inputWrapper">
-        <label htmlFor={field.id} className="inputLabel">
-          {field.label}
-        </label>
-        <input
-          type="text"
-          id={field.id}
-          className="inputField"
-          value={formData[field.id]}
-          onChange={handleInputChange(field.id)}
-          aria-label={field.label}
-        />
-      </div>
-    ))}
-    <div className="actionButtons">
-      <button type="submit" className="submitButton">
-        Lưu
-      </button>
-      <button type="button" className="cancelButton" onClick={handleCancel}>
-        Hủy
-      </button>
-    </div>
-  </div>
-</div>
+                <div className="inputGroup">
+                  {[
+                    {
+                      id: "name",
+                      label: "Tên Studio",
+                      placeholder: editingCustomer ? editingCustomer.studioName : "",
+                    },
+                    {
+                      id: "price",
+                      label: "Giá một giờ",
+                      placeholder: editingCustomer ? editingCustomer.pricing : "",
+                    },
+                    {
+                      id: "address",
+                      label: "Địa chỉ",
+                      placeholder: editingCustomer ? editingCustomer.studioAddress : "",
+                    },
+                    {
+                      id: "detail",
+                      label: "Chi tiết",
+                      placeholder: editingCustomer ? editingCustomer.studioDescription : "",
+                    },
+                  ].map((field) => (
+                    <div key={field.id} className="inputWrapper">
+                      <label htmlFor={field.id} className="inputLabel">
+                        {field.label}
+                      </label>
+                      <input
+                        type="text"
+                        id={field.id}
+                        className="inputField"
+                        placeholder={field.placeholder}
+                        value={formData[field.id]}
+                        onChange={handleInputChange(field.id)}
+                        aria-label={field.label}
+                      />
+                    </div>
+                  ))}
+                  <div className="actionButtons">
+                    <button type="submit" className="submitButton">
+                      Lưu
+                    </button>
+                    <button
+                      type="button"
+                      className="cancelButton"
+                      onClick={handleCancel}
+                    >
+                      Hủy
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
-            {/* <div className="actionButtons">
-              <button type="submit" className="submitButton">
-                Lưu
-              </button>
-              <button type="button" className="cancelButton" onClick={handleCancel}>
-                Hủy
-              </button>
-            </div> */}
           </form>
         </div>
-  ) : (
+      ) : (
     // Giao diện danh sách studio
     <table className="editTable">
       <thead>
