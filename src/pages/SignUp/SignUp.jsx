@@ -116,7 +116,7 @@ const Signup = () => {
               />
             </div>
             <div className="user-type-selection">
-        <label >Chọn loại tài khoản:</label>
+        <label >Bạn Muốn Trở Thành:</label>
         <div className="radio-group">
           <label>
             <input
@@ -126,7 +126,7 @@ const Signup = () => {
               checked={userType === "customer"}
               onChange={() => setUserType("customer")}
             />
-            Khách hàng
+            Khách hàng Đặt Phòng
           </label>
           <label>
             <input
@@ -136,7 +136,7 @@ const Signup = () => {
               checked={userType === "studioOwner"}
               onChange={() => setUserType("studioOwner")}
             />
-            Chủ studio
+            Chủ Kinh Doanh studio 
           </label>
         </div>
       </div>
