@@ -235,7 +235,7 @@ export default function Studio() {
                     <th className="editCells">Hình ảnh</th>
                     <th className="editCells">Tên khách hàng</th>
                     <th className="editCells">Số tiền </th>
-                    <th className="editCells">Loại phòng</th>
+                    {/* <th className="editCells">Loại phòng</th> */}
                     <th className="editCells">Thời gian bắt đầu</th>
                     <th className="editCells">Thời gian kết thúc</th>
                     <th className="editCells">Trạng thái</th>
@@ -257,7 +257,7 @@ export default function Studio() {
                           </td>
                           <td className="editCell">{order.accountDetails?.userName}</td>
                           <td className="editCell">{order.booking?.totalPrice}</td>
-                          <td className="editCell">{order.studioDetails?.studioSize}</td>
+                          {/* <td className="editCell">{order.studioDetails?.studioSize}</td> */}
                           <td className="editCell">{order.booking?.checkIn}</td>
                           <td className="editCell">{order.booking?.checkOut}</td>
                           <td className="editCell">
