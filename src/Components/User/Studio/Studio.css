@@ -70,7 +70,7 @@
     display: flex; /* Flexbox để sắp xếp ngang */
     align-items: center; /* Căn giữa các thành phần theo chiều dọc */
     justify-content: space-between; /* Đẩy các thành phần ra hai bên */
-    width: 100%;
+    width: 90%;
     padding: 10px 20px; /* Thêm khoảng cách bên trong */
     margin-top: 20px;
     background-color: #fff;
@@ -186,3 +186,285 @@
         margin-top: 40px;
     }
 }
+
+  #Studio .revenueRow {
+    display: flex;
+    justify-content: space-between;
+    width: 85%;
+    /* max-width: 600px; */
+    font-family: Arial, sans-serif;
+  }
+
+#Studio .revenueName {
+    flex: 1;
+    text-align: left;
+    font-weight: bold;
+    padding: 5px 10px;
+  }
+  #Studio .revenueType {
+    flex: 1;
+    text-align: left;
+    font-weight: bold;
+    padding: 5px 10px;
+  }
+  
+  #Studio .revenueCell {
+    flex: 1;
+    text-align: left;
+    font-weight: bold;
+    padding: 5px 10px;
+  }
+  #Studio .revenuePrice {
+    flex: 1;
+    text-align: left;
+    font-weight: bold;
+    padding: 5px 10px;
+    color: green;
+  }
+  #Studio .revenueTime {
+    flex: 1;
+    text-align: left;
+    font-weight: bold;
+    padding: 5px 10px;
+  }
+  #Studio .revenueRowHeader {
+    display: flex;
+    justify-content: space-between;
+    width: 85%;
+    /* max-width: 600px; */
+    font-family: Arial, sans-serif;
+    border-bottom: 2px solid #ccc; /* Viền dưới */
+    background-color: black; /* Màu nền đen */
+    color: white; /* Chữ màu trắng */
+    padding: 10px 20px; 
+  }
+  #Studio .revenueTable {
+    width: 100%; /* Chiếm toàn bộ chiều rộng */
+    border-collapse: collapse; /* Loại bỏ khoảng cách giữa các ô */
+    margin: 20px 0; /* Khoảng cách trên và dưới bảng */
+    font-size: 16px;
+    text-align: left;
+  }
+
+  #Studio .revenueCard {
+    display: flex;
+    justify-content: space-between;
+    width: 85%;
+    padding: 10px 20px; 
+   }
+   #Studio .editTable {
+    width: 90%; /* Đảm bảo bảng chiếm toàn bộ chiều rộng */
+    border-collapse: collapse; /* Loại bỏ khoảng cách giữa các ô */
+}
+
+#Studio .editRowHeader th, 
+#Studio .editCard td {
+    border: 1px solid #ccc; /* Viền giữa các ô */
+    text-align: left; /* Căn trái nội dung */
+    vertical-align: middle; /* Căn giữa theo chiều dọc */
+    padding: 10px; /* Khoảng cách trong ô */
+}
+
+#Studio .editRowHeader th {
+    background-color: black; /* Màu nền cho hàng tiêu đề */
+    color: white; /* Chữ màu trắng */
+    font-weight: bold; /* Chữ in đậm */
+    text-align: center;
+}
+
+#Studio .editCard td {
+    background-color: #ffffff; /* Màu nền nhạt cho các ô dữ liệu */
+    text-align: center;
+}
+
+#Studio .editCell img {
+    display: block;
+    margin: 0 auto; /* Đặt ảnh ở giữa ô */
+    height: 140px;
+    width: 140px;
+}
+#Studio .editButton {
+    border-radius: 20px;
+    background-color: #9747FF;
+    font-size: 14px;
+    color: #fff;
+    font-weight: 600;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 85%;
+}
+
+#Studio .editButton:hover {
+    background-color: #8033FF;
+}
+
+#Studio .editButton:focus {
+    outline: 2px solid #AD49E1;
+    outline-offset: 2px;
+}
+#Studio .studioContainer {
+    display: flex;
+    /* margin-top: 116px; */
+    /* width: 100%; */
+    flex-direction: column;
+    /* padding: 0 78px; */
+  }
+  
+  #Studio .description {
+    font-size: 24px;
+    margin-left: 300px;
+    font-family: Montserrat, sans-serif;
+    color: rgb(72, 72, 72);
+    text-align: center;
+  }
+  
+  #Studio .studioForm {
+    margin: 50px 0 0 24px;
+    width: 100%;
+    max-width: 88%;
+  }
+  
+  #Studio .formLayout {
+    display: flex;
+    gap: 100px;
+  }
+  
+  #Studio .imageColumn {
+    width: 40%;
+  }
+  
+  #Studio .inputColumn {
+    width: 50%;
+  }
+  
+  #Studio .imageSection {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  #Studio .productImage {
+    aspect-ratio: 1.3;
+    object-fit: contain;
+    object-position: center;
+    width: 100%;
+  }
+  
+  #Studio .imageInfo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+    margin-top: 20px;
+  }
+  
+  #Studio .medium {
+    font-family: Montserrat, sans-serif;
+    color: rgb(72, 72, 72);
+    font-weight: 700;
+  }
+  
+  #Studio .infoIcon {
+    width: 28px;
+    aspect-ratio: 1.08;
+    object-fit: contain;
+  }
+  
+  #Studio .inputGroup {
+    margin-bottom: 22px;
+  }
+  
+  #Studio .inputLabel {
+    display: block;
+    font-family: Montserrat, sans-serif;
+    color: rgb(72, 72, 72);
+    font-weight: 700;
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  #Studio .inputField {
+    border-radius: 30px;
+    background-color: white;
+    width: 95%;
+    max-width: 100%;
+    height: 52px;
+    border: 1px solid black;
+    padding: 0 20px;
+    font-family: Montserrat, sans-serif;
+  }
+  
+  #Studio .submitButton {
+    border-radius: 20px;
+    background-color: rgb(151, 71, 255);
+    width: 193px;
+    color: white;
+    text-align: center;
+    padding: 10px 66px;
+    font: 600 14px Montserrat, sans-serif;
+    border: none;
+    cursor: pointer;
+    margin-top: 67px;
+    margin-left: auto;
+    display: block;
+  }
+  #Studio .cancelButton {
+    border-radius: 20px;
+    background-color: rgb(151, 71, 255);
+    width: 193px;
+    color: white;
+    text-align: center;
+    padding: 10px 66px;
+    font: 600 14px Montserrat, sans-serif;
+    border: none;
+    cursor: pointer;
+    /* margin-top: 67px; */
+  
+    display: block;
+  }
+  
+  @media (max-width: 991px) {
+    #Studio .studioContainer {
+      max-width: 100%;
+      margin-top: 40px;
+      padding: 0 20px;
+    }
+  
+    #Studio .formLayout {
+      flex-direction: column;
+    }
+  
+    #Studio .imageColumn,
+    #Studio .inputColumn {
+      width: 100%;
+    }
+  
+    #Studio .inputField {
+      width: 100%;
+    }
+  
+    #Studio .submitButton{
+      margin: 40px auto 0;
+      padding: 10px 20px;
+    }
+    #Studio .cancelButton{
+        margin: 40px auto 0;
+        padding: 10px 20px;
+      }
+  }
+ 
+  #Studio .imageControls {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 25px;
+  }
+  #Studio .imageControls img {
+    margin-left: 20px;
+  }
+  #Studio .actionButtons {
+    display: flex;
+    align-items: flex-end;
+    flex-direction: row-reverse;
+  }
+  

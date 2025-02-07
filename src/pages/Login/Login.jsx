@@ -74,13 +74,13 @@ useEffect(() => {
               navigate('/Home');
           }
           if (user.roleId === '2') {
-              navigate('/createstu');
+              navigate('/Home');
           } 
           if (user.roleId === '4') {
               navigate('/content');
           }
           if (user.roleId === '3') {
-              navigate('/adminmanager');
+              navigate('/contact');
               window.alert('Đăng nhập thành công');
           }
       } catch (error) {
