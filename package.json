@@ -20,6 +20,7 @@
     "@mui/material": "^6.3.1",
     "@mui/x-date-pickers": "^7.23.3",
     "@react-icons/all-files": "^4.1.0",
+    "antd": "^5.23.4",
     "axios": "^1.7.9",
     "bootstrap": "^5.3.3",
     "chart.js": "^4.4.5",
