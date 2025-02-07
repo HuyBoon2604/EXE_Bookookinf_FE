@@ -180,6 +180,7 @@ const [BookingId, setBookingId] = useState([]);
       }
     } catch (error) {
       console.error(error);
+      console.log("aaaaa",auth)
     }
   };
   // useEffect(() => {

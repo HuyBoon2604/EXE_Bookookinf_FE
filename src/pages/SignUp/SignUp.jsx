@@ -10,6 +10,7 @@ const Signup = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
+  const [userType, setUserType] = useState("customer");
   const { setAuth } = useAuth();
   const navigate = useNavigate();
 
@@ -17,14 +18,15 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const url = '/api/Account/registration';
+    const roleId = userType === "customer" ? "1" : "2";
     const data = {
-      username : userName,
+      username: userName,
       email: email,
       password: password,
-      confirmPassword : confirmPassword,
-      roleId : "1"
+      confirmPassword: confirmPassword,
+      roleId: roleId,
     };
-    console.log({ userName,email, password, confirmPassword });
+    console.log({ userName, email, password, confirmPassword, roleId });
 
     try {
       const response = await api.post(url, data);
@@ -113,6 +115,31 @@ const Signup = () => {
                 onChange={(e) => setConfirmPassword(e.target.value)}
               />
             </div>
+            <div className="user-type-selection">
+        <label >Chọn loại tài khoản:</label>
+        <div className="radio-group">
+          <label>
+            <input
+              type="radio"
+              name="userType"
+              value="customer"
+              checked={userType === "customer"}
+              onChange={() => setUserType("customer")}
+            />
+            Khách hàng
+          </label>
+          <label>
+            <input
+              type="radio"
+              name="userType"
+              value="studioOwner"
+              checked={userType === "studioOwner"}
+              onChange={() => setUserType("studioOwner")}
+            />
+            Chủ studio
+          </label>
+        </div>
+      </div>
             
             {/* <div className="remember-me">
               <input

@@ -42,7 +42,7 @@ function App() {
         {/* Trang Home */}
         <Route path="/Home" element={<HomePage />} />
 
-        <Route path="/Course" element={<CoursePage />} />
+        <Route path="/Course/:Id" element={<CoursePage />} /> 
 
         {/* Trang danh sách sản phẩm */}
         <Route path="/Product" element={<ListItemPage />} />
