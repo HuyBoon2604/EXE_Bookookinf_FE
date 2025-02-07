@@ -25,6 +25,8 @@ import SearchnePage from './pages/SearchPage/SearchnePage';
 import ReservationPage from './pages/ReservationPage/ReservationPage/ReservationPage';
 import CreateStuPage from './pages/CreateStu/CreateStuPage';
 import AccountManaPage1 from './pages/AccountManaPage/AccountManaPage1';
+import AdminCheckStudioPage from './pages/AdminCheckStudio/AdminCheckStudioPage';
+
 function App() {
   return (
     <>
@@ -81,6 +83,9 @@ function App() {
 <Route path="/Reservation" element={<ReservationPage/>} />
 <Route path="/searchpage" element={<SearchnePage />} />
 <Route path="/checkout-success" element={<SucessPage />} />
+
+        {/* Trang Admin Check Studio */}
+        <Route path="/admin-check-studio" element={<AdminCheckStudioPage />} />
       </Routes>
     </>
   );
