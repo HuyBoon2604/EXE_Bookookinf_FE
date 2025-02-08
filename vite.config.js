@@ -6,9 +6,7 @@ export default defineConfig({
     watch: {
       ignored: ['**/node_modules/**'],
     },
+    historyApiFallback: true, // Gộp vào chung một object
   },
   plugins: [react()],
-  server: {
-    historyApiFallback: true, // Đảm bảo Vite fallback routing đúng cách
-  },
 });

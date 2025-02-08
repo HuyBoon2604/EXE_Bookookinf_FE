@@ -25,6 +25,8 @@ import SearchnePage from './pages/SearchPage/SearchnePage';
 import ReservationPage from './pages/ReservationPage/ReservationPage/ReservationPage';
 import CreateStuPage from './pages/CreateStu/CreateStuPage';
 import AccountManaPage1 from './pages/AccountManaPage/AccountManaPage1';
+
+
 import CheckStudio1 from './pages/CheckStudioPage/CheckStudio1';
 function App() {
   return (
@@ -43,7 +45,7 @@ function App() {
         {/* Trang Home */}
         <Route path="/Home" element={<HomePage />} />
 
-        <Route path="/Course" element={<CoursePage />} />
+        <Route path="/Course/:Id" element={<CoursePage />} /> 
 
         {/* Trang danh sách sản phẩm */}
         <Route path="/Product" element={<ListItemPage />} />
@@ -82,6 +84,9 @@ function App() {
 <Route path="/Reservation" element={<ReservationPage/>} />
 <Route path="/searchpage" element={<SearchnePage />} />
 <Route path="/checkout-success" element={<SucessPage />} />
+
+        {/* Trang Admin Check Studio */}
+        <Route path="/admin-check-studio" element={<AdminCheckStudioPage />} />
       </Routes>
     </>
   );

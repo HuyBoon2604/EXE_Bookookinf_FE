@@ -55,7 +55,7 @@ export const Course = () => {
   const [isLiked, setIsLiked] = useState(false);
   const navigate = useNavigate();
   const { auth } = useAuth();
-    const { studioId } = useParams();
+    const { Id } = useParams();
 
   const handleImageSelect = (index) => {
     setSelectedImage(index);
@@ -95,44 +95,32 @@ const handleButtonClick = () => {
 useEffect(() => {
   async function fetchData() {
     try {
-      // Gọi API đồng thời để lấy dữ liệu
-      const [accounts, classes, studios] = await fetchAllData();
+      if (Id) {
+        // Bước 1: Lấy thông tin lớp học theo Id
+        const classDetails = await fetchClassDetails(Id);
+        setClassId(classDetails);
 
-      // Lọc dữ liệu
-      const roleAccounts = filterAccountsByRole(accounts, "3");
-      const classAccounts = filterAccountsByClass(roleAccounts, classes);
-      const studiosOfUser = filterStudiosByClasses(classAccounts, studios);
+        // Bước 2: Lấy thông tin studio dựa vào studioId của class
+        const studioDetails = await fetchStudioDetails(classDetails.studioId);
+        setStudios(studioDetails);
 
-      if (studiosOfUser.length > 0) {
-        const firstStudio = studiosOfUser[0];
-        const userClasses = filterClassesByStudio(firstStudio.id, classes);
+        // Bước 3: Lấy thông tin tài khoản từ accountId của studio
+        const accountDetails = await fetchAccountDetails(studioDetails.accountId);
+        setUser(accountDetails);
 
-        if (userClasses.length > 0) {
-          const firstClass = userClasses[0];
-          const classDetails = await fetchClassDetails(firstClass.id);
-          const studioDetails = await fetchStudioDetails(classDetails.studioId);
-          const userDetails = await fetchAccountDetails(studioDetails.accountId);
-
-          // Lưu kết quả vào state
-          setRole(classAccounts);
-          setStudios(studiosOfUser);
-          setClass(userClasses);
-          setClassId(classDetails);
-          setUser(userDetails);
-
-          const studioImages = [
-            studiosOfUser[0].image?.imageUrl1 && { src: studiosOfUser[0].image.imageUrl1, name: "Hình 1" },
-            studiosOfUser[0].image?.imageUrl2 && { src: studiosOfUser[0].image.imageUrl2, name: "Hình 2" },
-            studiosOfUser[0].image?.imageUrl3 && { src: studiosOfUser[0].image.imageUrl3, name: "Hình 3" },
-            studiosOfUser[0].image?.imageUrl4 && { src: studiosOfUser[0].image.imageUrl4, name: "Hình 4" },
-            {src:"/ee53ddddc8801eaa90470f5c25934df9.jpg", name:"Hình 5"},
-            {src:"/ee53ddddc8801eaa90470f5c25934df9.jpg", name:"Hình 6"},
-            {src:"/ee53ddddc8801eaa90470f5c25934df9.jpg", name:"Hình 7"},
-            {src:"/ee53ddddc8801eaa90470f5c25934df9.jpg", name:"Hình 8"},
-          ].filter(Boolean); 
-          setImages(studioImages); // Cập nhật images
-          console.log("Images:",images)
-        }
+        // Tạo mảng images từ thông tin studio
+        const studioImages = [
+          studioDetails.image?.imageUrl1 && { src: studioDetails.image.imageUrl1, name: "Hình 1" },
+          studioDetails.image?.imageUrl2 && { src: studioDetails.image.imageUrl2, name: "Hình 2" },
+          studioDetails.image?.imageUrl3 && { src: studioDetails.image.imageUrl3, name: "Hình 3" },
+          studioDetails.image?.imageUrl4 && { src: studioDetails.image.imageUrl4, name: "Hình 4" },
+          { src: "/ee53ddddc8801eaa90470f5c25934df9.jpg", name: "Hình 5" },
+          { src: "/ee53ddddc8801eaa90470f5c25934df9.jpg", name: "Hình 6" },
+          { src: "/ee53ddddc8801eaa90470f5c25934df9.jpg", name: "Hình 7" },
+          { src: "/ee53ddddc8801eaa90470f5c25934df9.jpg", name: "Hình 8" },
+        ].filter(Boolean);
+        setImages(studioImages);
+        console.log("Images:", studioImages);
       }
     } catch (error) {
       console.error("Lỗi khi lấy dữ liệu:", error);
@@ -140,65 +128,35 @@ useEffect(() => {
   }
 
   fetchData();
+}, [Id]);
 
-  // Tách logic thành các hàm con
-  async function fetchAllData() {
-    const [responseAccount, responseClass, responseStudio] = await Promise.all([
-      api.get("/api/Account/Get-All"),
-      api.get("/Get-All-ClassDance"),
-      api.get("/api/Studio/Get-All_Studio"),
-    ]);
-    return [
-      responseAccount.data.$values || [],
-      responseClass.data.$values || [],
-      responseStudio.data.$values || [],
-    ];
+// Hàm lấy chi tiết lớp học theo classId
+async function fetchClassDetails(classId) {
+  const response = await api.get(`/Get-ClassDance-By-Id?classId=${classId}`);
+  if (response.status === 200 && response.data) {
+    // Nếu dữ liệu được bọc trong $values (trả về mảng), trả về mảng đó
+    return response.data.$values || response.data;
   }
+  throw new Error("Không thể lấy thông tin lớp học.");
+}
 
-  function filterAccountsByRole(accounts, roleId) {
-    return accounts.filter((account) => account.roleId === roleId);
+// Hàm lấy chi tiết studio theo studioId
+async function fetchStudioDetails(studioId) {
+  const response = await api.get(`/api/Studio/Get-Studio-By-Id?id=${studioId}`);
+  if (response.status === 200 && response.data) {
+    return response.data;
   }
+  throw new Error("Không thể lấy thông tin studio.");
+}
 
-  function filterAccountsByClass(accounts, classes) {
-    return classes.filter((classDance) =>
-      accounts.some((account) => account.id === classDance.accountId)
-    );
+// Hàm lấy chi tiết account theo accountId
+async function fetchAccountDetails(accountId) {
+  const response = await api.get(`/api/Account/get-by-id?accountId=${accountId}`);
+  if (response.status === 200 && response.data) {
+    return response.data;
   }
-
-  function filterStudiosByClasses(classes, studios) {
-    return studios.filter((studio) =>
-      classes.some((classDance) => classDance.studioId === studio.id)
-    );
-  }
-
-  function filterClassesByStudio(studioId, classes) {
-    return classes.filter((classDance) => classDance.studioId === studioId);
-  }
-
-  async function fetchClassDetails(classId) {
-    const response = await api.get(`/Get-ClassDance-By-Id?classId=${classId}`);
-    if (response.status === 200 && response.data) {
-      return response.data;
-    }
-    throw new Error("Không thể lấy thông tin lớp học.");
-  }
-
-  async function fetchStudioDetails(studioId) {
-    const response = await api.get(`/api/Studio/Get-Studio-By-Id?id=${studioId}`);
-    if (response.status === 200 && response.data) {
-      return response.data;
-    }
-    throw new Error("Không thể lấy thông tin studio.");
-  }
-
-  async function fetchAccountDetails(accountId) {
-    const response = await api.get(`/api/Account/get-by-id?accountId=${accountId}`);
-    if (response.status === 200 && response.data) {
-      return response.data;
-    }
-    throw new Error("Không thể lấy thông tin tài khoản.");
-  }
-}, []);
+  throw new Error("Không thể lấy thông tin tài khoản.");
+}
 // Chạy 1 lần khi component mount
 
 // useEffect để theo dõi khi user thay đổi
