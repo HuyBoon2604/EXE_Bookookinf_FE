@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import api from '../../utils/requestAPI';
 import './OrderPage.css';
+import { useNavigate } from 'react-router-dom';
 import { confirmAlert } from 'react-confirm-alert'; 
 import 'react-confirm-alert/src/react-confirm-alert.css'; 
 
 const OrderPage = () => {
     const { Bookingid } = useParams();
+    const navigate = useNavigate();
     const [orderId, setOrderId] = useState('');
     const [Order, SetOrder] = useState([]);
     const [studios] = useState([
@@ -124,11 +126,16 @@ onClick: () => handleCancelOrder(),
     };
     const handleCancelOrder = async () => {
         try {
-            const response = await api.delete(`/Delete-Booking/${Bookingid}`);
+            const response = await api.delete(`/Delete-Order-And-Booking-By-OrderId?orderID=${orderId}`);
             if (response.status === 200) {
                 console.log('Order cancelled successfully');
                 alert('Order has been cancelled');
-                
+    
+               
+                setTimeout(() => {
+                   
+                    navigate(`/StudioInfor/${Order.id}`);
+                }, 2000);
             } else {
                 console.error('Failed to cancel order:', response);
             }
@@ -155,29 +162,29 @@ onClick: () => handleCancelOrder(),
                                 <div className="inforordercon">
                                     <div className="chuavuine">
                                         <span className="nameofstu">
-                                            <strong>Name Studio:</strong>{' '}
+                                            <strong>Tên Studio:</strong>{' '}
                                             {Order.studioName}
                                         </span>
                                     </div>
                                     <div className="chuavuine">
                                         <span className="typeofstu">
-                                            <strong>Type:</strong> {studio.type}
+                                            <strong>Kích Thước:</strong> {studio.type}
                                         </span>
                                     </div>
                                     <div className="chuavuine">
                                         <span className="Addressofstu">
-                                            <strong>Address:</strong>{' '}
+                                            <strong>Địa Điểm:</strong>{' '}
                                             {Order.studioAddress}
                                         </span>
                                     </div>
                                     <div className="chuavuine">
                                         <span className="Timeofstu">
-                                            <strong>Time:</strong> {Order.checkIn}-{Order.checkOut}
+                                            <strong>Mốc Thời Gian:</strong> {Order.checkIn}-{Order.checkOut}
                                         </span>
                                     </div>
                                     <div className="chuavuine">
                                         <span className="Dateorderstu">
-                                            <strong>Date:</strong> {Order.bookingDate}
+                                            <strong>Ngày đặt:</strong> {Order.bookingDate}
                                         </span>
                                     </div>
                                 </div>
@@ -187,21 +194,21 @@ onClick: () => handleCancelOrder(),
                 </div>
 
                 <div className="infouser-order">
-                    <h1 className="custumor-title">Customer Info</h1>
+                    <h1 className="custumor-title">Thông tin khách hàng</h1>
                     <div className="chuainfoorder">
                         <div className="chuainfovui">
-                            <span className="phonevui">Phone:</span>
+                            <span className="phonevui">Số điện thoại:</span>
                             <span className="kovui">0904762203</span>
                         </div>
 
                         <div className="chuainfovui">
-                            <span className="customername">Name:</span>
+                            <span className="customername">Tên khách hàng:</span>
                             <span className="kovui">{Order.userName}</span>
                         </div>
 
                         <div className="chuainfovui">
                             <span className="Priceorder">
-                                Price for one hour:
+                                Giá tiền trong 1 tiếng:
                             </span>
                             <span className="kovui">2000</span>
                         </div>
@@ -213,7 +220,7 @@ onClick: () => handleCancelOrder(),
 
                         <div className="chuainfovui">
                             <span className="totalpricevui">
-                                Total Payment:
+                                Tổng tiền:
                             </span>
                             <span className="kovui">{Order.totalPrice}</span>
                         </div>

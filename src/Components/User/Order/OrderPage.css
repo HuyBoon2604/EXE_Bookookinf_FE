@@ -119,11 +119,12 @@
 
 #OrderPage .ordernut {
     height: 5vh;
-    border-radius: 20px;
+    font-size: large;
     background-color: #9747FF;
     color: white;
     margin-left: 5vh;
     margin-top: 10vh;
+    border-radius: 20px;
 }
 
 #OrderPage @keyframes leFadeInLeft {
@@ -134,4 +135,11 @@
     to {
         opacity: 1;
     }
+}
+.removebutton{
+    background-color:black;
+    color: white;
+    height: 5vh;
+    font-size: large;
+    border-radius: 20px;
 }

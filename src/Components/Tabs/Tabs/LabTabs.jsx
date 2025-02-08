@@ -27,7 +27,7 @@ export default function LabTabs() {
     setLoading(true);
     try {
       const response = await api.get(
-        `https://cldhbe.azurewebsites.net/Get-All-Order-Success-By-AccounId?accountId=${accountid}`
+        `/Get-All-Order-Success-By-AccounId?accountId=${accountid}`
       );
       const orders = response.data.$values || [];
       console.log(orders);

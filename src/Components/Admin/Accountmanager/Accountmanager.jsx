@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
+import { Link, useLocation } from 'react-router-dom';
 
 import api from '../../utils/requestAPI';
 
@@ -56,6 +56,18 @@ const Accountmanager = () => {
 
   return (
     <div>
+      <div className="tabs">
+              <Link to="/adminmanager" className={location.pathname === '/adminmanager' ? 'active-tab' : ''}>
+                Studios
+              </Link>
+              
+              <Link to="/accountmana" className={location.pathname === '/accountmana' ? 'active-tab' : ''}>
+                Accounts
+              </Link>
+              <Link to="/checkstu" className={location.pathname === '/checkstu' ? 'active-tab' : ''}>
+                Duyệt studio
+              </Link>
+            </div>
       <table className="custom-table">
         <thead>
           <tr className="table-header">

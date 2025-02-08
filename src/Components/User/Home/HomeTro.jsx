@@ -25,7 +25,7 @@ const HomeTro = () => {
   const navigate = useNavigate();
   useEffect(() => {
     const fetchStudio = async () => {
-      const url = "/api/Studio/Get-All_Studio";
+      const url = "api/Studio/Get-All-Studio-With-IsActive-True";
       try {
         const response = await api.get(url);
         console.log('API raw response:', response);

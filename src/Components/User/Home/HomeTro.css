@@ -297,11 +297,13 @@ margin-right: 8%;
 .image-pop-chua{
 
   background-color: transparent;
+  margin-top: 0.5%;
 }
 .image-pop{
   width: 100%;
   height: 5vh;
   background-color: white;
+  
 }
 
 
@@ -717,9 +719,9 @@ top: 90vh
 .globe-icon{
   position: absolute;
   color: white;
-  width: 20%;
+  width: 2%;
   height: 3vh;
-  left: 70%;
+  left: 75%;
   bottom: 37%;
 }
 .language-dropdown{

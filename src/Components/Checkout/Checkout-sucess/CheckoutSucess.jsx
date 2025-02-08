@@ -27,7 +27,7 @@ const CheckoutSucess = () => {
     if (trancode) {
       const fetchCancel = async () => {
        
-        const url = `https://cldhbe.azurewebsites.net/create-payment-link/update-status-2?odercode=${trancode}`;
+        const url = `/create-payment-link/update-status-2?odercode=${trancode}`;
         console.log('URL being called:', url);
 
         try {
