@@ -13,7 +13,7 @@ const AdminManager = () => {
   };
     useEffect(() => {
       const fetchStudio = async () => {
-        const url = "https://localhost:7199/api/Studio/Get-All_Studio";
+        const url = "api/Studio/Get-All-Studio-With-IsActive-True";
         try {
           const response = await api.get(url);
           console.log('API raw response:', response);
@@ -62,6 +62,9 @@ const AdminManager = () => {
   <Link to="/accountmana" className={location.pathname === '/accountmana' ? 'active-tab' : ''}>
     Accounts
   </Link>
+  <Link to="/checkstu" className={location.pathname === '/checkstu' ? 'active-tab' : ''}>
+    Duyệt studio
+  </Link>
 </div>
       <div className="studio-list-lo">
         {Studio.map((item) => (
@@ -71,15 +74,15 @@ const AdminManager = () => {
                  <img src={item.imageStudio} alt="" className='hinh-owner' />
               </div>
               <div className="details-lo">
-                <h3 className='admin-t'>{item.customerName}</h3>
+                <h3 className='admin-t'>{item.account.userName}</h3>
                 <p className='info-own'>
-                  Create Date: {item.createAt} &nbsp; | &nbsp; Type: {item.studioSize} &nbsp; | &nbsp;
+                  Create Date: {new Date(item.createAt).toLocaleDateString()} &nbsp; | &nbsp; Tên Studio: {item.studioName} &nbsp; |Địa chỉ:{item.studioAddress} &nbsp;
                 
                 </p>
                 <p className='info-own'>{item.pricing}VND</p>
               </div>
             </div>
-            <button className="view-detail-btn"  onClick={() => handleViewclick(item.id)}  >View Detail</button>
+            <button className="view-detail-btn"  onClick={() => handleViewclick(item.id)}  >Doanh Thu</button>
           </div>
         ))}
       </div>

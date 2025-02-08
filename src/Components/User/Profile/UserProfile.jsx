@@ -60,18 +60,17 @@ catch (error) {
       </div>
       <div className="profileverichua">
       <div className="verification-status">
-        <h3 className="veri-title">VERIFICATION</h3>
+        <h3 className="veri-title">Đã Xác Minh</h3>
         <p className="verification-email">
           <FaCheckCircle className="verification-icon" /> Email
         </p>
       </div>
       <div className="bio-chua">
         <p className="bio">
-        Thanks for stopping by! I'm excited to be a part of the Colordanhub
-        community.
+        Cảm ơn vì đã ghé qua! Tôi rất vui mừng được trở thành một phần của cộng đồng Colordanhub.
       </p>
       <button className="share-profile-button" onClick={handleShare}>
-  <FaShareAlt className="share-icon" /> Share Profile
+  <FaShareAlt className="share-icon" /> Chia sẻ 
 </button>
 
       </div>

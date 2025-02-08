@@ -113,7 +113,7 @@ export default function Header() {
                       <button className="logout-button"
                         
                       >
-                        <a href={`/Profile/${auth.user.id}`}>Tài Khoản</a>
+                        <a href={`/updateuser`}>Tài Khoản</a>
 
                       </button>
                       <button className="logout-button"

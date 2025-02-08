@@ -25,6 +25,7 @@ import SearchnePage from './pages/SearchPage/SearchnePage';
 import ReservationPage from './pages/ReservationPage/ReservationPage/ReservationPage';
 import CreateStuPage from './pages/CreateStu/CreateStuPage';
 import AccountManaPage1 from './pages/AccountManaPage/AccountManaPage1';
+import CheckStudio1 from './pages/CheckStudioPage/CheckStudio1';
 function App() {
   return (
     <>
@@ -35,7 +36,7 @@ function App() {
         {/* Trang Login */}
         <Route path="/Login" element={<Login />} />
         <Route path="/createstu" element={<CreateStuPage />} />
-
+        <Route path="/checkstu" element={<CheckStudio1 />} />
         <Route path="/Signup" element={<Signup />} />
         <Route path="/accountmana" element={<AccountManaPage1 />} />
 

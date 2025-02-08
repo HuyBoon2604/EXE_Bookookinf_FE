@@ -14,7 +14,7 @@ const CreateStudioRequest = () => {
     studioName: '',
     studioAddress: '',
     studioDescription: '',
-    studioSize: '',
+    studioSizeId: '', // Thêm trường này để lưu ID của kích thước studio
     capacity: '',
     imageStudio: null,
     images: Array(5).fill(null),
@@ -27,13 +27,11 @@ const CreateStudioRequest = () => {
     images: Array(5).fill(null),
   });
 
- 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setStudioData((prev) => ({ ...prev, [name]: value }));
   };
 
- 
   const handleImageUpload = (e, key, index = null) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -56,7 +54,6 @@ const CreateStudioRequest = () => {
     reader.readAsDataURL(file);
   };
 
-  // Xác nhận hủy đơn
   const ShowConfirmCancel = (e) => {
     e.preventDefault();
     confirmAlert({
@@ -69,7 +66,6 @@ const CreateStudioRequest = () => {
     });
   };
 
-  // Xử lý gửi dữ liệu
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
@@ -86,8 +82,8 @@ const CreateStudioRequest = () => {
     formData.append('StudioName', studioData.studioName);
     formData.append('StudioAddress', studioData.studioAddress);
     formData.append('StudioDescription', studioData.studioDescription);
-    formData.append('StudioSize', studioData.studioSize);
-    formData.append('Capacity', studioData.capacity);
+    formData.append('SizeId', studioData.studioSizeId); 
+    formData.append('Quantity', studioData.capacity);
     formData.append('poster', studioData.imageStudio);
 
     studioData.images.forEach((image, index) => {
@@ -109,7 +105,7 @@ const CreateStudioRequest = () => {
         studioName: '',
         studioAddress: '',
         studioDescription: '',
-        studioSize: '',
+        studioSizeId: '',
         capacity: '',
         imageStudio: null,
         images: Array(5).fill(null),
@@ -172,7 +168,12 @@ const CreateStudioRequest = () => {
 
           <div className="form-group">
             <label>Kích Thước Studio:</label>
-            <input type="text" name="studioSize" value={studioData.studioSize} onChange={handleInputChange} required />
+            <select name="studioSizeId" value={studioData.studioSizeId} onChange={handleInputChange} required>
+              <option value="">Chọn kích thước</option>
+              <option value="1">Nhỏ</option>
+              <option value="2">Vừa</option>
+              <option value="3">Lớn</option>
+            </select>
           </div>
 
           <div className="form-group">
