@@ -304,6 +304,28 @@
     outline: 2px solid #AD49E1;
     outline-offset: 2px;
 }
+#Studio .goButton {
+  margin-top: 20px;
+  border-radius: 20px;
+  background-color: #9747FF;
+  font-size: 14px;
+  color: #fff;
+  font-weight: 600;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 85%;
+}
+
+#Studio .goButton:hover {
+  background-color: #8033FF;
+}
+
+#Studio .goButton:focus {
+  outline: 2px solid #AD49E1;
+  outline-offset: 2px;
+}
 #Studio .studioContainer {
     display: flex;
     /* margin-top: 116px; */

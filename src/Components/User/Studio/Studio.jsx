@@ -2,6 +2,7 @@ import React, {useRef, useState, useEffect, useCallback } from 'react';
 import './Studio.css'; // Thay vì import styles từ file CSS module, sử dụng file CSS thông thường
 import api from '../../utils/requestAPI';
 import useAuth from '../../../hooks/useAuth';
+import CreateStudioRequest from '../AddStu/CreateStudioRequest';
 
 
 
@@ -15,6 +16,8 @@ export default function Studio() {
   const [studio, setStudio] = useState([]);
   const { auth } = useAuth();
   const accountId = auth.user.id;
+
+  
 
   // Tạo ref để tham chiếu đến input file
   const fileInputRef = useRef(null);
@@ -194,8 +197,8 @@ export default function Studio() {
         // const response = await api.get(
         //   `/api/Studio/Get-All-Studio-With-IsActive-True?accountId=${accountId}`
           const [approvedResponse, unapprovedResponse] = await Promise.all([
-            api.get(`/api/Studio/Get-All-Studio-With-IsActive-True?accountId=${accountId}`),
-            api.get(`/api/Studio/Get-All-Studio-With-IsActive-False?accountId=${accountId}`),
+            api.get(`/api/Studio/Get-All-Studio-With-IsActive-True-By-AccountId?accountId=${accountId}`),
+            api.get(`/api/Studio/Get-All-Studio-With-IsActive-Flase-By-AccountId?accountId=${accountId}`),
           ]);
           const approvedStudios = approvedResponse.data.$values || approvedResponse.data;
         const unapprovedStudios = unapprovedResponse.data.$values || unapprovedResponse.data;
@@ -381,6 +384,13 @@ useEffect(() => {
               >
                 Chờ Duyệt
                 {activeNav === 'Chờ duyệt' && <div className="divider" role="separator" />}
+              </div>
+              <div 
+                className={`navItem ${activeNav === 'Tạo Studio' ? 'active' : ''}`} 
+                onClick={() => handleNavClick('Tạo Studio')}
+              >
+                Tạo Studio
+                {activeNav === 'Tạo Studio' && <div className="divider" role="separator" />}
               </div>
             </nav>
             <section className="mainSection">
@@ -598,6 +608,13 @@ useEffect(() => {
               >
                 Chỉnh Sửa
               </button>
+              <button
+              className="goButton"
+              onClick={() => {
+              window.location.href = `/StudioInfor/${studioIsActive.id}`;
+              }}>
+               Đi đến Studio
+                </button>
             </td>
           </tr>
         ))}
@@ -652,6 +669,10 @@ useEffect(() => {
 </tbody>
 
  </table>
+)}
+
+{activeNav === 'Tạo Studio' && (
+   <CreateStudioRequest />
 )}
             </section>
           </div>
