@@ -25,9 +25,11 @@ import SearchnePage from './pages/SearchPage/SearchnePage';
 import ReservationPage from './pages/ReservationPage/ReservationPage/ReservationPage';
 import CreateStuPage from './pages/CreateStu/CreateStuPage';
 import AccountManaPage1 from './pages/AccountManaPage/AccountManaPage1';
+import RequireAuth from "./components/ReqAuth/RequireAuth";
 
 
 import CheckStudio1 from './pages/CheckStudioPage/CheckStudio1';
+import UnauthorizedPage from './pages/UnauthorizedPage/UnauthorizedPage';
 function App() {
   return (
     <>
@@ -37,10 +39,10 @@ function App() {
 
         {/* Trang Login */}
         <Route path="/Login" element={<Login />} />
-        <Route path="/createstu" element={<CreateStuPage />} />
-        <Route path="/checkstu" element={<CheckStudio1 />} />
+        
+        
         <Route path="/Signup" element={<Signup />} />
-        <Route path="/accountmana" element={<AccountManaPage1 />} />
+        
 
         {/* Trang Home */}
         <Route path="/Home" element={<HomePage />} />
@@ -61,23 +63,8 @@ function App() {
 
         {/* Trang Giỏ Hàng */}
         <Route path="/Cart" element={<CartPage />} />
-
-        {/* Trang Admin */}
-        
-
-        {/* Trang checkSucess */}
-        <Route path="/hometro" element={<SucessPage />} />
-
-        <Route path="/Studio" element={<StudioPage />} />
-
-        <Route path="/StudioInfor/:id" element={<StudioInforPage />} />
-
-        
         <Route path="/order/:Bookingid" element={<OrderPage1 />} />
-<Route path="/bookingmanager" element={<StudioBookingManagerPage />} />
 <Route path="/editstu" element={<EditStudioPage />} />
-<Route path="/adminmanager" element={<AdminManagerPage />} />
-<Route path="/revenue/:id" element={<RevenuePage1 />} />
 <Route path="/updateuser" element={<UpdateuserPage1 />} />
 <Route path="/checkcancel" element={<ErrorPage />} />
 <Route path="/contact" element={<ContactPage />} />
@@ -85,8 +72,27 @@ function App() {
 <Route path="/searchpage" element={<SearchnePage />} />
 <Route path="/checkout-success" element={<SucessPage />} />
 
-        {/* Trang Admin Check Studio */}
-        <Route path="/admin-check-studio" element={<AdminCheckStudioPage />} />
+        
+        {/* Chủ Studio */}
+
+        <Route element={<RequireAuth allowedRoles={["2"]} />}>
+        <Route path="/Studio" element={<StudioPage />} />
+        </Route>
+        
+
+        <Route path="/StudioInfor/:id" element={<StudioInforPage />} />
+        <Route path="/createstu" element={<CreateStuPage />} />
+        {/* ADMIN */}
+        
+        <Route element={<RequireAuth allowedRoles={["3"]} />}>
+          <Route path="/checkstu" element={<CheckStudio1 />} />
+          <Route path="/accountmana" element={<AccountManaPage1 />} />
+          <Route path="/bookingmanager" element={<StudioBookingManagerPage />} />
+          <Route path="/adminmanager" element={<AdminManagerPage />} />
+          <Route path="/revenue/:id" element={<RevenuePage1 />} />
+        </Route>
+        <Route path="/unauthorized" element={<UnauthorizedPage />} />
+        
       </Routes>
     </>
   );
