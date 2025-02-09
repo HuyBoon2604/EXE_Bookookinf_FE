@@ -5,17 +5,18 @@ import { Link, useLocation } from 'react-router-dom';
 
 const Checkstudio = () => {
   
- 
-   const [Studio, Setstudio] = useState([]);
+  const [Studio, Setstudio] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [showRejectPopup, setShowRejectPopup] = useState(false);
+  const [rejectReason, setRejectReason] = useState('');
+  const [selectedStudioId, setSelectedStudioId] = useState(null);
+
   useEffect(() => {
     const fetchStudio = async () => {
       const url = "api/Studio/Get-All-Studio-With-IsActive-False";
       try {
         const response = await api.get(url);
-        console.log('API raw response:', response);
-        console.log('API data:', response.data);
   
-      
         const extractedStudio = response.data?.$values || [];
         Setstudio(extractedStudio);
       } catch (error) {
@@ -26,16 +27,15 @@ const Checkstudio = () => {
     fetchStudio();
   }, []);
 
- 
-  const [loading, setLoading] = useState(false);
-
- 
   const handleApprove = async (studioId) => {
     setLoading(true); 
     try {
       const url = `api/Studio/Update-Status-Request-Studio?studioId=${studioId}`; 
       await api.put(url); 
-     
+      
+      // Remove the approved studio from the list
+      Setstudio(Studio.filter(studio => studio.id !== studioId));
+
       alert('Đã duyệt studio thành công');
     } catch (error) {
       alert('Không thể duyệt studio');
@@ -45,16 +45,35 @@ const Checkstudio = () => {
     }
   };
 
-  
   const handleReject = async (studioId) => {
+    setSelectedStudioId(studioId);
+    setShowRejectPopup(true);
+  };
+
+  const handleConfirmReject = async () => {
     try {
-     
-      setTimeout(() => {
-        setPendingStudios(pendingStudios.filter(studio => studio.id !== studioId));
-        alert('Đã từ chối studio');
-      }, 500);
+      const url = 'api/Studio/Reject-Studio-Requets';
+      const data = {
+        studioId: selectedStudioId,
+        message: rejectReason
+      };
+      
+      console.log('Sending data:', data);
+      
+      const response = await api.post(url, data);
+      console.log('Response:', response);
+      
+      setShowRejectPopup(false);
+      setRejectReason('');
+      alert('Đã từ chối studio thành công');
+      
+      // Reload the page after successful rejection
+      window.location.reload();
+      
     } catch (error) {
+      console.log('Error data:', error.response?.data);
       alert('Không thể từ chối studio');
+      console.error('Error rejecting studio:', error);
     }
   };
 
@@ -126,6 +145,27 @@ const Checkstudio = () => {
           </table>
         )}
       </div>
+      
+      {showRejectPopup && (
+        <div className="reject-popup-overlay">
+          <div className="reject-popup">
+            <h3>Lý do từ chối</h3>
+            <textarea
+              value={rejectReason}
+              onChange={(e) => setRejectReason(e.target.value)}
+              placeholder="Nhập lý do từ chối..."
+              rows="4"
+            />
+            <div className="reject-popup-buttons">
+              <button onClick={handleConfirmReject}>Gửi</button>
+              <button onClick={() => {
+                setShowRejectPopup(false);
+                setRejectReason('');
+              }}>Hủy</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
