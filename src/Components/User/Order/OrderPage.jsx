@@ -145,6 +145,7 @@ const OrderPage = () => {
           console.error("Error creating order and payment link:", error);
         }
       };
+      };
     const Showconfirmcancel = () =>{
 confirmAlert({
 title: 'Hủy Order',
@@ -282,6 +283,7 @@ onClick: () => handleCancelOrder(),
 
                     <button
                         className="ordernut"
+                        onClick={handleOrderAndPayment}
                         onClick={handleOrderAndPayment}
                         tabIndex={0}
                         aria-label="Book this dance class"

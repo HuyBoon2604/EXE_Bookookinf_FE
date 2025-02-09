@@ -49,11 +49,11 @@ export default function Header() {
       >
         <a href="/Home">TRANG CHỦ</a>
       </button>
-      <button 
+      {/* <button 
         className={`navItem ${location.pathname === '/Rental' ? 'active' : ''}`}
       >
         THUÊ PHÒNG TẬP NHẢY
-      </button>
+      </button> */}
       <button 
         className={`navItem ${location.pathname === '/Course' ? 'active' : ''}`}
         
@@ -99,32 +99,24 @@ export default function Header() {
                     style={{ cursor: 'pointer' }}
                   />
 
-                  {dropdownVisible && (
-                    <div
-                      className="dropdownMenu"
-                     
-                    >
-
-                      <button className="logout-button"
-                        
-                      >
-                         <a href="/Reservation" >Lịch Sử</a>
-                      </button>
-                      <button className="logout-button"
-                        
-                      >
-                        <a href={`/updateuser`}>Tài Khoản</a>
-
-                      </button>
-                      <button className="logout-button"
-                        onClick={handleLogout} 
-                      >
-                        Đăng Xuất
-                      </button>
-                      
-                    </div>
-                    
-                  )}
+{dropdownVisible && (
+    <div className="dropdownMenu">
+      <button className="logout-button">
+        <a href="/Reservation">Lịch Sử</a>
+      </button>
+      <button className="logout-button">
+        <a href="/updateuser">Tài Khoản</a>
+      </button>
+      {auth?.user.roleId === "2" && (
+        <button className="logout-button">
+          <a href="/studio">Quản lý studio</a>
+        </button>
+      )}
+      <button className="logout-button" onClick={handleLogout}>
+        Đăng Xuất
+      </button>
+    </div>
+  )}
                 </div>
               ) : (
                 <div className="auth-buttons">
