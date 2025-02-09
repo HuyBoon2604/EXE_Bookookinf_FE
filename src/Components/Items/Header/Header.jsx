@@ -60,8 +60,8 @@ export default function Header() {
       >
         <a href="/Course">LỚP NHẢY</a>
         <div className="dropdown">
-        <a href="/Course/class1">Course 1</a>
-        <a href="/Course/class2">Course 2</a>
+        <a href="/Course/class1">Lớp 2-4-6</a>
+        <a href="/Course/class2">Lớp 3-5-7</a>
   </div>
       </button>         
       <button 
