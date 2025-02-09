@@ -105,15 +105,15 @@ useEffect(() => {
         setStudios(studioDetails);
 
         // Bước 3: Lấy thông tin tài khoản từ accountId của studio
-        const accountDetails = await fetchAccountDetails(studioDetails.accountId);
+        const accountDetails = await fetchAccountDetails(studioDetails.studio?.accountId);
         setUser(accountDetails);
 
         // Tạo mảng images từ thông tin studio
         const studioImages = [
-          studioDetails.image?.imageUrl1 && { src: studioDetails.image.imageUrl1, name: "Hình 1" },
-          studioDetails.image?.imageUrl2 && { src: studioDetails.image.imageUrl2, name: "Hình 2" },
-          studioDetails.image?.imageUrl3 && { src: studioDetails.image.imageUrl3, name: "Hình 3" },
-          studioDetails.image?.imageUrl4 && { src: studioDetails.image.imageUrl4, name: "Hình 4" },
+          studioDetails.imageUrl1 && { src: studioDetails.imageUrl1, name: "Hình 1" },
+          studioDetails.imageUrl2 && { src: studioDetails.imageUrl2, name: "Hình 2" },
+          studioDetails.imageUrl3 && { src: studioDetails.imageUrl3, name: "Hình 3" },
+          studioDetails.imageUrl4 && { src: studioDetails.imageUrl4, name: "Hình 4" },
           { src: "/ee53ddddc8801eaa90470f5c25934df9.jpg", name: "Hình 5" },
           { src: "/ee53ddddc8801eaa90470f5c25934df9.jpg", name: "Hình 6" },
           { src: "/ee53ddddc8801eaa90470f5c25934df9.jpg", name: "Hình 7" },
@@ -142,7 +142,7 @@ async function fetchClassDetails(classId) {
 
 // Hàm lấy chi tiết studio theo studioId
 async function fetchStudioDetails(studioId) {
-  const response = await api.get(`/api/Studio/Get-Studio-By-Id?id=${studioId}`);
+  const response = await api.get(`/Get-All-Image-Of-Studio-By-StudioId?StudioId=${studioId}`);
   if (response.status === 200 && response.data) {
     return response.data;
   }
