@@ -86,7 +86,7 @@ function App() {
 <Route path="/checkout-success" element={<SucessPage />} />
 
         {/* Trang Admin Check Studio */}
-        <Route path="/admin-check-studio" element={<AdminCheckStudioPage />} />
+        {/* <Route path="/admin-check-studio" element={<AdminCheckStudioPage />} /> */}
       </Routes>
     </>
   );
