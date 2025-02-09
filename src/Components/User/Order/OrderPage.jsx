@@ -40,6 +40,62 @@ const OrderPage = () => {
       fetchOrder();
     }, []);
     // Tạo Order
+    // useEffect(() => {
+    //     const createOrderAndPayment = async () => {
+    //         if (Bookingid) {
+    //             try {
+    //                 const createOrder = await api.post(
+    //                     `/Create-New-Order?BookingId=${Bookingid}`
+    //                 );
+
+    //                 if (createOrder.status === 200 && createOrder.data) {
+    //                     const orderId1 = createOrder.data.id;
+    //                     setOrderId(orderId1);
+    //                     console.log('Order created successfully, ID:', orderId1);
+    //                 } else {
+    //                     console.error(
+    //                         "Order creation failed or response is missing 'id'.",
+    //                         createOrder
+    //                     );
+    //                 }
+    //             } catch (error) {
+    //                 console.error('Error creating order:', error);
+    //             }
+    //         }
+    //     };
+
+    //     createOrderAndPayment();
+    // }, [Bookingid]);
+
+    // Tạo payment link
+    // const createPaymentLink = async () => {
+    //     if (orderId) {
+    //         try {
+    //             const responsePayOs = await api.post(
+    //                 `/create-payment-link/${orderId}/checkout`
+    //             );
+
+    //             if (
+    //                 responsePayOs.status === 200 &&
+    //                 responsePayOs.data &&
+    //                 responsePayOs.data.checkoutUrl
+    //             ) {
+    //                 const checkoutUrl = responsePayOs.data.checkoutUrl;
+    //                 console.log('Checkout URL:', checkoutUrl);
+    //                 window.open(checkoutUrl, '_blank');
+    //             } else {
+    //                 console.error(
+    //                     "Payment link creation failed or response is missing 'checkoutUrl'.",
+    //                     responsePayOs
+    //                 );
+    //             }
+    //         } catch (error) {
+    //             console.error('Error creating payment link:', error);
+    //         }
+    //     } else {
+    //         console.warn('Order ID is missing. Cannot create payment link.');
+    //     }
+    // };
     const handleOrderAndPayment = async () => {
         if (!Bookingid) {
           console.log("Bookingid không tồn tại");
@@ -88,6 +144,7 @@ const OrderPage = () => {
         } catch (error) {
           console.error("Error creating order and payment link:", error);
         }
+      };
       };
     const Showconfirmcancel = () =>{
 confirmAlert({
@@ -226,6 +283,7 @@ onClick: () => handleCancelOrder(),
 
                     <button
                         className="ordernut"
+                        onClick={handleOrderAndPayment}
                         onClick={handleOrderAndPayment}
                         tabIndex={0}
                         aria-label="Book this dance class"

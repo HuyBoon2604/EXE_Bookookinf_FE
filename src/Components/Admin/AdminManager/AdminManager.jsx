@@ -74,7 +74,7 @@ const AdminManager = () => {
                  <img src={item.imageStudio} alt="" className='hinh-owner' />
               </div>
               <div className="details-lo">
-                <h3 className='admin-t'>{item.account.userName}</h3>
+                <h3 className='admin-t'>{item.account?.userName}</h3>
                 <p className='info-own'>
                   Create Date: {new Date(item.createAt).toLocaleDateString()} &nbsp; | &nbsp; Tên Studio: {item.studioName} &nbsp; |Địa chỉ:{item.studioAddress} &nbsp;
                 

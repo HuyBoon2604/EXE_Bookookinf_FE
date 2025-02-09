@@ -150,8 +150,9 @@
     transform: scaleX(1);
   }
   
-  .studio-table tr {
+  .studio-table .dautau {
     transition: all 0.3s ease;
+   
   }
   
   .studio-table tr:hover {

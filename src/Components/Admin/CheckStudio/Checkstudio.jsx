@@ -83,7 +83,7 @@ const Checkstudio = () => {
         ) : (
           <table className="studio-table">
             <thead>
-              <tr>
+              <tr className='dautau'>
                 <th>Tên Studio</th>
                 <th>Người đăng Studio</th>
                 <th>Hình ảnh</th>
@@ -99,10 +99,10 @@ const Checkstudio = () => {
               {Studio.map((studio) => (
                 <tr key={studio.id}>
                   <td>{studio.studioName}</td>
-                  <td>{studio.account.userName}</td>
+                  <td>{studio.userName}</td>
                   <td><img className='hinhstucheck' src={studio.imageStudio} alt="" /></td>
                   <td>{studio.studioAddress}</td>
-                  <td>{studio.account?.phone}</td>
+                  <td>{studio.phone}</td>
                   <td>{studio.pricing}VND</td>
                   <td>{studio.email}</td>
                   <td>{new Date(studio.createAt).toLocaleDateString()}</td>

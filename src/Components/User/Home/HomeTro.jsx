@@ -30,7 +30,7 @@ const HomeTro = () => {
         const response = await api.get(url);
         console.log('API raw response:', response);
         console.log('API data:', response.data);
-  
+        console.log('API $values:', response.data.$values);
       
         const extractedStudio = response.data?.$values || [];
         Setstudio(extractedStudio);
