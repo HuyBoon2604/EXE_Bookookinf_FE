@@ -14,6 +14,7 @@ export default function Studio() {
   const [ordersData, setOrdersData] = useState([]);
   const [ordersDataSuccess, setOrdersDataSuccess] = useState([]);
   const [studio, setStudio] = useState([]);
+  const [capacity, setCapacity] = useState([]);
   const { auth } = useAuth();
   const accountId = auth.user.id;
 
@@ -102,19 +103,23 @@ export default function Studio() {
     price: "",
     detail: "",
     address: "",
+    size: "",
+    quantity: "",
   }); // Dữ liệu form chỉnh sửa
 
   const handleEdit = (customer) => {
     setIsEditing(true); // Chuyển sang chế độ chỉnh sửa
     setEditingCustomer(customer); // Lưu thông tin studio
     setFormData({
-      id : customer.id,
-      poster : customer.imageStudio || "https://via.placeholder.com/40",
-      img : customer.imageStudio || "https://via.placeholder.com/40",
-      name: customer.studioName || "",
-      price: customer.pricing || "",
-      detail: customer.studioDescription || "",
-      address: customer.studioAddress || "",
+      id : customer.studioId,
+      poster : customer.studio?.imageStudio || "https://via.placeholder.com/40",
+      img : customer.studio?.imageStudio || "https://via.placeholder.com/40",
+      name: customer.studio?.studioName || "",
+      price: customer.studio?.pricing || "",
+      detail: customer.studio?.studioDescription || "",
+      address: customer.studio?.studioAddress || "",
+      size: customer.size.sizeDescription || "",
+      quantity: customer.quantity || ""
     });
   };
 
@@ -164,10 +169,11 @@ export default function Studio() {
       data.append("poster4", "");
       data.append("poster5", "");
       // Và các trường khác nếu cần:
-      data.append("Quantity", "");  // Nếu có
-      data.append("SizeId", "");    // Nếu có
+      data.append("Quantity",formData.quantity);  // Nếu có
+      data.append("SizeId",formData.size);    // Nếu có
   
       // Gọi API cập nhật studio với FormData
+      
       const response = await api.put(
         `api/Studio/Update-Studio-With-Capacity-Image?studioId=${formData.id}&accountId=${accountId}`,
         data,
@@ -349,6 +355,47 @@ useEffect(() => {
   fetchDataSuccess();
 }, [accountId]);
 
+useEffect(() => {
+  async function loadCapacityForActiveStudios() {
+    if (!studioIsActive || studioIsActive.length === 0) {
+      console.error("Không có studio active nào hoặc dữ liệu không hợp lệ.");
+      return;
+    }
+
+    try {
+      // Gọi API cho từng studio và thu thập kết quả
+      const capacitiesArray = await Promise.all(
+        studioIsActive.map(async (studio) => {
+          try {
+            const response = await api.get(`/Get-Capacity-By-StudioId?StudioId=${studio.id}`);
+            if (response.status === 200 && response.data) {
+              // Nếu dữ liệu được bọc trong $values thì lấy mảng đó, nếu không thì lấy trực tiếp
+              const capacityData = response.data.$values || response.data;
+              return capacityData;
+            } else {
+              console.error(`Không thể lấy thông tin capacity cho studio ${studio.id}.`);
+              return [];
+            }
+          } catch (error) {
+            console.error(`Lỗi khi gọi API get capacity cho studio ${studio.id}:`, error);
+            return [];
+          }
+        })
+      );
+
+      // Gộp tất cả kết quả vào một mảng duy nhất
+      const flattenedCapacities = capacitiesArray.flat();
+      setCapacity(flattenedCapacities);
+    } catch (error) {
+      console.error("Lỗi khi load capacity for active studios:", error);
+    }
+  }
+
+  loadCapacityForActiveStudios();
+}, [studioIsActive]);
+
+
+
 
   return (
     <div id="Studio">
@@ -499,7 +546,7 @@ useEffect(() => {
                     className="productImage"
                   />
                   <div className="imageControls">
-                    <span className="imageSize">Medium</span>
+                    <span className="imageSize">Tải hình ảnh </span>
                     <img
                       src="https://cdn.builder.io/api/v1/image/assets/c05fb6b607a34c3cab6bc37bd3664ed7/ba92d3688b6fd9de0346bb5670f498b04e1cea50f5dd4e592aee512ab7910bd3?apiKey=c05fb6b607a34c3cab6bc37bd3664ed7&"
                       alt="Size control"
@@ -520,43 +567,69 @@ useEffect(() => {
               </div>
               <div className="inputColumn">
                 <div className="inputGroup">
-                  {[
-                    {
-                      id: "name",
-                      label: "Tên Studio",
-                      placeholder: editingCustomer ? editingCustomer.studioName : "",
-                    },
-                    {
-                      id: "price",
-                      label: "Giá một giờ",
-                      placeholder: editingCustomer ? editingCustomer.pricing : "",
-                    },
-                    {
-                      id: "address",
-                      label: "Địa chỉ",
-                      placeholder: editingCustomer ? editingCustomer.studioAddress : "",
-                    },
-                    {
-                      id: "detail",
-                      label: "Chi tiết",
-                      placeholder: editingCustomer ? editingCustomer.studioDescription : "",
-                    },
-                  ].map((field) => (
-                    <div key={field.id} className="inputWrapper">
-                      <label htmlFor={field.id} className="inputLabel">
-                        {field.label}
-                      </label>
-                      <input
-                        type="text"
-                        id={field.id}
-                        className="inputField"
-                        placeholder={field.placeholder}
-                        value={formData[field.id]}
-                        onChange={handleInputChange(field.id)}
-                        aria-label={field.label}
-                      />
-                    </div>
-                  ))}
+                {[
+  {
+    id: "name",
+    label: "Tên Studio",
+    placeholder: editingCustomer ? editingCustomer.studio?.studioName : "",
+  },
+  {
+    id: "price",
+    label: "Giá một giờ",
+    placeholder: editingCustomer ? editingCustomer.studio?.pricing : "",
+  },
+  {
+    id: "address",
+    label: "Địa chỉ",
+    placeholder: editingCustomer ? editingCustomer.studio?.studioAddress : "",
+  },
+  {
+    id: "detail",
+    label: "Chi tiết",
+    placeholder: editingCustomer ? editingCustomer.studio?.studioDescription : "",
+  },
+  {
+    id: "size",
+    label: "Loại phòng",
+    placeholder: editingCustomer ? editingCustomer.size?.sizeDescription : "",
+  },
+  {
+    id: "quantity",
+    label: "Sức chứa",
+    placeholder: editingCustomer ? editingCustomer.quantity : "",
+  },
+].map((field) => (
+  <div key={field.id} className="inputWrapper">
+    <label htmlFor={field.id} className="inputLabel">
+      {field.label}
+    </label>
+    {field.id === "size" ? (
+      <select
+        id={field.id}
+        className="inputField"
+        value={formData[field.id]}
+        onChange={handleInputChange(field.id)}
+        aria-label={field.label}
+      >
+        <option value="">Chọn kích thước</option>
+        <option value="1">Nhỏ</option>
+        <option value="2">Vừa</option>
+        <option value="3">Lớn</option>
+      </select>
+    ) : (
+      <input
+        type="text"
+        id={field.id}
+        className="inputField"
+        placeholder={field.placeholder}
+        value={formData[field.id]}
+        onChange={handleInputChange(field.id)}
+        aria-label={field.label}
+      />
+    )}
+  </div>
+))}
+
                   <div className="actionButtons">
                     <button type="submit" className="submitButton">
                       Lưu
@@ -585,21 +658,25 @@ useEffect(() => {
           <th className="editCells">Địa chỉ</th>
           <th className="editCells">Miêu tả về Studio</th>
           <th className="editCells">Hành động</th>
+          <th className="editCells">Loại Phòng</th>
+          <th className="editCells">Sức Chứa</th>
         </tr>
       </thead>
       <tbody>
-        {studioIsActive.map((customer, index) => (
+        {capacity.map((customer, index) => (
           <tr className="editCard" key={`customer-${index}`}>
             <td className="editCell">
-              <img src= { customer.imageStudio ||
+              <img src= { customer.studio?.imageStudio ||
                "https://via.placeholder.com/40"} alt="icon" />
             </td>
             {/* order.studioDetails?.imageStudio ||
                                 "https://via.placeholder.com/40" */}
-            <td className="editCell">{customer.studioName}</td>
-            <td className="editCell">{customer.pricing}</td>
-            <td className="editCell">{customer.studioAddress}</td>
-            <td className="editCell">{customer.studioDescription}</td>
+            <td className="editCell">{customer.studio?.studioName}</td>
+        <td className="editCell">{customer.studio?.pricing}</td>
+        <td className="editCell">{customer.studio?.studioAddress}</td>
+        <td className="editCell">{customer.studio?.studioDescription}</td>
+        <td className="editCell">{customer.size?.sizeDescription}</td>
+        <td className="editCell">{customer.quantity}</td>
             
             <td className="editCell">
               <button
@@ -611,7 +688,7 @@ useEffect(() => {
               <button
               className="goButton"
               onClick={() => {
-              window.location.href = `/StudioInfor/${studioIsActive.id}`;
+              window.location.href = `/StudioInfor/${customer.studioId}`;
               }}>
                Đi đến Studio
                 </button>
@@ -658,7 +735,7 @@ useEffect(() => {
         <td className="editCell">
           <button
             className="editButton"
-            onClick={() => handleEdit(customer)}
+            // onClick={() => handleEdit(customer)}
           >
             Chờ Duyệt
           </button>

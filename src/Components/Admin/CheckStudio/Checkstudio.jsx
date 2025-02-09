@@ -99,7 +99,7 @@ const Checkstudio = () => {
               {Studio.map((studio) => (
                 <tr key={studio.id}>
                   <td>{studio.studioName}</td>
-                  <td>{studio.account.userName}</td>
+                  <td>{studio.account?.userName}</td>
                   <td><img className='hinhstucheck' src={studio.imageStudio} alt="" /></td>
                   <td>{studio.studioAddress}</td>
                   <td>{studio.account?.phone}</td>

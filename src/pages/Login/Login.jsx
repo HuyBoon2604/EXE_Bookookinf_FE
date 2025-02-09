@@ -80,7 +80,7 @@ useEffect(() => {
               navigate('/content');
           }
           if (user.roleId === '3') {
-              navigate('/contact');
+              navigate('/adminmanager');
               window.alert('Đăng nhập thành công');
           }
       } catch (error) {
