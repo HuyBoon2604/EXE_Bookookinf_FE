@@ -52,30 +52,39 @@ const Checkstudio = () => {
 
   const handleConfirmReject = async () => {
     try {
-      const url = 'api/Studio/Reject-Studio-Requets';
-      const data = {
-        studioId: selectedStudioId,
-        message: rejectReason
-      };
-      
-      console.log('Sending data:', data);
-      
-      const response = await api.post(url, data);
-      console.log('Response:', response);
-      
-      setShowRejectPopup(false);
-      setRejectReason('');
-      alert('Đã từ chối studio thành công');
-      
-      // Reload the page after successful rejection
-      window.location.reload();
-      
+        if (!selectedStudioId || !rejectReason.trim()) {
+            alert('Vui lòng nhập lý do từ chối');
+            return;
+        }
+
+        
+        const formData = new FormData();
+        formData.append('StudioId', selectedStudioId);  
+        formData.append('Message', rejectReason.trim());
+
+        console.log('📤 Sending FormData:', Object.fromEntries(formData));
+
+        const url = 'https://localhost:7199/api/Studio/Reject-Studio-Requets';
+
+        const response = await api.post(url, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+
+        console.log('✅ API Response:', response.data);
+
+        setShowRejectPopup(false);
+        setRejectReason('');
+        Setstudio(Studio.filter(studio => studio.id !== selectedStudioId));
+
+        alert('Đã từ chối studio thành công');
     } catch (error) {
-      console.log('Error data:', error.response?.data);
-      alert('Không thể từ chối studio');
-      console.error('Error rejecting studio:', error);
+        console.error('❌ API Error:', error.response?.data);
+        alert(`Không thể từ chối studio. Lỗi: ${JSON.stringify(error.response?.data, null, 2)}`);
     }
-  };
+};
+
 
   return (
     <div className="admin-check-studio">
