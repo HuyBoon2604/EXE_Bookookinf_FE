@@ -74,7 +74,7 @@ useEffect(() => {
               navigate('/Home');
           }
           if (user.roleId === '2') {
-              navigate('/createstu');
+              navigate('/Home');
           } 
           if (user.roleId === '4') {
               navigate('/content');
