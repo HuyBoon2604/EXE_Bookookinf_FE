@@ -1,5 +1,6 @@
 import "./Contact.css"
-
+import { FaFacebook } from "react-icons/fa";
+import { FaInstagram } from "react-icons/fa";
 const Contact = () => {
   return (
     <div id="Contact">
@@ -39,7 +40,17 @@ const Contact = () => {
                         Địa chỉ văn phòng của chúng tôi
                         </h4>
                         <span className="contact-info_text e-text">
-                          Vinhomes Grand Park
+                          <div className="address-container">
+                            <div className="address">Vinhomes Grand Park, Q.9, HCM</div>
+                          </div>
+                          <div className="social-links">
+                            <a href="https://www.facebook.com/profile.php?id=61571884383793" target="_blank" rel="noopener noreferrer">
+                              <FaFacebook style={{ color: "#1877F2", fontSize: "24px" }} />
+                            </a>
+                            <a href="https://www.instagram.com/colordanhub.dance/" target="_blank" rel="noopener noreferrer">
+                              <FaInstagram style={{ color: "#E4405F", fontSize: "24px" }} />
+                            </a>
+                          </div>
                         </span>
                       </div>
                     </div>
@@ -54,8 +65,10 @@ const Contact = () => {
                         Số điện thoại
                         </h4>
                         <span className="contact-info_text  e-text">
-                          <a href="tel:+16312020088">(+163)-1202-0088</a>
-                          <a href="tel:+65485965789">(+65) - 48596 - 5789</a>
+                          <a href="tel:+16312020088">033.820.1339</a>
+                        </span>
+                        <span className="contact-info_text  e-text">
+                          <a href="mailto:colordanhub@gmail.com">colordanhub@gmail.com</a>
                         </span>
                       </div>
                     </div>
@@ -312,7 +325,7 @@ const Contact = () => {
                                       <option value="Hip-hop">Hip-hop</option>
                                       <option value="Classic">Classic</option>
                                       <option value="Modern">Modern</option>
-                                      <option value="Kid’s">Kid’s</option>
+                                      <option value="Kid's">Kid's</option>
                                       <option value="Pole Dance">
                                         Pole Dance
                                       </option>
