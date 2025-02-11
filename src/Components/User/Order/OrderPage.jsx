@@ -3,8 +3,8 @@ import { useParams } from 'react-router-dom';
 import api from '../../utils/requestAPI';
 import './OrderPage.css';
 import { useNavigate } from 'react-router-dom';
-import { confirmAlert } from 'react-confirm-alert'; 
-import 'react-confirm-alert/src/react-confirm-alert.css'; 
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 
 const OrderPage = () => {
     const { Bookingid } = useParams();
@@ -23,110 +23,96 @@ const OrderPage = () => {
             time: '11:00 - 13:00',
         },
     ]);
-    useEffect (() => {
-      const fetchOrder = async () => {
-        const url = `/Get-Booking-By-BookingiD?bookingid=${Bookingid}`;
-        try {
-          const response = await api.get(url);
-          
-          console.log('API response:', response.data);
-          SetOrder(response.data);
-        } catch (error) {
-          console.error('Error fetching course data:', error);
-        }
-      };
-  
-     
-      fetchOrder();
-    }, []);
-    // Tạo Order
+
+    useEffect(() => {
+        const fetchOrder = async () => {
+            const url = `/Get-Booking-By-BookingiD?bookingid=${Bookingid}`;
+            try {
+                const response = await api.get(url);
+                console.log('API response:', response.data);
+                SetOrder(response.data);
+            } catch (error) {
+                console.error('Error fetching course data:', error);
+            }
+        };
+
+        fetchOrder();
+    }, [Bookingid]);
+
     const handleOrderAndPayment = async () => {
         if (!Bookingid) {
-          console.log("Bookingid không tồn tại");
-          return;
+            console.log("Bookingid không tồn tại");
+            return;
         }
-      
+
         try {
-          // tạo mới order
-          const createOrderResponse = await api.post(
-            `/Create-New-Order?BookingId=${Bookingid}`
-          );
-      
-          if (
-            createOrderResponse.status === 200 &&
-            createOrderResponse.data &&
-            createOrderResponse.data.id
-          ) {
-            const newOrderId = createOrderResponse.data.id;
-            console.log("Order created successfully, ID:", newOrderId);
-            
-            // tạo payment link 
-            const responsePayOs = await api.post(
-              `/create-payment-link/${newOrderId}/checkout`
+            // Tạo mới order
+            const createOrderResponse = await api.post(
+                `/Create-New-Order?BookingId=${Bookingid}`
             );
-      
+
             if (
-              responsePayOs.status === 200 &&
-              responsePayOs.data &&
-              responsePayOs.data.checkoutUrl
+                createOrderResponse.status === 200 &&
+                createOrderResponse.data &&
+                createOrderResponse.data.id
             ) {
-              const checkoutUrl = responsePayOs.data.checkoutUrl;
-              console.log("Checkout URL:", checkoutUrl);
-              window.open(checkoutUrl, "_self"); 
+                const newOrderId = createOrderResponse.data.id;
+                console.log("Order created successfully, ID:", newOrderId);
+
+                // Tạo payment link
+                const responsePayOs = await api.post(
+                    `/create-payment-link/${newOrderId}/checkout`
+                );
+
+                if (
+                    responsePayOs.status === 200 &&
+                    responsePayOs.data &&
+                    responsePayOs.data.checkoutUrl
+                ) {
+                    const checkoutUrl = responsePayOs.data.checkoutUrl;
+                    console.log("Checkout URL:", checkoutUrl);
+                    window.open(checkoutUrl, "_self");
+                } else {
+                    console.error(
+                        "Payment link creation failed or response is missing 'checkoutUrl'.",
+                        responsePayOs
+                    );
+                }
             } else {
-              console.error(
-                "Payment link creation failed or response is missing 'checkoutUrl'.",
-                responsePayOs
-              );
+                console.error(
+                    "Order creation failed or response is missing 'id'.",
+                    createOrderResponse
+                );
             }
-          } else {
-            console.error(
-              "Order creation failed or response is missing 'id'.",
-              createOrderResponse
-            );
-          }
         } catch (error) {
-          console.error("Error creating order and payment link:", error);
+            console.error("Error creating order and payment link:", error);
         }
-      };
-    const Showconfirmcancel = () =>{
-confirmAlert({
-title: 'Hủy Order',
-message:'Bạn có chắc là sẽ hủy order hay không ?',
-buttons:[
-{
-label: 'có',
-onClick: () => handleCancelOrder(),
-
-},
-{
-    label:'không'
-},
-
-
-
-
-],
-
-
-
-
-}
-);
-
-
-
     };
+
+    const Showconfirmcancel = () => {
+        confirmAlert({
+            title: 'Hủy Order',
+            message: 'Bạn có chắc là sẽ hủy order hay không ?',
+            buttons: [
+                {
+                    label: 'có',
+                    onClick: () => handleCancelOrder(),
+                },
+                {
+                    label: 'không'
+                },
+            ],
+        });
+    };
+
     const handleCancelOrder = async () => {
         try {
             const response = await api.delete(`/Delete-Order-And-Booking-By-OrderId?orderID=${orderId}`);
             if (response.status === 200) {
                 console.log('Order cancelled successfully');
                 alert('Order has been cancelled');
-    
-               
+
                 setTimeout(() => {
-                   
                     navigate(`/StudioInfor/${Order.id}`);
                 }, 2000);
             } else {
@@ -206,11 +192,6 @@ onClick: () => handleCancelOrder(),
                             <span className="kovui">2000</span>
                         </div>
 
-                        {/* <div className="chuainfovui">
-                            <span className="quantityhour">Quantity Hour:</span>
-                            <span className="kovui">2</span>
-                        </div> */}
-
                         <div className="chuainfovui">
                             <span className="totalpricevui">
                                 Tổng tiền:
@@ -219,10 +200,7 @@ onClick: () => handleCancelOrder(),
                         </div>
                     </div>
 
-<button className='removebutton' onClick={Showconfirmcancel}>Hủy Order</button>
-
-
-
+                    <button className='removebutton' onClick={Showconfirmcancel}>Hủy Order</button>
 
                     <button
                         className="ordernut"
@@ -230,7 +208,7 @@ onClick: () => handleCancelOrder(),
                         tabIndex={0}
                         aria-label="Book this dance class"
                     >
-                        Yêu cầu đặt hàng 
+                        Yêu cầu đặt hàng
                     </button>
                 </div>
             </div>

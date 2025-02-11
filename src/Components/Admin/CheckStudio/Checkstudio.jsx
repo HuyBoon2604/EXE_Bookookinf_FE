@@ -5,17 +5,18 @@ import { Link, useLocation } from 'react-router-dom';
 
 const Checkstudio = () => {
   
- 
-   const [Studio, Setstudio] = useState([]);
+  const [Studio, Setstudio] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [showRejectPopup, setShowRejectPopup] = useState(false);
+  const [rejectReason, setRejectReason] = useState('');
+  const [selectedStudioId, setSelectedStudioId] = useState(null);
+
   useEffect(() => {
     const fetchStudio = async () => {
       const url = "api/Studio/Get-All-Studio-With-IsActive-False";
       try {
         const response = await api.get(url);
-        console.log('API raw response:', response);
-        console.log('API data:', response.data);
   
-      
         const extractedStudio = response.data?.$values || [];
         Setstudio(extractedStudio);
       } catch (error) {
@@ -26,16 +27,15 @@ const Checkstudio = () => {
     fetchStudio();
   }, []);
 
- 
-  const [loading, setLoading] = useState(false);
-
- 
   const handleApprove = async (studioId) => {
     setLoading(true); 
     try {
       const url = `api/Studio/Update-Status-Request-Studio?studioId=${studioId}`; 
       await api.put(url); 
-     
+      
+      // Remove the approved studio from the list
+      Setstudio(Studio.filter(studio => studio.id !== studioId));
+
       alert('Đã duyệt studio thành công');
     } catch (error) {
       alert('Không thể duyệt studio');
@@ -45,18 +45,46 @@ const Checkstudio = () => {
     }
   };
 
-  
   const handleReject = async (studioId) => {
-    try {
-     
-      setTimeout(() => {
-        setPendingStudios(pendingStudios.filter(studio => studio.id !== studioId));
-        alert('Đã từ chối studio');
-      }, 500);
-    } catch (error) {
-      alert('Không thể từ chối studio');
-    }
+    setSelectedStudioId(studioId);
+    setShowRejectPopup(true);
   };
+
+  const handleConfirmReject = async () => {
+    try {
+        if (!selectedStudioId || !rejectReason.trim()) {
+            alert('Vui lòng nhập lý do từ chối');
+            return;
+        }
+
+        
+        const formData = new FormData();
+        formData.append('StudioId', selectedStudioId);  
+        formData.append('Message', rejectReason.trim());
+
+        console.log('📤 Sending FormData:', Object.fromEntries(formData));
+
+        const url = 'https://localhost:7199/api/Studio/Reject-Studio-Requets';
+
+        const response = await api.post(url, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+
+        console.log('✅ API Response:', response.data);
+
+        setShowRejectPopup(false);
+        setRejectReason('');
+        Setstudio(Studio.filter(studio => studio.id !== selectedStudioId));
+
+        alert('Đã từ chối studio thành công');
+    } catch (error) {
+        console.error('❌ API Error:', error.response?.data);
+        alert(`Không thể từ chối studio. Lỗi: ${JSON.stringify(error.response?.data, null, 2)}`);
+    }
+};
+
 
   return (
     <div className="admin-check-studio">
@@ -83,7 +111,7 @@ const Checkstudio = () => {
         ) : (
           <table className="studio-table">
             <thead>
-              <tr>
+              <tr className='dautau'>
                 <th>Tên Studio</th>
                 <th>Người đăng Studio</th>
                 <th>Hình ảnh</th>
@@ -99,10 +127,10 @@ const Checkstudio = () => {
               {Studio.map((studio) => (
                 <tr key={studio.id}>
                   <td>{studio.studioName}</td>
-                  <td>{studio.account?.userName}</td>
+                  <td>{studio.userName}</td>
                   <td><img className='hinhstucheck' src={studio.imageStudio} alt="" /></td>
                   <td>{studio.studioAddress}</td>
-                  <td>{studio.account?.phone}</td>
+                  <td>{studio.phone}</td>
                   <td>{studio.pricing}VND</td>
                   <td>{studio.email}</td>
                   <td>{new Date(studio.createAt).toLocaleDateString()}</td>
@@ -126,6 +154,27 @@ const Checkstudio = () => {
           </table>
         )}
       </div>
+      
+      {showRejectPopup && (
+        <div className="reject-popup-overlay">
+          <div className="reject-popup">
+            <h3>Lý do từ chối</h3>
+            <textarea
+              value={rejectReason}
+              onChange={(e) => setRejectReason(e.target.value)}
+              placeholder="Nhập lý do từ chối..."
+              rows="4"
+            />
+            <div className="reject-popup-buttons">
+              <button onClick={handleConfirmReject}>Gửi</button>
+              <button onClick={() => {
+                setShowRejectPopup(false);
+                setRejectReason('');
+              }}>Hủy</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

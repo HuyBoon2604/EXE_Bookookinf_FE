@@ -99,15 +99,19 @@ const Footer = () => {
         <div className="footer-section">
           <h3 className="footer-title">THÔNG TIN LIÊN HỆ</h3>
           <div className="contact-chua"> 
-            <p>Điện thoại: 1234567890</p>
-            <p>Email: company@email.com</p>
-            <p>Địa chỉ: 100 Smart Street, LA, USA</p>
+            <p>Điện thoại: 033.820.1339</p>
+            <p>Email: colordanhub@gmail.com</p>
+            <p>Địa chỉ: Vinhomes Grand Park, Q.9, HCM</p>
           </div>
           <div className="social-icons">
-            <FaFacebook style={{ color: "#1877F2", fontSize: "24px", marginLeft: "10px", marginTop:"5px" }} />
-            <FaInstagram style={{ color: "#E4405F", fontSize: "24px", marginLeft: "15px" }} />
-            <FaTwitter style={{ color: "#1DA1F2", fontSize: "24px", marginLeft: "15px" }} />
-            <FaLinkedin style={{ color: "#0A66C2", fontSize: "24px", marginLeft: "15px" }} />
+            <a href="https://www.facebook.com/profile.php?id=61571884383793" target="_blank" rel="noopener noreferrer">
+              <FaFacebook style={{ color: "#1877F2", fontSize: "24px", marginLeft: "15px" }} />
+            </a>
+            <a href="https://www.instagram.com/colordanhub.dance/" target="_blank" rel="noopener noreferrer">
+              <FaInstagram style={{ color: "#E4405F", fontSize: "24px", marginLeft: "30px" }} />
+            </a>
+            {/* <FaTwitter style={{ color: "#1DA1F2", fontSize: "24px", marginLeft: "15px" }} />
+            <FaLinkedin style={{ color: "#0A66C2", fontSize: "24px", marginLeft: "15px" }} /> */}
           </div>
         </div>
       </div>

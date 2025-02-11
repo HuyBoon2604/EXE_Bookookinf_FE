@@ -8,6 +8,7 @@ import useAuth from '../../../hooks/useAuth';
 const CreateStudioRequest = () => {
   const accountId = "ACc61f6"; 
   const { auth } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
 
   const [studioData, setStudioData] = useState({
     pricing: '',
@@ -70,9 +71,11 @@ const CreateStudioRequest = () => {
     e.preventDefault();
     setError('');
     setSuccess('');
+    setIsLoading(true);
 
     if (!studioData.imageStudio) {
       setError('Vui lòng chọn hình ảnh chính cho studio!');
+      setIsLoading(false);
       return;
     }
 
@@ -118,11 +121,21 @@ const CreateStudioRequest = () => {
     } catch (error) {
       setError('Có lỗi xảy ra khi tạo studio. Vui lòng thử lại!');
       console.error('Lỗi tạo studio:', error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
     <div className="page-wrapper">
+      {isLoading && (
+        <div className="loading-overlay">
+          <div className="loading-spinner">
+            <div className="spinner"></div>
+            <p>Đang tạo studio...</p>
+          </div>
+        </div>
+      )}
       <div className="create-studio-container">
         <h2>Tạo Studio Mới</h2>
         

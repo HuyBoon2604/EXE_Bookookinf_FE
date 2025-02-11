@@ -25,8 +25,7 @@ import SearchnePage from './pages/SearchPage/SearchnePage';
 import ReservationPage from './pages/ReservationPage/ReservationPage/ReservationPage';
 import CreateStuPage from './pages/CreateStu/CreateStuPage';
 import AccountManaPage1 from './pages/AccountManaPage/AccountManaPage1';
-import RequireAuth from "./components/ReqAuth/RequireAuth";
-
+import RequireAuth from './components/ReqAuth/RequireAuth'; // Bỏ .jsx extension
 
 import CheckStudio1 from './pages/CheckStudioPage/CheckStudio1';
 import UnauthorizedPage from './pages/UnauthorizedPage/UnauthorizedPage';
@@ -34,8 +33,8 @@ function App() {
   return (
     <>
       <Routes>
-        {/* Route mặc định chuyển hướng tới trang Login */}
-        <Route path="/" element={<Navigate to="/Login" />} /> {/* Trang mặc định */}
+        {/* Route mặc định */}
+        <Route path="/" element={<Navigate to="/Login" />} />
 
         {/* Trang Login */}
         <Route path="/Login" element={<Login />} />
