@@ -2,10 +2,13 @@
     "rewrites": [
       { "source": "/(.*)", "destination": "/" }
     ],
-    "builds": [
+    "routes": [
       {
-        "src": "package.json",
-        "use": "@vercel/node"
+        "src": "/[^.]+",
+        "dest": "/",
+        "status": 200
       }
-    ]
+    ],
+    "framework": "vite",
+    "outputDirectory": "dist"
   }
