@@ -25,7 +25,7 @@ import SearchnePage from './pages/SearchPage/SearchnePage';
 import ReservationPage from './pages/ReservationPage/ReservationPage/ReservationPage';
 import CreateStuPage from './pages/CreateStu/CreateStuPage';
 import AccountManaPage1 from './pages/AccountManaPage/AccountManaPage1';
-import RequireAuth from './components/ReqAuth/RequireAuth'; // Bỏ .jsx extension
+import RequireAuth from './Components/ReqAuth/RequireAuth'; // Bỏ .jsx extension
 
 import CheckStudio1 from './pages/CheckStudioPage/CheckStudio1';
 import UnauthorizedPage from './pages/UnauthorizedPage/UnauthorizedPage';
