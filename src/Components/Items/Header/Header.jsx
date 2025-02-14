@@ -49,16 +49,24 @@ export default function Header() {
       >
         <a href="/Home">TRANG CHỦ</a>
       </button>
-      {/* <button 
+      {auth?.user?.roleId === "2" && (
+      <button 
+        className={`navItem ${location.pathname === '/studio' ? 'active' : ''}`}
+      >
+        <a href="/studio">QUẢN LÝ STUDIO</a>
+      </button>
+       )}
+      <button 
         className={`navItem ${location.pathname === '/Rental' ? 'active' : ''}`}
       >
         THUÊ PHÒNG TẬP NHẢY
-      </button> */}
+      </button>
       <button 
-        className={`navItem ${location.pathname === '/Course' ? 'active' : ''}`}
+        className={`navItem ${location.pathname === '' ? 'active' : ''}`}
         
       >
-        <a href="/Course">LỚP NHẢY</a>
+      
+        LỚP NHẢY
         <div className="dropdown">
         <a href="/Course/class1">Lớp 2-4-6</a>
         <a href="/Course/class2">Lớp 3-5-7</a>

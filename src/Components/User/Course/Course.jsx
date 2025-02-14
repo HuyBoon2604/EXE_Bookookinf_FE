@@ -277,7 +277,7 @@ const handleShareClick = async () => {
       {/* <StudioHeader /> */}
       
       <div className="mainContent">
-      <div className="hostInfo">
+      {/* <div className="hostInfo">
               <img
                 src="https://chiemtaimobile.vn/images/companies/1/%E1%BA%A2nh%20Blog/avatar-facebook-dep/Anh-dai-dien-ngau-chat-cho-con-trai-hut-thuoc.jpg?1704788544123"
                 alt="Host Valentino Jr"
@@ -290,8 +290,8 @@ const handleShareClick = async () => {
                 {/* <span className="listedBy">Listed By:</span> */}
                 <h2 className="hostName">{user?.userName}</h2>
                 {/* <span className="priceRange">For: $ 1000 - $ 5000</span> */}
-              </div>
-            </div>
+              {/* </div>
+            </div> */}
       <div className="image-gallery">
         
         <div className="image-main">
@@ -488,14 +488,18 @@ const handleShareClick = async () => {
       
       <div className="detailsContainer">
         <div className="leftColumn">
-          <div>{ClassId.timeStart} - {ClassId.timeEnd}</div>
+        <div className="skillLevel">Thời Gian Học</div>
+        <div className="skillLevel">Ngày Bắt Đầu</div>
+        <div className="skillLevel">Ngày Kết Thúc</div>
           <div className="skillLevel">Trình Độ</div>
-          <div className="classDay">Ngày Học</div>
+          <div className="classDay">Ngày Học Trong Tuần</div>
           <div className="danceStyle">Phong Cách</div>
         </div>
         <div className="rightColumn">
           <div className="rightInner">
-            <div className="startDate">{ClassId.dateStart}</div>
+          <div className="skillLevel">{ClassId.timeStart} - {ClassId.timeEnd}</div> 
+            <div className="basic">{ClassId.dateStart}</div>
+            <div className="basic">{ClassId.dateEnd}</div>
             <div className="basic">Cơ Bản</div>
           </div>
           <div className="schedule">{ClassId.dateOfWeek}</div>

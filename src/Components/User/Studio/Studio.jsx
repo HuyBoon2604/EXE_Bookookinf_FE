@@ -19,7 +19,12 @@ export default function Studio() {
   const accountId = auth.user.id;
 
   
-
+  const formatPrice = (price) => {
+    if (typeof price !== "number" || isNaN(price)) {
+        return "0 VNĐ"; // Giá trị mặc định nếu `price` không hợp lệ
+    }
+    return `${price.toLocaleString()} VNĐ`;
+};
   // Tạo ref để tham chiếu đến input file
   const fileInputRef = useRef(null);
 
@@ -422,7 +427,7 @@ useEffect(() => {
                 className={`navItem ${activeNav === 'Edit Studio' ? 'active' : ''}`} 
                 onClick={() => handleNavClick('Edit Studio')}
               >
-                Chỉnh sửa Studio
+                Thông tin Studio
                 {activeNav === 'Edit Studio' && <div className="divider" role="separator" />}
               </div>
               <div 
@@ -474,11 +479,11 @@ useEffect(() => {
                             />
                           </td>
                           <td className="editCell">{order.accountDetails?.userName}</td>
-                          <td className="editCell">{order.booking?.totalPrice}</td>
+                          <td className="editCell">{formatPrice(order.booking?.totalPrice)}</td>
                           {/* <td className="editCell">{order.studioDetails?.studioSize}</td> */}
                           <td className="editCell">{order.booking?.checkIn}</td>
                           <td className="editCell">{order.booking?.checkOut}</td>
-                          <td className="editCell">{order.status ? "true" : "false"}</td>
+                          <td className="editCell">{order.status ? "Thành Công" : "Thất Bại"}</td>
                         </tr>
                       ))
                     ) : (
@@ -499,8 +504,8 @@ useEffect(() => {
       {/* <th className="editCells">Hình ảnh</th> */}
       <th className="editCells">Tên khách hàng</th>
       <th className="editCells">Số tiền</th>
-      <th className="editCells">Hình thức nhận</th>
-      <th className="editCells">Ngày nhận</th>
+      <th className="editCells">Hình thức thanh toán</th>
+      <th className="editCells">Ngày thanh toán</th>
       {/* <th className="editCells">Hành động</th> */}
     </tr>
   </thead>
@@ -511,7 +516,7 @@ useEffect(() => {
           <img src="https://via.placeholder.com/40" alt="icon" />
         </td> */}
         <td className="editCell">{customer.accountDetails?.userName}</td>
-        <td className="editCell">{customer.booking?.totalPrice}</td>
+        <td className="editCell">{formatPrice(customer.booking?.totalPrice)}</td>
         <td className="editCell">Chuyển khoản</td>
         <td className="editCell">{customer.booking?.bookingDate
         }</td>
@@ -575,7 +580,7 @@ useEffect(() => {
   },
   {
     id: "price",
-    label: "Giá một giờ",
+    label: "Số tiền một giờ",
     placeholder: editingCustomer ? editingCustomer.studio?.pricing : "",
   },
   {
@@ -585,7 +590,7 @@ useEffect(() => {
   },
   {
     id: "detail",
-    label: "Chi tiết",
+    label: "Thông tin chi tiết về Studio",
     placeholder: editingCustomer ? editingCustomer.studio?.studioDescription : "",
   },
   {
@@ -656,10 +661,12 @@ useEffect(() => {
           <th className="editCells">Tên Studio</th>
           <th className="editCells">Số tiền một giờ</th>
           <th className="editCells">Địa chỉ</th>
-          <th className="editCells">Miêu tả về Studio</th>
-          <th className="editCells">Hành động</th>
+          <th className="editCells">Thông tin chi tiết về Studio</th>
           <th className="editCells">Loại Phòng</th>
           <th className="editCells">Sức Chứa</th>
+          <th className="editCells">Chức Năng</th>
+          
+          
         </tr>
       </thead>
       <tbody>
