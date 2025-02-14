@@ -15,7 +15,7 @@ const Accountmanager = () => {
       
         console.log('API data:', response.data);
 
-        const extractedStudio = response.data?.$values || [];
+        const extractedStudio = Array.isArray(response.data) ? response.data : response.data?.$values || [];
         setaccount(extractedStudio);
       } catch (error) {
         console.error('Error fetching data:', error);

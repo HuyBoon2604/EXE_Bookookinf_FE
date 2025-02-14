@@ -29,9 +29,9 @@ export default function LabTabs() {
       const response = await api.get(
         `/Get-All-Order-Success-By-AccounId?accountId=${accountid}`
       );
-      const orders = response.data.$values || [];
-      console.log(orders);
-      setOrderSuccess(orders);
+      const extractedStudio = Array.isArray(response.data) ? response.data : response.data?.$values || [];
+      console.log(extractedStudio);
+      setOrderSuccess(extractedStudio);
     } catch (error) {
       toast.error("Error fetching orders data: " + error.message);
     } finally {
