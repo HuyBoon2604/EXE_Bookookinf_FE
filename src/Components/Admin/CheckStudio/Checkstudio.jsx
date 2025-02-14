@@ -17,7 +17,7 @@ const Checkstudio = () => {
       try {
         const response = await api.get(url);
   
-        const extractedStudio = response.data?.$values || [];
+        const extractedStudio = Array.isArray(response.data) ? response.data : response.data?.$values || [];
         Setstudio(extractedStudio);
       } catch (error) {
         console.error('Error fetching data:', error);
