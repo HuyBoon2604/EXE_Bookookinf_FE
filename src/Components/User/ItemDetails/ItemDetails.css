@@ -95,8 +95,8 @@
   font-size: 14px;
 }
 
-#item-details @media (max-width: 768px) {
-  #item-details #item-info {
+@media (max-width: 768px) {
+  #item-details {
     flex-direction: column;
   }
 
