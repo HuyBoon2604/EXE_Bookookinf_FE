@@ -15,8 +15,8 @@ const OrderCard = ({ order }) => {
     <Card key={order.id} sx={{ margin: "16px", padding: "16px" }}>
       {/* Header */}
       <CardHeader
-        title={`Order ID: ${order.id}`}
-        subheader={`Order Date: ${new Date(order.orderDate).toLocaleString()}`}
+        title={`Mã Đặt Hàng: ${order.id}`}
+        subheader={`Ngày Đặt: ${new Date(order.orderDate).toLocaleString()}`}
       />
 
       {/* Content */}
@@ -35,45 +35,45 @@ const OrderCard = ({ order }) => {
 
         {/* Booking ID */}
         <Typography variant="body2" color="textSecondary" component="p">
-          <strong>Booking ID:</strong> {order.bookingId || "N/A"}
+          {/* <strong>Booking ID:</strong> {order.bookingId || "N/A"} */}
         </Typography>
 
         {/* Pricing */}
         <Typography variant="body2" color="textSecondary" component="p">
-          <strong>Pricing:</strong>{" "}
+          <strong>Giá:</strong>{" "}
           {studio.pricing ? `${studio.pricing} VND` : "N/A"}
         </Typography>
 
         {/* Studio Name */}
         <Typography variant="body2" color="textSecondary" component="p">
-          <strong>Studio Name:</strong> {studio.studioName || "N/A"}
+          <strong>Tên studio:</strong> {studio.studioName || "N/A"}
         </Typography>
 
         {/* Studio Address */}
         <Typography variant="body2" color="textSecondary" component="p">
-          <strong>Studio Address:</strong> {studio.studioAddress || "N/A"}
+          <strong>Địa chỉ studio:</strong> {studio.studioAddress || "N/A"}
         </Typography>
 
         {/* Description */}
         <Typography variant="body2" color="textSecondary" component="p">
-          <strong>Description:</strong> {order.description || "N/A"}
+          <strong>Mô tả Studio:</strong> {order.description || "N/A"}
         </Typography>
 
         {/* Capacity */}
         <Typography variant="body2" color="textSecondary" component="p">
-          <strong>Capacity:</strong> {studio.capacity || "N/A"}
+          <strong>Sức chứa:</strong> {studio.capacity || "N/A"}
         </Typography>
 
         {/* Studio Size */}
         <Typography variant="body2" color="textSecondary" component="p">
-          <strong>Studio Size:</strong> {studio.studioSize || "N/A"}
+          <strong>Kích thước studio:</strong> {studio.studioSize || "N/A"}
         </Typography>
 
         {/* Status */}
         <Typography variant="body2" color="textSecondary" component="p">
-          <strong>Status:</strong>{" "}
+          <strong>Trạng thái:</strong>{" "}
           <span style={{ color: order.status ? "green" : "red" }}>
-            {order.status ? "Success" : "N/A"}
+            {order.status ? "Thành công" : "N/A"}
           </span>
         </Typography>
       </CardContent>

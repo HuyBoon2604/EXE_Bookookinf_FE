@@ -107,6 +107,7 @@
 #StudioInfor .booking-section {
   position: absolute;
   left: 65%;
+  height: 80%;
 }
 
 #StudioInfor .price-details {
@@ -135,6 +136,7 @@
 
 #StudioInfor .image-item {
   height: 34vh;
+  width: 100%
 }
 
 #StudioInfor .gallery-img {
@@ -225,7 +227,7 @@
 
 #StudioInfor .booking-form {
   border: 2px solid black;
-  height: 50vh;
+  height: 100%;
   margin-top: 3px;
   color: black;
 }
@@ -265,8 +267,9 @@
 #StudioInfor .booking-button {
   width: 70%;
   padding: 10px;
-  margin-top: 10vh;
-  margin-left: 7vh;
+  margin-top: 20%;
+  margin-left: 13%;
+  ;
   background-color: #9747FF;
   color: white;
   font-weight: bold;
@@ -317,6 +320,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
+ 
 }
 
 #StudioInfor .dollar {
@@ -328,7 +332,10 @@
   font-size: 18px;
   color: black;
 }
-
+.price{
+  font-size: 18px;
+  color: black;
+}
 #StudioInfor .dancer-masters-list {
   color: black;
   display: flex;

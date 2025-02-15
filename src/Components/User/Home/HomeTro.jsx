@@ -6,8 +6,10 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import 'swiper/css/autoplay';
+
 import { useTranslation } from 'react-i18next';
-import { Navigation, Pagination } from "swiper/modules";
+import { Navigation, Pagination,Autoplay } from "swiper/modules";
 import { CiGlobe } from "react-icons/ci";
 
 
@@ -79,6 +81,11 @@ const handleLanguageChange = (lng) => {
 const toggleLanguageDropdown = () => {
   setShowLanguages(!showLanguages);
 };
+const handleSeeMoreClick = (event, description) => {
+  event.preventDefault();
+  alert(description);
+};
+
   return (
     <div id="Home">
     <div className="homepage-body">
@@ -129,7 +136,7 @@ const toggleLanguageDropdown = () => {
 </div>
 
   <div className='imagewhychua'>
-  <img src="https://i.pinimg.com/736x/b0/81/a2/b081a21a7993f4beaede2ec6b5261a7d.jpg" alt="" className='imagewwhy' />
+  <img src="\Dance Studio Neon Sign, Custom Dancer Led Sign, Custom Dancer LED, Dance Studio Bedroom Neon Sign, Playroom Custom LED Neon Light Decor.jpg" alt="" className='imagewwhy' />
 </div><div className='Colordanbanchua'>
   <h2 className='Colordanban'>Bạn</h2>
 </div>
@@ -140,7 +147,7 @@ const toggleLanguageDropdown = () => {
   <h2 className='Colordangi'>Gì ?</h2>
 </div>
 
-<div className='chuahoahd'>
+{/* <div className='chuahoahd'>
 <img src="\flower.gif" alt="" className='hoahd' />
 </div>
 
@@ -148,26 +155,31 @@ const toggleLanguageDropdown = () => {
 
 <div className='chuahoahduoi'>
 <img src="\flower.gif" alt="" className='hoahduoi' />
-</div>
+</div> */}
 
-<div style={{ width:"50%", top: "50vh" ,position:"absolute", left:"90vh"}}>
-            <Swiper
-                modules={[Navigation, Pagination]}
-                navigation
-                spaceBetween={30}
-                slidesPerView={1}
-                loop={true}
-            >
-                {slides.map((slide, index) => (
-                    <SwiperSlide key={index}>
-                        <div className="baihopchus" >
-                            <h2 className="thebaihoc">{slide.title}</h2>
-                            <h4 className="desbaihoc">{slide.description}</h4>
-                        </div>
-                    </SwiperSlide>
-                ))}
-            </Swiper>
+<div style={{ width: "50%", top: "50vh", position: "absolute", left: "90vh" }}>
+  <Swiper
+    modules={[Navigation, Pagination, Autoplay]}
+    navigation
+    
+    spaceBetween={30}
+    slidesPerView={1}
+    loop={true}
+    autoplay={{
+      delay: 6000, 
+      disableOnInteraction: false, 
+    }}
+  >
+    {slides.map((slide, index) => (
+      <SwiperSlide key={index}>
+        <div className="baihopchus">
+          <h2 className="thebaihoc">{slide.title}</h2>
+          <h4 className="desbaihoc">{slide.description}</h4>
         </div>
+      </SwiperSlide>
+    ))}
+  </Swiper>
+</div>
       </div>
       <div className="pop-title-contian">    
          <h2 className="popular-title">STUDIO NỔI BẬT</h2> </div>
@@ -180,7 +192,9 @@ const toggleLanguageDropdown = () => {
         onClick={() => handleCardClick(studio.id)}>
           <div className="card-image">
             <img src={studio.imageStudio} alt={studio.title} />
-            <div className="card-price">{studio.pricing}VND/Giờ</div>
+            <div className="card-price">
+  {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(studio.pricing)} / Giờ
+</div>
           </div>
           <div className="card-content">
             <h3 className="card-title">{studio.studioName}</h3>
@@ -190,9 +204,15 @@ const toggleLanguageDropdown = () => {
               <span className="rating-reviews">👤 {studio.visitors}</span>
             </div>
             <p className="card-description">
-              {studio.studioDescription}
-              <a href="#"> Show more</a>
-            </p>
+                    {studio.studioDescription.length > 20 ? (
+                      <>
+                        {studio.studioDescription.substring(0, 100)}...
+                        <button onClick={(e) => handleSeeMoreClick(e, studio.studioDescription)} className="see-more-button">Xem thêm</button>
+                      </>
+                    ) : (
+                      studio.studioDescription
+                    )}
+                  </p>
           </div>
         </div>
       ))}

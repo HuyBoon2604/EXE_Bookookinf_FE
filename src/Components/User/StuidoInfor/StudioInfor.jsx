@@ -18,6 +18,9 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
 import useAuth from '../../../hooks/useAuth';
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
+
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
@@ -147,7 +150,21 @@ const [BookingId, setBookingId] = useState([]);
   const validateTime = (checkin, checkout) => {
     return checkout.isAfter(checkin);
   };
-  
+   const Showconfirmbooking = () => {
+          confirmAlert({
+              title: 'Đặt Studio',
+              message: 'Bạn có muốn kiểm tra lại thông tin trước khi đặt studio ?',
+              buttons: [
+                  {
+                      label: 'Không',
+                      onClick: () => handleBooking(),
+                  },
+                  {
+                      label: 'Có'
+                  },
+              ],
+          });
+      };
   const handleBooking = async () => {
     if (!validateTime(checkin, checkout)) {
       toast.error("Thời gian checkout phải lớn hơn thời gian checkin!");
@@ -172,7 +189,7 @@ const [BookingId, setBookingId] = useState([]);
       const response = await api.post(url, data);
       if (response.status === 200 && response.data && response.data.id) {
         const cBookingId = response.data.id;
-        alert('Create Booking Success!');
+       
         navigate(`/order/${cBookingId}`);
         console.log("cBooking created successfully, ID:", cBookingId);
       } else {
@@ -326,7 +343,9 @@ const [BookingId, setBookingId] = useState([]);
          
        
           <div className="price-details">
-            <span className="price">{studio.studio?.pricing}VND/Giờ</span>
+          <span className="price">
+  {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(studio.studio?.pricing)} / Giờ
+</span>
             <span className="discount">10% off</span>
           </div>
           <div className="booking-form">
@@ -381,7 +400,7 @@ const [BookingId, setBookingId] = useState([]);
 
             <button 
         className="booking-button"
-        onClick={handleBooking} 
+        onClick={Showconfirmbooking} 
         tabIndex={0}
         aria-label="Book this dance class"
       
@@ -452,7 +471,7 @@ const [BookingId, setBookingId] = useState([]);
 
       {visibleReviews < review.length && ( 
         <button className="show-more-button" onClick={handleShowMore}>
-          Show More
+          Xem thêm
         </button>
       )}
     </div>

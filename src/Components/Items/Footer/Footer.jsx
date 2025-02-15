@@ -13,8 +13,7 @@ const Footer = () => {
         <div className="footer-section">
           <h2 className="footer-logo">Colordanhub</h2>
           <p className="footer-description">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          Nền tảng ứng dụng cho phép người dùng có thể theo dõi thông tin: địa chỉ, giá cả, chất lượng phòng tập, loại hình phòng tập, thời gian mở cửa, đánh giá và review từ người dùng khác,...một cách nhanh chóng và thuận tiện, giúp khách hàng tối ưu hóa thời gian trong việc chọn lựa các phòng tập nhảy và studio.
           </p>
           <button className="playstore-button">
             <svg
@@ -104,11 +103,19 @@ const Footer = () => {
             <p>Địa chỉ: 100 Smart Street, LA, USA</p>
           </div>
           <div className="social-icons">
-            <FaFacebook style={{ color: "#1877F2", fontSize: "24px", marginLeft: "10px", marginTop:"5px" }} />
-            <FaInstagram style={{ color: "#E4405F", fontSize: "24px", marginLeft: "15px" }} />
-            <FaTwitter style={{ color: "#1DA1F2", fontSize: "24px", marginLeft: "15px" }} />
-            <FaLinkedin style={{ color: "#0A66C2", fontSize: "24px", marginLeft: "15px" }} />
-          </div>
+      <a href="https://www.facebook.com/Colordanhub" target="_blank" rel="noopener noreferrer">
+        <FaFacebook style={{ color: "#1877F2", fontSize: "24px", marginLeft: "10px", marginTop: "5px" }} />
+      </a>
+      <a href="https://www.instagram.com/colordanhub.dance/" target="_blank" rel="noopener noreferrer">
+        <FaInstagram style={{ color: "#E4405F", fontSize: "24px", marginLeft: "15px" }} />
+      </a>
+      <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer">
+        <FaTwitter style={{ color: "#1DA1F2", fontSize: "24px", marginLeft: "15px" }} />
+      </a>
+      <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer">
+        <FaLinkedin style={{ color: "#0A66C2", fontSize: "24px", marginLeft: "15px" }} />
+      </a>
+    </div>
         </div>
       </div>
 
