@@ -206,8 +206,11 @@ body::-webkit-scrollbar-track {
 }
 .popular-title{
  
-margin-right: 8%;
-  color: White;
+margin-left: 6%;
+background: linear-gradient(to right, #ff00ff, #00ffff);
+-webkit-background-clip: text;
+color: transparent;
+
   font-size: 10vh;
  
   
@@ -218,7 +221,7 @@ margin-right: 8%;
   background-color: black;
   text-align: center;
  
-  margin-top: 10vh;
+  margin-top: 10%;
   width: 100%;
   
 }
@@ -581,43 +584,62 @@ from{
 }
 .whyne{
 font-size: 20vh;
+background: linear-gradient(to right, #ff00ff, #00ffff);
+-webkit-background-clip: text;
+color: transparent;
+text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff, 0 0 20px #00ffff, 0 0 40px #00ffff;
 }
 .whychua{
 width: 100%;
 position: absolute;
 bottom: 60vh;
 left: 30vh;
+
 }
 .Colordanbanchua{
   position: absolute;
-  left: 95vh;
-  top:38vh;
-  
+  left: 45%;
+  top:25%;
+  background: linear-gradient(to right, #ff00ff, #00ffff);
+-webkit-background-clip: text;
+color: transparent;
+text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff, 0 0 20px #00ffff, 0 0 40px #00ffff;
 }
 .Colordanban{
-  font-size: 15vh;
+  font-size: 20vh;
  
 
 }
 .Colordanduoc{
-  font-size: 15vh;
+  font-size: 20vh;
 }
 .Colordanduocchua{
   position: absolute;
-  left: 115vh;
-  top:55vh;
+  left: 52%;
+  top:48%;
+  background: linear-gradient(to right, #ff00ff, #00ffff);
+-webkit-background-clip: text;
+color: transparent;
+text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff, 0 0 20px #00ffff, 0 0 40px #00ffff;
 }
 .Colordangichua{
   position: absolute;
-  left: 148vh;
-  top:70vh;
+  left: 75%;
+  top:70%;
+  background: linear-gradient(to right, #ff00ff, #00ffff);
+-webkit-background-clip: text;
+color: transparent;
+text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff, 0 0 20px #00ffff, 0 0 40px #00ffff;
 }
 .Colordangi{
-  font-size: 15vh;
+  font-size: 20vh;
 }
 .Colordanhub{
 font-size: 20vh;
-
+background: linear-gradient(to right, #ff00ff, #00ffff);
+-webkit-background-clip: text;
+color: transparent;
+text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff, 0 0 20px #00ffff, 0 0 40px #00ffff;
 }
 .Colordanchua{
 position: absolute;
@@ -627,7 +649,7 @@ top:5vh;
 .imagewhychua{
 width: 50%;
 position: absolute;
-top: 35vh;
+top: 41%;
 left: 10vh;
 }
 .imagewwhy{
@@ -657,16 +679,16 @@ overflow: hidden;
 .thebaihoc{
 width: 60%;
 position: absolute;
-left: 2%;
-top:45%;
+
+top:55%;
 font-size: 2vh;
 
 }
 .desbaihoc{
 width: 50%;
 position: absolute;
-top: 52%;
-left: 2%;
+top: 60%;
+
 font-size: 2vh;
 
 }
@@ -676,7 +698,7 @@ font-size: 2vh;
 .swiper .swiper-button-prev {
 color: black !important;
 position: absolute !important;
-top: 44% !important;
+top: 53% !important;
 height: 40px !important; 
 width: 1rem !important;
 

@@ -11,6 +11,7 @@ const OrderPage = () => {
     const navigate = useNavigate();
     const [orderId, setOrderId] = useState('');
     const [Order, SetOrder] = useState([]);
+    const[host, sethost] =useState([]);
     const [studios] = useState([
         {
             id: 1,
@@ -37,8 +38,23 @@ const OrderPage = () => {
         };
 
         fetchOrder();
+        
     }, [Bookingid]);
-
+    useEffect(() => {
+        if (Order?.studioId) {
+            const fetchstuofuser = async () => {
+                try {
+                    const response = await api.get(`/api/Studio/Get-Studio-By-Id?id=${Order.studioId}`);
+                    console.log('API Host:', response.data);
+                    sethost(response.data);
+                } catch (error) {
+                    console.error('Error fetching data:', error);
+                }
+            };
+            fetchstuofuser();
+        }
+    }, [Order?.studioId]);
+    
     const handleOrderAndPayment = async () => {
         if (!Bookingid) {
             console.log("Bookingid không tồn tại");
@@ -91,15 +107,30 @@ const OrderPage = () => {
 
     const Showconfirmcancel = () => {
         confirmAlert({
-            title: 'Hủy Order',
+            title: 'Hủy Đơn',
             message: 'Bạn có chắc là sẽ hủy order hay không ?',
             buttons: [
                 {
-                    label: 'có',
+                    label: 'Có',
                     onClick: () => handleCancelOrder(),
                 },
                 {
-                    label: 'không'
+                    label: 'Không'
+                },
+            ],
+        });
+    };
+    const Showconfirmorder = () => {
+        confirmAlert({
+            title: 'Yêu cầu đặt hàng',
+            message: 'Bạn đã check kĩ thông tin chưa ?',
+            buttons: [
+                {
+                    label: 'Có',
+                    onClick: () => handleOrderAndPayment(),
+                },
+                {
+                    label: 'Không'
                 },
             ],
         });
@@ -122,6 +153,21 @@ const OrderPage = () => {
             console.error('Error cancelling order:', error);
         }
     };
+    const calculateHours = (checkIn, checkOut) => {
+        if (!checkIn || !checkOut) return 0; 
+      
+        
+        const checkInTime = new Date(`1970-01-01T${checkIn}`);
+        const checkOutTime = new Date(`1970-01-01T${checkOut}`);
+      
+    
+        const timeDifference = checkOutTime - checkInTime;
+      
+    
+        const hours = timeDifference / (1000 * 60 * 60);
+      
+        return hours;
+      };
 
     return (
         <div id="OrderPage">
@@ -129,44 +175,63 @@ const OrderPage = () => {
                 <div className="infoorder-stu">
                     {studios.map((studio) => (
                         <div className="infoorderstu-item" key={studio.id}>
-                            <div className="imageorder-stu">
+                           
+
+                            <div className="stu-infoorder">
+                                <div className="inforordercon">
+                                <h1 className="custumor-title">Thông tin đơn</h1>
+                                <div className="chuavuine">
+                                        <div className="nameofhost">
+                                            <strong>Người tạo studio</strong>{' '}
+                                            <div className='vuiquatr'>
+  <a href={`/profile/${host.account?.id}`}>
+    <img src={host.account?.imageUrl} className='anhhost' alt="" />
+  </a>
+</div> 
+                                           <span className='vuiquatr'>{host.account?.userName} </span> 
+                                        </div>
+                                    </div>
+                                    <div className="chuavuine">
+                                        <span className="nameofstu">
+                                            <strong>Tên Studio</strong>{' '}
+                                           <div className='vuiquatr'>{Order.studioName}</div> 
+                                        </span>
+                                    </div>
+                                    <div className="chuavuine">
+                                        <span className="typeofstu">
+                                            <strong>Kích Thước</strong> 
+                                            <div className='vuiquatr'>{studio.type}</div>
+                                        </span>
+                                    </div>
+                                    <div className="chuavuine">
+                                        <span className="Addressofstu">
+                                            <strong>Địa Điểm</strong>{' '}
+                                           <div className='vuiquatr'> {Order.studioAddress}</div>
+                                        </span>
+                                    </div>
+                                    <div className="chuavuine">
+                                        <span className="Timeofstu">
+                                            <strong>Mốc Thời Gian</strong> 
+                                            <div className='vuiquatr'>
+  {Order.checkIn?.split(' ')[1]} - {Order.checkOut?.split(' ')[1]}
+</div>
+                                        </span>
+                                    </div>
+                                    <div className="chuavuine">
+                                        <span className="Dateorderstu">
+                                            <strong>Ngày đặt</strong> <div className='vuiquatr'>
+  {Order.bookingDate?.split(' ')[0]}
+</div>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div className="imageorder-stu">
                                 <img
                                     src={Order.imageStudio}
                                     alt={studio.title}
                                     className="imageorder-con"
                                 />
                             </div>
-
-                            <div className="stu-infoorder">
-                                <div className="inforordercon">
-                                    <div className="chuavuine">
-                                        <span className="nameofstu">
-                                            <strong>Tên Studio:</strong>{' '}
-                                            {Order.studioName}
-                                        </span>
-                                    </div>
-                                    <div className="chuavuine">
-                                        <span className="typeofstu">
-                                            <strong>Kích Thước:</strong> {studio.type}
-                                        </span>
-                                    </div>
-                                    <div className="chuavuine">
-                                        <span className="Addressofstu">
-                                            <strong>Địa Điểm:</strong>{' '}
-                                            {Order.studioAddress}
-                                        </span>
-                                    </div>
-                                    <div className="chuavuine">
-                                        <span className="Timeofstu">
-                                            <strong>Mốc Thời Gian:</strong> {Order.checkIn}-{Order.checkOut}
-                                        </span>
-                                    </div>
-                                    <div className="chuavuine">
-                                        <span className="Dateorderstu">
-                                            <strong>Ngày đặt:</strong> {Order.bookingDate}
-                                        </span>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     ))}
@@ -176,35 +241,39 @@ const OrderPage = () => {
                     <h1 className="custumor-title">Thông tin khách hàng</h1>
                     <div className="chuainfoorder">
                         <div className="chuainfovui">
-                            <span className="phonevui">Số điện thoại:</span>
-                            <span className="kovui">0904762203</span>
+                            <span className="phonevui"><strong>Số điện thoại:</strong></span>
+                            <span className="kovui">{host.account?.phone}</span>
+                        </div>
+                        <div className="chuainfovui">
+                            <span className="phonevui"><strong>Email:</strong></span>
+                            <span className="kovui">{host.account?.email}</span>
                         </div>
 
                         <div className="chuainfovui">
-                            <span className="customername">Tên khách hàng:</span>
+                            <span className="customername"><strong>Tên khách hàng:</strong></span>
                             <span className="kovui">{Order.userName}</span>
                         </div>
 
                         <div className="chuainfovui">
                             <span className="Priceorder">
-                                Giá tiền trong 1 tiếng:
+                               <strong>Số giờ:</strong> 
                             </span>
-                            <span className="kovui">2000</span>
+                            <span className="kovui"> {calculateHours(Order.checkIn?.split(' ')[1], Order.checkOut?.split(' ')[1])} giờ</span>
                         </div>
 
                         <div className="chuainfovui">
                             <span className="totalpricevui">
-                                Tổng tiền:
+                               <strong> Tổng tiền:</strong>
                             </span>
-                            <span className="kovui">{Order.totalPrice}</span>
+                            <span className="kovui"> {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(Order.totalPrice)}</span>
                         </div>
                     </div>
 
-                    <button className='removebutton' onClick={Showconfirmcancel}>Hủy Order</button>
+                    <button className='removebutton' onClick={Showconfirmcancel}>Hủy Đơn</button>
 
                     <button
                         className="ordernut"
-                        onClick={handleOrderAndPayment}
+                        onClick={Showconfirmorder}
                         tabIndex={0}
                         aria-label="Book this dance class"
                     >

@@ -53,8 +53,8 @@ export default function LabTabs() {
             onChange={handleChange}
             aria-label="lab API tabs example"
           >
-            <Tab label="Lịch Sử" value="1" />
-            <Tab label="Đơn Hàng" value="2" />
+            {/* <Tab label="Lịch Sử" value="1" /> */}
+            <Tab label="Lịch sử đơn Hàng" value="2" />
           </TabList>
         </Box>
         <TabPanel value="1">
@@ -63,7 +63,7 @@ export default function LabTabs() {
 
         <TabPanel value="2">
           {loading ? (
-            <p>Loading...</p>
+            <p>Đang tải...</p>
           ) : orderSuccess.length > 0 ? (
             <Box
               sx={{
@@ -77,7 +77,7 @@ export default function LabTabs() {
               ))}
             </Box>
           ) : (
-            <p>No orders found.</p>
+            <p>Bạn chưa có đơn hàng nào.</p>
           )}
         </TabPanel>
       </TabContext>

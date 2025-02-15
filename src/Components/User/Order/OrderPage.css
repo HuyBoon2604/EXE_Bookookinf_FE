@@ -1,145 +1,153 @@
-#OrderPage .container-order {
+/* OrderPage.css */
+
+#OrderPage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    /* background-color: #f5f5f5; */
+   
+  }
+  
+  .container-order {
+    display: flex;
+    max-width: 1200px;
     width: 100%;
-    height: 50vh;
-    margin-top: 10vh;
-    display: flex;
-    margin-bottom: 20vh;
-}
-
-#OrderPage .infoorder-stu {
-    width: 70%;
+    /* background-color: #fff;
+    border-radius: 10px;  */
+     
+    
+   
+   
+  }
+  
+  .infoorder-stu {
+    flex: 1;
+    padding: 20px;
+    /* border-right: 1px solid #ddd; */
+    position: relative;
+    background-color: #fff;
+    border-radius: 10px; 
+    margin-right: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .infouser-order {
+    flex: 1;
+    padding: 20px;
+    margin-left: 20px;
     /* border: 1px solid black; */
-    /* overflow-y: scroll; */
-}
-
-/* #OrderPage .infoorder-stu::-webkit-scrollbar {
-    width: 10px; 
-}
-
-#OrderPage .infoorder-stu::-webkit-scrollbar-thumb {
-    background-color: black; 
-    border-radius: 5px;
-}
-
-#OrderPage .infoorder-stu::-webkit-scrollbar-track {
-    background-color: #f1f1f1; 
-} */
-
-#OrderPage .infouser-order {
-    width: 30%;
-    border: 1px solid black;
-    text-align: center;
-    height: 50vh;
-    margin-top: 5vh;
-    box-shadow: 5px 10px;
-    margin-right: 3vh;
-}
-
-#OrderPage .infoorderstu-item {
+    height: 30%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .infoorderstu-item {
     display: flex;
-    border: 1px solid black;
-    height: 50vh;
-    padding: 10px;
-    box-shadow: 5px 10px;
-    width: 90%;
-    margin-left: 2vh;
-    margin-top: 3vh;
-}
-
-#OrderPage .imageorder-con {
+    align-items: center;
+    margin-bottom: 20%;
+  }
+  
+  .imageorder-stu {
+    width: 100%;
+    height: 30vh;
+   
+    border-radius: 10px;
+  }
+  
+  .imageorder-con {
     width: 100%;
     height: 100%;
-}
-
-#OrderPage .imageorder-stu {
-    width: 80%;
-    height: 50vh;
-}
-
-#OrderPage .stu-infoorder {
-    width: 70%;
-}
-
-#OrderPage .chuavuine {
-    margin-top: 7vh;
-    margin-left: 4vh;
-    animation: leFadeInLeft 2s ease-in-out;
-}
-
-#OrderPage .custumor-title {
-    animation: leFadeInLeft 2s ease-in-out;
-}
-
-#OrderPage .chuavuive {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    object-fit: cover;
+  }
+  
+  .stu-infoorder {
+    margin-left: 20px;
     width: 100%;
-}
-
-#OrderPage .phonevui {
-    text-align: left;
-    flex: 1;
-}
-
-#OrderPage .kovui {
-    text-align: right;
-    flex: 1;
-}
-
-#OrderPage .chuainfoorder {
-    margin: 0 auto;
-    max-width: 600px; /* Adjust as per your needs */
-    padding: 20px;
-}
-
-#OrderPage .chuainfovui {
+  }
+  
+  .inforordercon {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .chuavuine {
+    margin-bottom: 5%;
+  }
+  
+  .nameofstu, .typeofstu, .Addressofstu, .Timeofstu, .Dateorderstu {
+    font-size: 16px;
+    color: #333;
+  }
+  
+  .custumor-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .chuainfoorder {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .chuainfovui {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    animation: leFadeInLeft 2s ease-in-out;
-    margin-top: 3vh;
+    margin-bottom: 10%;
+  }
+  
+  .phonevui, .customername, .Priceorder, .totalpricevui {
+    font-size: 16px;
+    color: #555;
+  }
+  
+  .kovui {
+    font-size: 16px;
+    color: #333;
+  }
+  
+.vuiquatr{
+    margin-top: 3%;
 }
 
-#OrderPage .customername,
-#OrderPage .Priceorder,
-#OrderPage .quantityhour,
-#OrderPage .totalpricevui {
-    flex: 1;
-    text-align: left;
-}
-
-#OrderPage .kovui {
-    text-align: right;
-}
-
-#OrderPage .buttonorder {
-    height: 5vh;
-}
-
-#OrderPage .ordernut {
-    height: 5vh;
-    font-size: large;
-    background-color: #9747FF;
-    color: white;
-    margin-left: 5vh;
-    margin-top: 10vh;
-    border-radius: 20px;
-}
-
-#OrderPage @keyframes leFadeInLeft {
-    from {
-        opacity: 0;
-        transform: translateX(-60px);
-    }
-    to {
-        opacity: 1;
-    }
-}
-.removebutton{
-    background-color:black;
-    color: white;
-    height: 5vh;
-    font-size: large;
-    border-radius: 20px;
-}
+  
+  .removebutton, .ordernut {
+   
+    padding: 10px;
+    
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s ease;
+    margin-top: 20%;
+  }
+  
+  .removebutton {
+    background-color: white; 
+    color: black;
+    border-radius: 1px solid black;
+   
+  }
+  
+  .removebutton:hover {
+    background-color: black;
+    color: white; 
+  }
+  
+  .ordernut {
+    background-color: #9747FF; 
+    color: #fff;
+    margin-left: 55%;
+    
+  }
+  
+  .ordernut:hover {
+    background-color: #7f50bc; 
+  }
+  .anhhost{
+    width: 10%;
+    height: 10%;
+    border-radius: 50%;
+    border: 1px solid black;
+  }

@@ -13,8 +13,7 @@ const Footer = () => {
         <div className="footer-section">
           <h2 className="footer-logo">Colordanhub</h2>
           <p className="footer-description">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          Nền tảng ứng dụng cho phép người dùng có thể theo dõi thông tin: địa chỉ, giá cả, chất lượng phòng tập, loại hình phòng tập, thời gian mở cửa, đánh giá và review từ người dùng khác,...một cách nhanh chóng và thuận tiện, giúp khách hàng tối ưu hóa thời gian trong việc chọn lựa các phòng tập nhảy và studio.
           </p>
           <button className="playstore-button">
             <svg
