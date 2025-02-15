@@ -3,7 +3,10 @@
   color: #fff;
   padding: 20px 40px;
   font-family: Arial, sans-serif;
+  /* position: fixed; */
+  bottom: 0;
 }
+
 
 .footer-container {
   display: flex;
@@ -119,5 +122,5 @@
   margin-top: 20px;
 }
 .social-icons{
-  background-color: white;
+  /* background-color: white; */
 }

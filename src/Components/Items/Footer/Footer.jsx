@@ -104,10 +104,10 @@ const Footer = () => {
           </div>
           <div className="social-icons">
             <a href="https://www.facebook.com/profile.php?id=61571884383793" target="_blank" rel="noopener noreferrer">
-              <FaFacebook style={{ color: "#1877F2", fontSize: "24px", marginLeft: "15px" }} />
+              <FaFacebook style={{ color: "#1877F2", fontSize: "24px" }} />
             </a>
             <a href="https://www.instagram.com/colordanhub.dance/" target="_blank" rel="noopener noreferrer">
-              <FaInstagram style={{ color: "#E4405F", fontSize: "24px", marginLeft: "30px" }} />
+              <FaInstagram style={{ color: "#E4405F", fontSize: "24px", marginLeft: "15px" }} />
             </a>
             {/* <FaTwitter style={{ color: "#1DA1F2", fontSize: "24px", marginLeft: "15px" }} />
             <FaLinkedin style={{ color: "#0A66C2", fontSize: "24px", marginLeft: "15px" }} /> */}

@@ -69,10 +69,11 @@ const [BookingId, setBookingId] = useState([]);
         data.imageUrl2 && { src: data.imageUrl2, name: "Hình 2" },
         data.imageUrl3 && { src: data.imageUrl3, name: "Hình 3" },
         data.imageUrl4 && { src: data.imageUrl4, name: "Hình 4" },
-        {src:"/ee53ddddc8801eaa90470f5c25934df9.jpg", name:"Hình 5"},
+        data.imageUrl4 && { src: data.imageUrl5, name: "Hình 5" },
+       
         {src:"/ee53ddddc8801eaa90470f5c25934df9.jpg", name:"Hình 6"},
         {src:"/ee53ddddc8801eaa90470f5c25934df9.jpg", name:"Hình 7"},
-        {src:"/ee53ddddc8801eaa90470f5c25934df9.jpg", name:"Hình 8"},
+       
       ].filter(Boolean); 
   
       setImages(studioImages); 
@@ -247,7 +248,7 @@ const [BookingId, setBookingId] = useState([]);
 
   
         <div className="image-thumbnails">
-          {images.slice(1, -2).map((img, index) => (
+          {images.slice(0, -2).map((img, index) => (
             <div key={index} className="image-item">
               <img
                 src={img.src}
