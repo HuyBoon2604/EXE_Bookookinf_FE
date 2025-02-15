@@ -60,7 +60,7 @@ const UpdateuserPage = () => {
         formData.append('NewAva', avatarFile);
         
        
-        await api.put(`https://localhost:7199/api/Account/Update-Avatar-Account?accountId=${auth.user.id}`, formData, {
+        await api.put(`/api/Account/Update-Avatar-Account?accountId=${auth.user.id}`, formData, {
           headers: { 'Content-Type': 'multipart/form-data' },
         });
       }
@@ -77,9 +77,10 @@ const UpdateuserPage = () => {
 
   const fetchUser = useCallback(async () => {
     try {
-      const response = await api.get(`https://localhost:7199/api/Account/get-by-id?accountId=${auth.user.id}`);
+      const response = await api.get(`/api/Account/get-by-id?accountId=${auth.user.id}`);
+      console.log(response.data)
       const account = response.data;
-
+      const account1 = Array.isArray(response.data) ? response.data : response.data?.$values || [];
       if (account) {
         const fullname = account.userName || '';
         const nameParts = fullname.split(' ');
@@ -160,7 +161,7 @@ const UpdateuserPage = () => {
         </div>
         <div className='Input-user'>
           <div className='header-container'>
-            <h2 className='basic-info-title'>Basic information</h2>
+            <h2 className='basic-info-title'>Thông tin cá nhân</h2>
             <button onClick={() => handleviewprofile()} className='view-profile-button'>View Profile</button>
           </div>
           <div className='input-container'>
@@ -175,11 +176,11 @@ const UpdateuserPage = () => {
               </div>
             </div>
             <div className='input-group'>
-              <label htmlFor='phoneNumber' className='labelne'>Phone number</label>
+              <label htmlFor='phoneNumber' className='labelne'>Số điện thoại</label>
               <input type='text' id='phoneNumber' value={phone} onChange={(e) => setphone(e.target.value)} name='phoneNumber' className='phonenumber' placeholder='Phone number' />
             </div>
             <div className='input-group'>
-              <label htmlFor='dateofbirth' className='labelne'>Date of birth</label>
+              <label htmlFor='dateofbirth' className='labelne'>Ngày sinh</label>
               <input
                 type='text'
                 id='dateofbirth'

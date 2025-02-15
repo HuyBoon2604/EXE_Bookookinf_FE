@@ -7,10 +7,11 @@ import {
   colors,
 } from "@mui/material";
 
-const OrderCard = ({ order }) => {
-  // Kiểm tra studio từ order
+const OrderCard = ({ order, capacity }) => {
+  
   const studio = order.booking?.studio || {};
-
+  console.log("Received capacity:", capacity);
+  console.log("Received capacity:", capacity.quantity);
   return (
     <Card key={order.id} sx={{ margin: "16px", padding: "16px" }}>
       {/* Header */}
@@ -61,12 +62,14 @@ const OrderCard = ({ order }) => {
 
         {/* Capacity */}
         <Typography variant="body2" color="textSecondary" component="p">
-          <strong>Sức chứa:</strong> {studio.capacity || "N/A"}
-        </Typography>
+  <strong>Sức chứa:</strong>
+  {capacity.quantity}
+</Typography>
+
 
         {/* Studio Size */}
         <Typography variant="body2" color="textSecondary" component="p">
-          <strong>Kích thước studio:</strong> {studio.studioSize || "N/A"}
+          <strong>Kích thước studio:</strong> {capacity.size?.sizeDescription || "N/A"}
         </Typography>
 
         {/* Status */}

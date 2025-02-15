@@ -114,10 +114,11 @@ useEffect(() => {
           studioDetails.imageUrl2 && { src: studioDetails.imageUrl2, name: "Hình 2" },
           studioDetails.imageUrl3 && { src: studioDetails.imageUrl3, name: "Hình 3" },
           studioDetails.imageUrl4 && { src: studioDetails.imageUrl4, name: "Hình 4" },
-          { src: "/ee53ddddc8801eaa90470f5c25934df9.jpg", name: "Hình 5" },
+          studioDetails.imageUrl5 && { src: studioDetails.imageUrl4, name: "Hình 5" },
           { src: "/ee53ddddc8801eaa90470f5c25934df9.jpg", name: "Hình 6" },
           { src: "/ee53ddddc8801eaa90470f5c25934df9.jpg", name: "Hình 7" },
-          { src: "/ee53ddddc8801eaa90470f5c25934df9.jpg", name: "Hình 8" },
+          
+          
         ].filter(Boolean);
         setImages(studioImages);
         console.log("Images:", studioImages);
@@ -306,7 +307,7 @@ const handleShareClick = async () => {
 
   
         <div className="image-thumbnails">
-          {images.slice(1, -2).map((img, index) => (
+          {images.slice(0, -2).map((img, index) => (
             <div key={index} className="image-item">
               <img
                 src={img.src}
