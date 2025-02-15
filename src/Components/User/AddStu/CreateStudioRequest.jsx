@@ -97,7 +97,7 @@ const CreateStudioRequest = () => {
 
     try {
       await api.post(
-        `https://localhost:7199/api/Studio/Create-Request-Studio-With-Image?accountId=${auth.user.id}`,
+        `/api/Studio/Create-Request-Studio-With-Image?accountId=${auth.user.id}`,
         formData,
         { headers: { 'Content-Type': 'multipart/form-data' } }
       );

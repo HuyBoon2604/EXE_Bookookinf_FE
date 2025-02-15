@@ -10,8 +10,8 @@ import {
 const OrderCard = ({ order, capacity }) => {
   
   const studio = order.booking?.studio || {};
-  console.log("Received capacity:", capacity);
-  console.log("Received capacity:", capacity.quantity);
+  // console.log("Received capacity:", capacity);
+  // console.log("Received capacity:", capacity.quantity);
   return (
     <Card key={order.id} sx={{ margin: "16px", padding: "16px" }}>
       {/* Header */}

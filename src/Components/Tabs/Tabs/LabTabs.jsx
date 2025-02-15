@@ -114,8 +114,9 @@ useEffect(() => {
     const studioId = order.booking?.studio?.id || order.studioId;
     const capacity = Capa?.[studioId] || [];
     console.log("Capacity for studio", studioId, ":", capacity);
+   
     return (
-      <OrderCard key={order.id} order={order} capacity={capacity} />
+      <OrderCard key={order.id} order={order}  capacity={capacity}  />
     );
 })}
 
