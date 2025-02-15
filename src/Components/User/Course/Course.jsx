@@ -105,15 +105,15 @@ useEffect(() => {
         setStudios(studioDetails);
 
         // Bước 3: Lấy thông tin tài khoản từ accountId của studio
-        const accountDetails = await fetchAccountDetails(studioDetails.accountId);
+        const accountDetails = await fetchAccountDetails(studioDetails.studio?.accountId);
         setUser(accountDetails);
 
         // Tạo mảng images từ thông tin studio
         const studioImages = [
-          studioDetails.image?.imageUrl1 && { src: studioDetails.image.imageUrl1, name: "Hình 1" },
-          studioDetails.image?.imageUrl2 && { src: studioDetails.image.imageUrl2, name: "Hình 2" },
-          studioDetails.image?.imageUrl3 && { src: studioDetails.image.imageUrl3, name: "Hình 3" },
-          studioDetails.image?.imageUrl4 && { src: studioDetails.image.imageUrl4, name: "Hình 4" },
+          studioDetails.imageUrl1 && { src: studioDetails.imageUrl1, name: "Hình 1" },
+          studioDetails.imageUrl2 && { src: studioDetails.imageUrl2, name: "Hình 2" },
+          studioDetails.imageUrl3 && { src: studioDetails.imageUrl3, name: "Hình 3" },
+          studioDetails.imageUrl4 && { src: studioDetails.imageUrl4, name: "Hình 4" },
           { src: "/ee53ddddc8801eaa90470f5c25934df9.jpg", name: "Hình 5" },
           { src: "/ee53ddddc8801eaa90470f5c25934df9.jpg", name: "Hình 6" },
           { src: "/ee53ddddc8801eaa90470f5c25934df9.jpg", name: "Hình 7" },
@@ -142,7 +142,7 @@ async function fetchClassDetails(classId) {
 
 // Hàm lấy chi tiết studio theo studioId
 async function fetchStudioDetails(studioId) {
-  const response = await api.get(`/api/Studio/Get-Studio-By-Id?id=${studioId}`);
+  const response = await api.get(`/Get-All-Image-Of-Studio-By-StudioId?StudioId=${studioId}`);
   if (response.status === 200 && response.data) {
     return response.data;
   }
@@ -277,7 +277,7 @@ const handleShareClick = async () => {
       {/* <StudioHeader /> */}
       
       <div className="mainContent">
-      <div className="hostInfo">
+      {/* <div className="hostInfo">
               <img
                 src="https://chiemtaimobile.vn/images/companies/1/%E1%BA%A2nh%20Blog/avatar-facebook-dep/Anh-dai-dien-ngau-chat-cho-con-trai-hut-thuoc.jpg?1704788544123"
                 alt="Host Valentino Jr"
@@ -290,8 +290,8 @@ const handleShareClick = async () => {
                 {/* <span className="listedBy">Listed By:</span> */}
                 <h2 className="hostName">{user?.userName}</h2>
                 {/* <span className="priceRange">For: $ 1000 - $ 5000</span> */}
-              </div>
-            </div>
+              {/* </div>
+            </div> */}
       <div className="image-gallery">
         
         <div className="image-main">
@@ -488,14 +488,18 @@ const handleShareClick = async () => {
       
       <div className="detailsContainer">
         <div className="leftColumn">
-          <div>{ClassId.timeStart} - {ClassId.timeEnd}</div>
+        <div className="skillLevel">Thời Gian Học</div>
+        <div className="skillLevel">Ngày Bắt Đầu</div>
+        <div className="skillLevel">Ngày Kết Thúc</div>
           <div className="skillLevel">Trình Độ</div>
-          <div className="classDay">Ngày Học</div>
+          <div className="classDay">Ngày Học Trong Tuần</div>
           <div className="danceStyle">Phong Cách</div>
         </div>
         <div className="rightColumn">
           <div className="rightInner">
-            <div className="startDate">{ClassId.dateStart}</div>
+          <div className="skillLevel">{ClassId.timeStart} - {ClassId.timeEnd}</div> 
+            <div className="basic">{ClassId.dateStart}</div>
+            <div className="basic">{ClassId.dateEnd}</div>
             <div className="basic">Cơ Bản</div>
           </div>
           <div className="schedule">{ClassId.dateOfWeek}</div>

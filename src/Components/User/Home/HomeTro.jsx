@@ -32,17 +32,19 @@ const HomeTro = () => {
         const response = await api.get(url);
         console.log('API raw response:', response);
         console.log('API data:', response.data);
-        console.log('API $values:', response.data.$values);
-      
-        const extractedStudio = response.data?.$values || [];
+
+        // Check if response.data is an array or an object
+        const extractedStudio = Array.isArray(response.data) ? response.data : response.data?.$values || [];
+        
         Setstudio(extractedStudio);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
-  
+
     fetchStudio();
-  }, []);
+}, []);
+
   
   const handleCardClick = (id) => {
     navigate(`/StudioInfor/${id}`);
