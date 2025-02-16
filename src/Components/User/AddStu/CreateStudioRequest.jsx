@@ -18,6 +18,9 @@ const CreateStudioRequest = () => {
     studioSizeId: '', // Thêm trường này để lưu ID của kích thước studio
     capacity: '',
     imageStudio: null,
+    timeon:'',
+    timeoff:'',
+    tienichvuivui:'',
     images: Array(5).fill(null),
   });
 
@@ -88,6 +91,9 @@ const CreateStudioRequest = () => {
     formData.append('SizeId', studioData.studioSizeId); 
     formData.append('Quantity', studioData.capacity);
     formData.append('poster', studioData.imageStudio);
+    formData.append('TimeOn', studioData.timeon.toString());
+    formData.append('TimeOff', studioData.timeoff.toString());
+    formData.append('DescriptionAmentites', studioData.tienichvuivui)
 
     studioData.images.forEach((image, index) => {
       if (image) {
@@ -110,6 +116,9 @@ const CreateStudioRequest = () => {
         studioDescription: '',
         studioSizeId: '',
         capacity: '',
+        timeon:'',
+    timeoff:'',
+    tienichvuivui:'',
         imageStudio: null,
         images: Array(5).fill(null),
       });
@@ -156,6 +165,20 @@ const CreateStudioRequest = () => {
           <div className="form-group">
             <label>Địa Chỉ:</label>
             <input type="text" name="studioAddress" value={studioData.studioAddress} onChange={handleInputChange} required />
+          </div>
+          <div className="form-group">
+            <label>Thời gian mở cửa:</label>
+            <input type="time" name="timeon" value={studioData.timeon} onChange={handleInputChange} required />
+          </div>
+
+          <div className="form-group">
+            <label>Thời gian đóng cửa:</label>
+            <input type="time" name="timeoff" value={studioData.timeoff} onChange={handleInputChange} required />
+          </div>
+
+          <div className="form-group">
+            <label>Thông tin mô tả tiện ích:</label>
+            <input type="text" name="tienichvuivui" value={studioData.tienichvuivui} onChange={handleInputChange} required />
           </div>
 
           <div className="form-group">

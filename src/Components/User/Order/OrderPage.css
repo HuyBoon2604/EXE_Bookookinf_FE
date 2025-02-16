@@ -72,6 +72,7 @@
   
   .chuavuine {
     margin-bottom: 5%;
+    font-family: 'Poppins';
   }
   
   .nameofstu, .typeofstu, .Addressofstu, .Timeofstu, .Dateorderstu {
@@ -83,6 +84,7 @@
     font-size: 24px;
     margin-bottom: 20px;
     color: #333;
+    font-family: 'Poppins';
   }
   
   .chuainfoorder {
@@ -94,16 +96,19 @@
     display: flex;
     justify-content: space-between;
     margin-bottom: 10%;
+    
   }
   
   .phonevui, .customername, .Priceorder, .totalpricevui {
     font-size: 16px;
-    color: #555;
+    color: black;
+    font-family: 'Poppins';
   }
   
   .kovui {
     font-size: 16px;
-    color: #333;
+    color: black;
+    font-family: 'Poppins';
   }
   
 .vuiquatr{
@@ -114,7 +119,7 @@
   .removebutton, .ordernut {
    
     padding: 10px;
-    
+    font-family: 'Poppins';
     border-radius: 5px;
     font-size: 16px;
     cursor: pointer;

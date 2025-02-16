@@ -229,7 +229,9 @@ const [BookingId, setBookingId] = useState([]);
     
   //   createOrderAndPayment();
   //   }, [BookingId]);
-
+  const disablePastDates = (date) => {
+    return date.isBefore(dayjs(), 'day');
+  };
 
   return (
     <div id="StudioInfor">
@@ -359,7 +361,8 @@ const [BookingId, setBookingId] = useState([]);
             <div className="start-Date">
             <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DemoContainer  components={['DatePicker']}>
-        <DatePicker value={stardate}   onChange={handleDateChange} label="Ngày bắt đầu" />
+        <DatePicker value={stardate}   onChange={handleDateChange} label="Ngày bắt đầu" shouldDisableDate={disablePastDates} />
+        
       </DemoContainer>
     </LocalizationProvider>
     </div>
@@ -395,9 +398,7 @@ const [BookingId, setBookingId] = useState([]);
             <input type="time" id="time" className="endtime" value={checkout} onChange={(e)=> setcheckout(e.target.value)} /> */}
   </div>
            <div className="btn-booking">
-             {/* <button type="submit" className="booking-button" >
-             Đặt Ngay
-            </button> */}
+           
 
             <button 
         className="booking-button"

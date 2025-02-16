@@ -7,6 +7,10 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import 'swiper/css/autoplay';
+import Slider from "react-slick";
+
+import "slick-carousel/slick/slick.css"; 
+import "slick-carousel/slick/slick-theme.css";
 
 import { useTranslation } from 'react-i18next';
 import { Navigation, Pagination,Autoplay } from "swiper/modules";
@@ -68,7 +72,7 @@ const HomeTro = () => {
     {
         title: "Linh hoạt dành cho mọi người",
         description:
-            "Tìm các lựa chọn không gian đa dạng và dễ dàng đặt lịch chỉ với một lần bấmmmmmmmmmm.",
+            "Tìm các lựa chọn không gian đa dạng và dễ dàng đặt lịch chỉ với một lần bấm.",
     },
 ];
 const { t, i18n } = useTranslation();
@@ -86,6 +90,19 @@ const toggleLanguageDropdown = () => {
 const handleSeeMoreClick = (event, description) => {
   event.preventDefault();
   alert(description);
+};
+
+const settings = {
+  // dots: true,
+  infinite: true,
+  speed: 500,
+  slidesToShow: 3,
+  slidesToScroll: 1,
+  arrows: true, // Thêm dòng này để hiển thị mũi tên
+  responsive: [
+    { breakpoint: 1024, settings: { slidesToShow: 2 } },
+    { breakpoint: 600, settings: { slidesToShow: 1 } }
+  ]
 };
 
   return (
@@ -189,35 +206,41 @@ const handleSeeMoreClick = (event, description) => {
       <section className="popular-studios">
         
       <div className="studio-list">
-      {Studio.map((studio) => (
-        <div className="card" key={studio.id}
-        onClick={() => handleCardClick(studio.id)}>
-          <div className="card-image">
-            <img src={studio.imageStudio} alt={studio.title} />
-            <div className="card-price">
-  {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(studio.pricing)} / Giờ
-</div>
-          </div>
-          <div className="card-content">
-            <h3 className="card-title">{studio.studioName}</h3>
-            <p className="card-address">{studio.studioAddress}</p>
-            <div className="card-rating">
-              <span className="rating-stars">⭐ {studio.ratingId} ({studio.reviews})</span>
-              <span className="rating-reviews">👤 {studio.visitors}</span>
+      <Slider {...settings}>
+        {Studio.map((studio) => (
+          <div className="card" key={studio.id} onClick={() => handleCardClick(studio.id)}>
+            <div className="card-image">
+              <img src={studio.imageStudio} alt={studio.title} />
+              <div className="card-price">
+                {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(studio.pricing)} / Giờ
+              </div>
             </div>
-            <p className="card-description">
-                    {studio.studioDescription.length > 20 ? (
-                      <>
-                        {studio.studioDescription.substring(0, 100)}...
-                        <button onClick={(e) => handleSeeMoreClick(e, studio.studioDescription)} className="see-more-button">Xem thêm</button>
-                      </>
-                    ) : (
-                      studio.studioDescription
-                    )}
-                  </p>
+            <div className="card-content">
+              <h3 className="card-title">{studio.studioName}</h3>
+              <p className="card-address">{studio.studioAddress}</p>
+              <div className="card-rating">
+                <span className="rating-stars">⭐ {studio.ratingId} ({studio.reviews})</span>
+                <span className="rating-reviews">👤 {studio.visitors}</span>
+              </div>
+              <p className="card-description">
+                {studio.studioDescription.length > 20 ? (
+                  <>
+                    {studio.studioDescription.substring(0, 100)}...
+                    <button
+                      onClick={(e) => handleSeeMoreClick(e, studio.studioDescription)}
+                      className="see-more-button"
+                    >
+                      Xem thêm
+                    </button>
+                  </>
+                ) : (
+                  studio.studioDescription
+                )}
+              </p>
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </Slider>
     </div>
       </section>
 

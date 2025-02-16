@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useRef,useEffect } from 'react';
 import './Header.css';
 import useAuth from '../../../hooks/useAuth';
 import { Link, useLocation } from 'react-router-dom';
@@ -26,14 +26,31 @@ export default function Header() {
     console.log(t('homepage.findStudio'));
   
   };
+  const dropdownRef = useRef(null);
+
   const toggleLanguageDropdown = () => {
-    setShowLanguages(!showLanguages);
+    setShowLanguages((prev) => !prev);
   };
+
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setShowLanguages(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   return (
     <div id="Header">
       <div className="mainHeader">
         <div className="navGroup">
-          <a href="/home">
+          <a href="/home" className='thea'>
             <img
               loading="lazy"
               src="https://ava-grp-talk.zadn.vn/a/1/9/8/4/360/36650c664e257c37760d0f7a27fe0a8d.jpg"
@@ -41,13 +58,14 @@ export default function Header() {
               alt="Studio logo"
               width={62}
               height={62}
-            />
+            /> 
+             <h2 className="header-logo">Colordanhub</h2>
           </a>
           <nav className="navigation" aria-label="Main navigation">
       <button 
         className={`navItem ${location.pathname === '/Home' ? 'active' : ''}`}
       >
-        <a href="/Home">TRANG CHỦ</a>
+        <a href="/Home"  >TRANG CHỦ</a>
       </button>
       {auth?.user?.roleId === "2" && (
       <button 
@@ -78,13 +96,16 @@ export default function Header() {
         <a href="/Contact">LIÊN HỆ</a>
       </button>
     </nav>
-     <CiGlobe className="globe-icon"  onClick={toggleLanguageDropdown}  />
+    <div ref={dropdownRef}>
+       <CiGlobe className="globe-icon"  onClick={toggleLanguageDropdown}  />
                {showLanguages && (
                  <div className="language-dropdown">
                    <button className='btn_en' onClick={() => handleLanguageChange('en')}><img src='\united-states-of-america.png' className='anhmy'/> English</button>
                    <button className='btn_vi' onClick={() => handleLanguageChange('vi')}><img src='\vietnam.png' className='anhvietnam'/> Tiếng Việt</button>
                  </div>
                )}
+    </div>
+    
         </div>
 
         <div className="actionGroup">
