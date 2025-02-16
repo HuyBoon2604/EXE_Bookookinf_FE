@@ -1,17 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import api from '../../utils/requestAPI';
 import './OrderPage.css';
 import { useNavigate } from 'react-router-dom';
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
+import useAuth from '../../../hooks/useAuth';
 
 const OrderPage = () => {
     const { Bookingid } = useParams();
+    const { auth } = useAuth();
     const navigate = useNavigate();
     const [orderId, setOrderId] = useState('');
     const [Order, SetOrder] = useState([]);
     const[host, sethost] =useState([]);
+    const[user, setuser] =useState([]);
+    const [success, setSuccess] = useState('');
     const [studios] = useState([
         {
             id: 1,
@@ -30,7 +34,7 @@ const OrderPage = () => {
             const url = `/Get-Booking-By-BookingiD?bookingid=${Bookingid}`;
             try {
                 const response = await api.get(url);
-                console.log('API response:', response.data);
+                console.log('Booking:', response.data);
                 SetOrder(response.data);
             } catch (error) {
                 console.error('Error fetching course data:', error);
@@ -108,7 +112,7 @@ const OrderPage = () => {
     const Showconfirmcancel = () => {
         confirmAlert({
             title: 'Hủy Đơn',
-            message: 'Bạn có chắc là sẽ hủy order hay không ?',
+            message: 'Bạn có muốn hủy đơn này không ?',
             buttons: [
                 {
                     label: 'Có',
@@ -123,7 +127,7 @@ const OrderPage = () => {
     const Showconfirmorder = () => {
         confirmAlert({
             title: 'Yêu cầu đặt hàng',
-            message: 'Bạn đã check kĩ thông tin chưa ?',
+            message: 'Bạn đã kiểm tra đúng thông tin đơn ?',
             buttons: [
                 {
                     label: 'Có',
@@ -138,13 +142,14 @@ const OrderPage = () => {
 
     const handleCancelOrder = async () => {
         try {
-            const response = await api.delete(`/Delete-Order-And-Booking-By-OrderId?orderID=${orderId}`);
+            const response = await api.delete(`/Delete-Booking-By-BookingiD?bookingId=${Bookingid}`);
             if (response.status === 200) {
                 console.log('Order cancelled successfully');
-                alert('Order has been cancelled');
-
+                // alert('Order has been cancelled');
+                setSuccess("Cập nhật thành công!");
+                
                 setTimeout(() => {
-                    navigate(`/StudioInfor/${Order.id}`);
+                    navigate(`/StudioInfor/${Order.studioId}`);
                 }, 2000);
             } else {
                 console.error('Failed to cancel order:', response);
@@ -168,9 +173,25 @@ const OrderPage = () => {
       
         return hours;
       };
-
+      const fetchUser = useCallback(async () => {
+        try {
+          const response = await api.get(`/api/Account/get-by-id?accountId=${auth.user.id}`);
+          console.log(response.data)
+          const account = response.data;
+          
+          setuser(account);
+           
+        } catch (error) {
+          toast.error("Lỗi khi lấy thông tin người dùng!");
+        }
+      }, [auth.user.id]);
+    
+      useEffect(() => {
+        fetchUser();
+      }, [fetchUser]);
     return (
         <div id="OrderPage">
+            {success && <div className="success-message">{success}</div>}
             <div className="container-order">
                 <div className="infoorder-stu">
                     {studios.map((studio) => (
@@ -242,11 +263,11 @@ const OrderPage = () => {
                     <div className="chuainfoorder">
                         <div className="chuainfovui">
                             <span className="phonevui"><strong>Số điện thoại:</strong></span>
-                            <span className="kovui">{host.account?.phone}</span>
+                            <span className="kovui">{user.phone}</span>
                         </div>
                         <div className="chuainfovui">
                             <span className="phonevui"><strong>Email:</strong></span>
-                            <span className="kovui">{host.account?.email}</span>
+                            <span className="kovui">{user?.email}</span>
                         </div>
 
                         <div className="chuainfovui">

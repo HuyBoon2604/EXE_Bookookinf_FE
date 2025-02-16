@@ -107,12 +107,16 @@
 #StudioInfor .booking-section {
   position: absolute;
   left: 65%;
-  height: 80%;
+  height: 100%;
 }
 
 #StudioInfor .price-details {
   display: flex;
   gap: 10px;
+  border: 1px solid black;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: white;
 }
 
 #StudioInfor .booking-button:hover {
@@ -167,7 +171,7 @@
 
 #StudioInfor .rate-review {
   color: black;
-  margin-top: 4vh;
+  margin-top: 2.2%;
   margin-left: 6px;
 }
 
@@ -194,12 +198,14 @@
   font-size: larger;
   width: 70%;
   text-align: left;
+  font-family: 'Poppins';
 }
 
 #StudioInfor .studio-adress {
   margin-left: 5vh;
   font-size: 80%;
   color: grey;
+  font-family: 'Poppins';
 }
 
 #StudioInfor .studio-title {
@@ -212,7 +218,9 @@
   color: black;
   border: 2px solid black;
   height: 5vh;
+  font-weight: bold;
   align-items: center;
+  font-family: 'Poppins';
 }
 
 #StudioInfor .price-details .discount {
@@ -226,14 +234,41 @@
 }
 
 #StudioInfor .booking-form {
-  border: 2px solid black;
-  height: 100%;
-  margin-top: 3px;
-  color: black;
+  position: relative;
+  /* width: 100%; */
+  max-width: 600px;
+  margin-top: 2%;
+  padding: 20px;
+  border: 1px solid black;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: white;
+  
 }
 
-#StudioInfor .btn-booking {
-  margin-top: 1vh;
+.btn-booking {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.booking-button {
+  width: 100%;
+  max-width: 200px;
+  padding: 10px 20px;
+  background-color: #9747FF;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-left: 5%;
+  transition: background-color 0.3s ease;
+}
+
+.booking-button:hover {
+  background-color: #7c3aed;
 }
 
 #StudioInfor .start-Date {
@@ -249,7 +284,8 @@
 }
 
 #StudioInfor .dateandtime {
-  margin-left: 30%;
+  margin-left: 36%;
+  font-family: 'Poppins';
 }
 
 #StudioInfor .timechua {
@@ -264,17 +300,16 @@
   color: black;
 }
 
-#StudioInfor .booking-button {
+/* #StudioInfor .booking-button {
   width: 70%;
   padding: 10px;
   margin-top: 20%;
   margin-left: 13%;
-  ;
   background-color: #9747FF;
   color: white;
   font-weight: bold;
   border: 2px solid black;
-}
+} */
 
 #StudioInfor .reviews-section {
   color: black;
@@ -305,6 +340,7 @@
   padding: 5px 0;
   width: 50%;
   margin-top: 20px;
+  font-family: 'Poppins';
 }
 
 #StudioInfor .phukien {
@@ -385,6 +421,7 @@
 #StudioInfor .review-title {
   margin-top: 40px;
   color: black;
+  font-family: 'Poppins';
 }
 
 #StudioInfor .hinh-reviewer {
@@ -398,6 +435,7 @@
   margin-bottom: 20px;
   font-weight: bold;
   color: black;
+  font-family: 'Poppins';
   margin-left: 5vh;
 }
 
