@@ -148,6 +148,7 @@ async function fetchStudioDetails(studioId) {
     return response.data;
   }
   throw new Error("Không thể lấy thông tin studio.");
+ 
 }
 
 // Hàm lấy chi tiết account theo accountId
@@ -289,7 +290,7 @@ const handleShareClick = async () => {
               />
               <div className="hostDetails">
                 {/* <span className="listedBy">Listed By:</span> */}
-                <h2 className="hostName">{user?.userName}</h2>
+                {/* <h2 className="hostName">{user?.userName}</h2> */}
                 {/* <span className="priceRange">For: $ 1000 - $ 5000</span> */}
               {/* </div>
             </div> */}
@@ -297,7 +298,8 @@ const handleShareClick = async () => {
         
         <div className="image-main">
           <img
-            src={studio.imageStudio}
+            src={studio?.stduio?.imageStudio}
+
             alt=""
             className="main-img"
             onClick={() => setSelectedImage(studio.imageStudio)}
@@ -332,7 +334,7 @@ const handleShareClick = async () => {
         />
        
         <div className="overlay-text">
-          +{images.length - 6} more
+          +{images.length - 6} hình ảnh
         </div>
       </div>
     </div>

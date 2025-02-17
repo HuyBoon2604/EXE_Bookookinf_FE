@@ -80,7 +80,7 @@ export default function Header() {
         THUÊ PHÒNG TẬP NHẢY
       </button>
       <button 
-        className={`navItem ${location.pathname === '' ? 'active' : ''}`}
+        className={`navItem ${location.pathname.startsWith('/Course') ? 'active' : ''}`}
         
       >
       
@@ -122,6 +122,7 @@ export default function Header() {
                   <img
                     loading="lazy"
                     src="https://cdn.builder.io/api/v1/image/assets/TEMP/5df20729ee94e58904c9f308479cb5c731926066ec9735296b6160062a8c308b?placeholderIfAbsent=true&apiKey=c05fb6b607a34c3cab6bc37bd3664ed7"
+                    // src= {auth?.user?.imageUrl}
                     className="contentImage"
                     alt="User profile"
                     onClick={() => setDropdownVisible(!dropdownVisible)}

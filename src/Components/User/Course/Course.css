@@ -1,3 +1,6 @@
+#Course *{
+  font-family: "Poppins";
+}
 
 #Course .pageContainer {
   min-height: 100vh;
@@ -50,7 +53,7 @@
 
 #Course .price {
   color: #FFFFFF;
-  font-family: Montserrat, sans-serif;
+  
   font-size: 14px;
   font-weight: 700;
 }
@@ -84,14 +87,14 @@
 
 #Course .listedBy {
   color: #484848;
-  font-family: Montserrat, sans-serif;
+  
   font-size: 12px;
   font-weight: 500;
 }
 
 #Course .hostName {
   color: #484848;
-  font-family: Montserrat, sans-serif;
+  
   font-size: 18px;
   font-weight: 700;
   margin: 0;
@@ -99,7 +102,7 @@
 
 #Course .priceRange {
   color: #484848;
-  font-family: Montserrat, sans-serif;
+  
   font-size: 16px;
   font-weight: 500;
 }
@@ -148,7 +151,7 @@
   align-items: center;
   justify-content: center;
   color: #FFFFFF;
-  font-family: Montserrat, sans-serif;
+  
 }
 
 #Course .moreCount {
@@ -179,7 +182,7 @@
 }
 
 #Course .className {
-  font-family: Montserrat, sans-serif;
+  
   font-size: 28px;
   font-weight: 700;
   color: #484848;
@@ -187,14 +190,14 @@
 }
 
 #Course .teacherName {
-  font-family: Montserrat, sans-serif;
+  
   font-size: 16px;
   color: #9A9A9A;
   margin: 0 0 32px 0;
 }
 
 #Course .sectionTitle {
-  font-family: Montserrat, sans-serif;
+  
   font-size: 28px;
   font-weight: 700;
   color: #0E2A46;
@@ -203,7 +206,7 @@
 }
 
 #Course .description {
-  font-family: Montserrat, sans-serif;
+  
   font-size: 16px;
   line-height: 1.6;
   color: #9A9A9A;
@@ -229,7 +232,7 @@
 }
 
 #Course .reviewsTitle {
-  font-family: Montserrat, sans-serif;
+  
   font-size: 28px;
   font-weight: 700;
   color: #484848;
@@ -248,7 +251,7 @@
 }
 
 #Course .ratingScore {
-  font-family: Montserrat, sans-serif;
+  
   font-size: 22px;
   font-weight: 700;
   color: #484848;
@@ -288,7 +291,7 @@
 }
 
 #Course .reviewerName {
-  font-family: Montserrat, sans-serif;
+  
   font-size: 16px;
   font-weight: 700;
   color: #484848;
@@ -296,13 +299,13 @@
 }
 
 #Course .reviewDate {
-  font-family: Montserrat, sans-serif;
+  
   font-size: 14px;
   color: #9A9A9A;
 }
 
 #Course .reviewText {
-  font-family: Montserrat, sans-serif;
+  
   font-size: 15px;
   line-height: 1.6;
   color: #9A9A9A;
@@ -315,7 +318,7 @@
   background-color: #FFFFFF;
   border: 1px solid #484848;
   border-radius: 6px;
-  font-family: Montserrat, sans-serif;
+  
   font-size: 15px;
   font-weight: 600;
   color: #484848;
@@ -357,7 +360,7 @@
 }
 
 #Course .priceAmount {
-  font-family: Montserrat, sans-serif;
+  
   font-size: 28px;
   font-weight: 700;
   color: #484848;
@@ -371,7 +374,7 @@
 }
 
 #Course .priceText {
-  font-family: Montserrat, sans-serif;
+  
   font-size: 16px;
   color: #9A9A9A;
 }
@@ -382,7 +385,7 @@
   color: #FFFFFF;
   border-radius: 6px;
   text-align: center;
-  font-family: Montserrat, sans-serif;
+  
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
@@ -412,7 +415,7 @@
   align-self: center;
   display: flex;
   /* width: 80px; */
-  font-family: Montserrat, sans-serif;
+  
   color: rgba(0, 0, 0, 1);
   font-weight: 900;
   white-space: nowrap;
@@ -453,7 +456,7 @@
 #Course .priceTag {
   border-radius: 30px;
   background-color: rgba(224, 226, 230, 1);
-  font-family: Montserrat, sans-serif;
+  
   color: rgba(0, 0, 0, 1);
   font-weight: 700;
   white-space: nowrap;
@@ -528,7 +531,7 @@
   width: 100%;
   max-width: 282px;
   overflow: hidden;
-  font-family: Montserrat, sans-serif;
+  
   color: rgba(255, 255, 255, 1);
   font-weight: 900;
   white-space: nowrap;
