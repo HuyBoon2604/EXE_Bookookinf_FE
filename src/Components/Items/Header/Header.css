@@ -54,7 +54,18 @@
 
 #Header .navItem:hover {
   opacity: 1;
+  color: #9747FF ; /* Thay đổi mã màu theo ý bạn */
+  transition: color 0.4s ease;
 }
+#Header .navItem.active a:hover {
+  color: #ffffff !important;
+  transition: color 0.3s ease;
+}
+#Header .navItem a:hover {
+  color: #9747FF;
+  transition: color 0.3s ease;
+}
+
 
 #Header .navItem:focus-visible {
   outline: 2px solid #FFFFFF;
@@ -322,6 +333,10 @@ gap: 10px; /* Thêm khoảng cách giữa các phần tử (tùy chọn) */
 }
 
 #Header .navItem.active a {
+  color: rgba(151, 71, 255, 1);
+  
+}
+#Header .navItem.active {
   color: rgba(151, 71, 255, 1);
   
 }
