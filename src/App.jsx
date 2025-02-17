@@ -27,6 +27,8 @@ import RequireAuth from './Components/ReqAuth/RequireAuth'; // Bỏ .jsx extensi
 
 import CheckStudio1 from './pages/CheckStudioPage/CheckStudio1';
 import UnauthorizedPage from './pages/UnauthorizedPage/UnauthorizedPage';
+import ReviewPage from './pages/ReviewPage/ReviewPage';
+
 function App() {
   return (
     <>
@@ -84,6 +86,7 @@ function App() {
         </Route>
         <Route path="/unauthorized" element={<UnauthorizedPage />} />
         
+        <Route path="/review/:orderId/:studioId" element={<ReviewPage />} />
       </Routes>
     </>
   );

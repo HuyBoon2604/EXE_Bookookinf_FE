@@ -5,9 +5,13 @@ import {
   CardContent,
   Typography,
   colors,
+  CardActions,
+  Button,
+  Box,
+  Rating,
 } from "@mui/material";
 
-const OrderCard = ({ order, capacity }) => {
+const OrderCard = ({ order, capacity, onReviewClick }) => {
   
   const studio = order.booking?.studio || {};
   // console.log("Received capacity:", capacity);
@@ -62,8 +66,8 @@ const OrderCard = ({ order, capacity }) => {
 
         {/* Capacity */}
         <Typography variant="body2" color="textSecondary" component="p">
-  <strong>Sức chứa:</strong>
-  {capacity.quantity}
+  <strong>Sức chứa: </strong>
+  {capacity.quantity} Người
 </Typography>
 
 
@@ -79,7 +83,51 @@ const OrderCard = ({ order, capacity }) => {
             {order.status ? "Thành công" : "N/A"}
           </span>
         </Typography>
+
+        {/* Add Review Display */}
+        {order.review && (
+          <Box sx={{ mt: 2, borderTop: '1px solid #e0e0e0', pt: 2 }}>
+            <Typography variant="body2" color="textSecondary" component="p">
+              <strong>Đánh giá của bạn:</strong>
+            </Typography>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, my: 1 }}>
+              <Rating value={order.review.rating} readOnly size="small" />
+              <Typography variant="body2" color="textSecondary">
+                ({order.review.rating}/5)
+              </Typography>
+            </Box>
+            {order.review.comment && (
+              <Typography variant="body2" color="textSecondary" sx={{ mt: 1 }}>
+                "{order.review.comment}"
+              </Typography>
+            )}
+          </Box>
+        )}
       </CardContent>
+      <CardActions>
+        <Button 
+          variant="contained" 
+          onClick={onReviewClick}
+          sx={{ 
+            mt: 1,
+            bgcolor: '#5e35b1',
+            '&:hover': {
+              bgcolor: '#4527a0',
+            },
+            textTransform: 'none',
+            fontWeight: 500,
+            px: 3,
+            py: 1,
+            borderRadius: '8px',
+            boxShadow: '0 2px 4px rgba(94, 53, 177, 0.25)',
+            '&:active': {
+              transform: 'scale(0.98)'
+            }
+          }}
+        >
+          {order.review ? 'Chỉnh sửa đánh giá' : 'Đánh giá'}
+        </Button>
+      </CardActions>
     </Card>
   );
 };
