@@ -10,6 +10,7 @@ import api from "../../utils/requestAPI";
 import { toast } from "react-toastify";
 import OrderCard from "../../Items/Card/OrderCard";
 import OrderHistory from "../../Items/Table/OrderHistory"
+import { useNavigate } from "react-router-dom";
 
 export default function LabTabs() {
   const [value, setValue] = useState("1");
@@ -19,6 +20,7 @@ export default function LabTabs() {
 
   const { auth } = useAuth();
   const accountid = auth.user.id;
+  const navigate = useNavigate();
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -80,6 +82,9 @@ useEffect(() => {
   }
 }, [orderSuccess, fetchCapacities]);
 
+const handleReviewClick = (orderId, studioId) => {
+  navigate(`/review/${orderId}/${studioId}`);
+};
 
   return (
     <Box sx={{ width: "100%", typography: "body1" }}>
@@ -116,7 +121,12 @@ useEffect(() => {
     console.log("Capacity for studio", studioId, ":", capacity);
    
     return (
-      <OrderCard key={order.id} order={order}  capacity={capacity}  />
+      <OrderCard 
+        key={order.id} 
+        order={order} 
+        capacity={capacity}
+        onReviewClick={() => handleReviewClick(order.id, studioId)}
+      />
     );
 })}
 

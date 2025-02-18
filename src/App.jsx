@@ -2,8 +2,6 @@ import './App.css';
 import { Route, Routes, Navigate } from 'react-router-dom'; // Import Navigate từ react-router-dom
 import HomePage from './pages/HomePage/HomePage';
 import Login from './pages/Login/Login';
-import ListItemPage from './pages/UserPage/ListItemPage/ListItemPage';
-import ItemDetails from './Components/User/ItemDetails/ItemDetails';
 import NotFound from './pages/NotFound/NotFound';
 import ProfilePage from './pages/UserPage/ProfilePage/ProfilePage';
 import CartPage from './pages/UserPage/CartPage/CartPage';
@@ -29,6 +27,8 @@ import RequireAuth from './Components/ReqAuth/RequireAuth'; // Bỏ .jsx extensi
 
 import CheckStudio1 from './pages/CheckStudioPage/CheckStudio1';
 import UnauthorizedPage from './pages/UnauthorizedPage/UnauthorizedPage';
+import ReviewPage from './pages/ReviewPage/ReviewPage';
+
 function App() {
   return (
     <>
@@ -47,12 +47,6 @@ function App() {
         <Route path="/Home" element={<HomePage />} />
 
         <Route path="/Course/:Id" element={<CoursePage />} /> 
-
-        {/* Trang danh sách sản phẩm */}
-        <Route path="/Product" element={<ListItemPage />} />
-
-        {/* Trang chi tiết sản phẩm */}
-        <Route path="/Product/Details/:title" element={<ItemDetails />} />
 
         {/* Trang NotFound cho mọi route không xác định */}
         <Route path="*" element={<NotFound />} />
@@ -92,6 +86,7 @@ function App() {
         </Route>
         <Route path="/unauthorized" element={<UnauthorizedPage />} />
         
+        <Route path="/review/:orderId/:studioId" element={<ReviewPage />} />
       </Routes>
     </>
   );
