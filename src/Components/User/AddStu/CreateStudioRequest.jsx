@@ -33,6 +33,12 @@ const CreateStudioRequest = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+
+    // Kiểm tra nếu trường là 'pricing' và giá trị không phải là số dương
+    if (name === 'pricing' && value !== '' && Number(value) < 0) {
+        return; // Không cập nhật nếu giá trị là số âm
+    }
+
     setStudioData((prev) => ({ ...prev, [name]: value }));
   };
 
@@ -61,8 +67,8 @@ const CreateStudioRequest = () => {
   const ShowConfirmCancel = (e) => {
     e.preventDefault();
     confirmAlert({
-      title: 'Tạo Ngay',
-      message: 'Bạn đã kiểm tra lại kỹ các thông tin chưa?',
+      title: <span className="custom-confirm-alert">Tạo Ngay</span>,
+      message: <span className='custom-confirm'>Bạn đã kiểm tra đầy đủ thông tin chưa ?</span>,
       buttons: [
         { label: 'Có', onClick: () => handleSubmit(e) },
         { label: 'Kiểm tra lại' },
@@ -159,7 +165,7 @@ const CreateStudioRequest = () => {
 
           <div className="form-group">
             <label>Giá (VNĐ):</label>
-            <input type="number" name="pricing" value={studioData.pricing} onChange={handleInputChange} required />
+            <input type="number" name="pricing" value={studioData.pricing} onChange={handleInputChange} min="0" required />
           </div>
 
           <div className="form-group">
@@ -203,9 +209,9 @@ const CreateStudioRequest = () => {
           </div>
 
           <div className="form-group">
-            <label>Kích Thước Studio:</label>
+            <label>Loại Phòng:</label>
             <select name="studioSizeId" value={studioData.studioSizeId} onChange={handleInputChange} required>
-              <option value="">Chọn kích thước</option>
+              <option value="">Chọn loại phòng</option>
               <option value="1">Nhỏ</option>
               <option value="2">Vừa</option>
               <option value="3">Lớn</option>

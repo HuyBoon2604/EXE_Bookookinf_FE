@@ -135,26 +135,36 @@
 
 .error-message,
 .success-message {
-  padding: 15px;
-  border-radius: 8px;
-  margin-bottom: 20px;
-  font-weight: 500;
-  animation: slideIn 0.3s ease-out;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-@keyframes slideIn {
+  position: fixed;
+  top: 20vh;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #9747FF;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  animation: slideDown 0.5s ease-in-out forwards, fadeOut 1.5s ease-in-out forwards;
+  }
+  
+  @keyframes slideDown {
   from {
+    transform: translate(-50%, -50%);
     opacity: 0;
-    transform: translateX(-20px);
   }
   to {
+    transform: translate(-50%, 0);
     opacity: 1;
-    transform: translateX(0);
   }
-}
+  }
+  
+  @keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+  }
 
 .error-message {
   background-color: #fff3f3;
@@ -163,9 +173,9 @@
 }
 
 .success-message {
-  background-color: #f0fff4;
-  color: #28a745;
-  border-left: 4px solid #28a745;
+  background-color: #9747FF;
+  color: white;
+  border-left: 4px solid #9747FF;
 }
 
 /* Custom file input styling */

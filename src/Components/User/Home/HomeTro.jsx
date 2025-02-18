@@ -15,7 +15,8 @@ import "slick-carousel/slick/slick-theme.css";
 import { useTranslation } from 'react-i18next';
 import { Navigation, Pagination,Autoplay } from "swiper/modules";
 import { CiGlobe } from "react-icons/ci";
-
+import { FaArrowRight } from "react-icons/fa";
+import { FaArrowLeft } from "react-icons/fa";
 
 
 
@@ -29,6 +30,24 @@ const HomeTro = () => {
     }
   };
   const navigate = useNavigate();
+  const images = [
+    { src: 'Product/476359764_122108515478729479_1248223907243159727_n.jpg', alt: 'Image 1', className:"anhloai" },
+    { src: 'Product/476611813_122108515466729479_7299893898540809122_n.jpg', alt: 'Image 2',className:'anhloai' },
+    { src: 'Product/476646027_122108515508729479_7375026997810637215_n.jpg', alt: 'Image 3',className:'anhloai' },
+    { src: 'Product/476761131_122108515562729479_244088617098562024_n.jpg', alt: 'Image 4', className:'anhloai'},
+    { src: 'Product/476952536_122108515538729479_2228140383379190301_n.jpg', alt: 'Image 5',className:'anhloai' },
+];
+
+
+    const [currentIndex, setCurrentIndex] = useState(0);
+
+    const nextSlide = () => {
+        setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+    };
+
+    const prevSlide = () => {
+        setCurrentIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
+    };
   useEffect(() => {
     const fetchStudio = async () => {
       const url = "api/Studio/Get-All-Studio-With-IsActive-True";
@@ -111,16 +130,7 @@ const settings = {
    
           
       <section className="search-section">
-      {/* <div className="header-lo">
-    <div className="logo-container-lo">
-      <img src="public\36650c664e257c37760d0f7a27fe0a8d.jpg" alt="Logo" className="logo-lo" />
-    </div>
     
-    <div className="auth-buttons">
-      <button type="button" onClick={handleLogin} className="login-button">Đăng nhập</button>
-      <button type="button" onClick={handleSignup}  className="signup-button">Đăng kí</button>
-    </div>
-  </div> */}
      <div className="language-selector">
            
           
@@ -145,6 +155,7 @@ const settings = {
           </div>
         </div>
       </section>
+     
       <div className='wcolordancecontain'>
 <div className='whychua'>
   <h2 className='whyne'>Chọn</h2>
@@ -199,7 +210,25 @@ const settings = {
     ))}
   </Swiper>
 </div>
+
       </div>
+      <div className="carousel-container">
+            <h1 className='madein'>Made in <span className='colordan'>Colordanhub</span></h1>
+            <div className="carousel">
+                <button className="carousel-button prev" onClick={prevSlide}> <FaArrowLeft /></button>
+                <div className="carousel-inner">
+                    {images.map((image, index) => (
+                        <div
+                            key={index}
+                            className={`carousel-item ${index === currentIndex ? 'active' : ''}`}
+                        >
+                            <img src={image.src} alt={image.alt} />
+                        </div>
+                    ))}
+                </div>
+                <button className="carousel-button next" onClick={nextSlide}><FaArrowRight /></button>
+            </div>
+        </div>
       <div className="pop-title-contian">    
          <h2 className="popular-title">STUDIO NỔI BẬT</h2> </div>
      
@@ -223,20 +252,21 @@ const settings = {
                 <span className="rating-reviews">👤 {studio.visitors}</span>
               </div>
               <p className="card-description">
-                {studio.studioDescription.length > 20 ? (
-                  <>
-                    {studio.studioDescription.substring(0, 100)}...
-                    <button
-                      onClick={(e) => handleSeeMoreClick(e, studio.studioDescription)}
-                      className="see-more-button"
-                    >
-                      Xem thêm
-                    </button>
-                  </>
-                ) : (
-                  studio.studioDescription
-                )}
-              </p>
+  {studio.studioDescription?.length > 20 ? (
+    <>
+      {studio.studioDescription.substring(0, 100)}...
+      <button
+        onClick={(e) => handleSeeMoreClick(e, studio.studioDescription)}
+        className="see-more-button"
+      >
+        Xem thêm
+      </button>
+    </>
+  ) : (
+    studio.studioDescription || "Không có mô tả"
+  )}
+</p>
+
             </div>
           </div>
         ))}
