@@ -1,3 +1,14 @@
+#Studio,
+#Studio * {
+  font-family: 'Poppins' !important;
+  
+}
+#Studio .editRowHeader {
+  white-space: nowrap;
+  font-size: 20px;
+  color: #9747FF !important ;
+}
+
 #Studio .studioManager {
     background-color: #fff;
     display: flex;
@@ -15,8 +26,8 @@
 }
 
 #Studio .heading {
-    color: #484848;
-    font-size: 38px;
+    color: #000000;
+    font-size: 50px;
     font-weight: 800;
     align-self: start;
 }
@@ -33,7 +44,7 @@
     display: flex;
     gap: 40px; /* Khoảng cách giữa các mục nav */
     font-size: 18px;
-    color: #484848;
+    color: #000000;
     font-weight: 700;
     white-space: nowrap;
     text-align: center;
@@ -267,7 +278,7 @@
 
 #Studio .editRowHeader th {
     background-color: black; /* Màu nền cho hàng tiêu đề */
-    color: white; /* Chữ màu trắng */
+    color: #9747FF;
     font-weight: bold; /* Chữ in đậm */
     text-align: center;
 }
@@ -488,5 +499,14 @@
     display: flex;
     align-items: flex-end;
     flex-direction: row-reverse;
+  }
+  #Studio .success {
+    color: green;
+    font-weight: bold;
+  }
+  
+  #Studio .failed {
+    color: red;
+    font-weight: bold;
   }
   

@@ -1,5 +1,7 @@
-#Course *{
-  font-family: "Poppins";
+#Course,
+#Course * {
+  color: #000000 !important;
+  font-family: 'Poppins';
 }
 
 #Course .pageContainer {
@@ -185,14 +187,14 @@
   
   font-size: 28px;
   font-weight: 700;
-  color: #484848;
+  color: #000000;
   margin: 0 0 12px 0;
 }
 
 #Course .teacherName {
   
   font-size: 16px;
-  color: #9A9A9A;
+  color: #000000;
   margin: 0 0 32px 0;
 }
 
@@ -200,7 +202,7 @@
   
   font-size: 28px;
   font-weight: 700;
-  color: #0E2A46;
+  color: #000000;
   text-transform: uppercase;
   margin: 0 0 16px 0;
 }
@@ -209,7 +211,7 @@
   
   font-size: 16px;
   line-height: 1.6;
-  color: #9A9A9A;
+  color: #000000;
   margin: 0;
 }
 
@@ -414,6 +416,7 @@
 #Course .priceHeader {
   align-self: center;
   display: flex;
+  font-size: 25px;
   /* width: 80px; */
   
   color: rgba(0, 0, 0, 1);
@@ -448,7 +451,7 @@
 
 #Course .courseFee {
   color: rgba(51, 57, 49, 1);
-  font-family: Sora, sans-serif;
+  font-family: 'Poppins';
   font-weight: 400;
   margin: auto 0;
 }
@@ -458,7 +461,7 @@
   background-color: rgba(224, 226, 230, 1);
   
   color: rgba(0, 0, 0, 1);
-  font-weight: 700;
+  font-weight: 1000;
   white-space: nowrap;
   padding: 5px 18px;
 }
@@ -470,7 +473,7 @@
 
   color: rgba(77, 87, 86, 1);
   padding: 25px 47px;
-  font: 400 16px/2 Sora, sans-serif;
+  font: 400 16px/2 'Poppins';
   border-bottom: 1px solid rgb(0 0 0);
 }
 
@@ -484,6 +487,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  font-weight: bolder;
 }
 
 #Course .rightInner {
@@ -532,12 +536,13 @@
   max-width: 282px;
   overflow: hidden;
   
-  color: rgba(255, 255, 255, 1);
+  color: rgba(255, 255, 255, 1) !important;
   font-weight: 900;
   white-space: nowrap;
   padding: 15px 70px;
   border: 1px solid rgba(0, 0, 0, 1);
   cursor: pointer;
+  font-size: 20px;
 }
 
 #Course .visually-hidden {
