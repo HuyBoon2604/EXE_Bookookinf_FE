@@ -302,7 +302,7 @@ const handleShareClick = async () => {
 
             alt=""
             className="main-img"
-            onClick={() => setSelectedImage(studio.imageStudio)}
+            onClick={() => setSelectedImage(studio?.stduio?.imageStudio)}
           />
        
         </div>
@@ -505,7 +505,7 @@ const handleShareClick = async () => {
             <div className="basic">{ClassId.dateEnd}</div>
             <div className="basic">Cơ Bản</div>
           </div>
-          <div className="schedule">{ClassId.dateOfWeek}</div>
+          <div className="schedule">Thứ {ClassId.dateOfWeek}</div>
           <div className="hiphop">Hiphop</div>
         </div>
       </div>

@@ -3,6 +3,7 @@
   z-index: 1000;
   white-space: nowrap;
   font-family: 'Poppins';
+  padding-top: 100px;
 }
 #Header .mainHeader {
   background-color: #000000;
@@ -199,7 +200,7 @@
   width: 100%;
   border-radius: 0;
 }
-.header-logo{
+#Header .header-logo{
   background: linear-gradient(to right, #ff7eb3, #915dd1);
   -webkit-background-clip: text;
   color: transparent;
@@ -209,7 +210,7 @@
   font-size: 3vh;
   
 }
-.thea{
+#Header .thea{
   text-decoration: none;
   display: flex;
   
@@ -310,17 +311,27 @@
   font-family: 'Poppins';
 }
 
-.dropdownMenu .logout-button:hover {
-  background-color: #f0f0f0; /* Màu nền khi hover */
-  color: #000; /* Màu chữ khi hover */
-  transform: translateX(5px); /* Di chuyển nhẹ sang phải */
-}
 
-.dropdownMenu .logout-button a {
+
+#Header .dropdownMenu .logout-button a {
   text-decoration: none; /* Xóa gạch chân của liên kết */
   color: inherit; /* Kế thừa màu chữ từ button */
   display: block; /* Chiếm toàn bộ không gian của button */
   font-family: 'Poppins';
+  font-size: 20px;
+}
+#Header .dropdownMenu .logout-button a:hover {
+  color: #9747FF; /* Đảm bảo chữ trắng khi hover */
+}
+#Header .dropdownMenu .logout-button  {
+  text-decoration: none; /* Xóa gạch chân của liên kết */
+  color: inherit; /* Kế thừa màu chữ từ button */
+  display: block; /* Chiếm toàn bộ không gian của button */
+  font-family: 'Poppins';
+  font-size: 20px;
+}
+#Header .dropdownMenu .logout-button:hover {
+  color: #9747FF; /* Đảm bảo chữ trắng khi hover */
 }
 
 #Header .dropdownMenu{
