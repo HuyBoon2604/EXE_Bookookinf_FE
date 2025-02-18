@@ -19,8 +19,7 @@ const UpdateuserPage = () => {
   const [Account, setAccount] = useState('');
   const [avatar, setavatar] = useState('');
   const [avatarFile, setAvatarFile] = useState(null); 
-  const [success, setSuccess] = useState('');
-
+  const [successMessage, setSuccessMessage] = useState('');
   const handleviewprofile = () => {
     navigate(`/Profile/${auth.user.id}`);
   };
@@ -67,8 +66,11 @@ const UpdateuserPage = () => {
 
       const response = await api.post(url, data);
       console.log(response.data);
-      setSuccess("Cập nhật thành công!");
-      setTimeout(() => setSuccess(''), 2000);
+      setSuccessMessage('Cập nhật thông tin thành công.');
+      setTimeout(() => {
+        setSuccessMessage('');
+        
+      }, 2000);
     } catch (error) {
       console.error(error);
       toast.error("Có lỗi xảy ra khi cập nhật!");
@@ -106,8 +108,8 @@ const UpdateuserPage = () => {
 
   const showConfirmDialog = () => {
     confirmAlert({
-      title: 'Cập Nhật Thông Tin',
-      message: 'Bạn có chắc chắn muốn cập nhật thông tin?',
+      title: <span className="custom-confirm-alert">Cập Nhật Thông Tin</span>,
+      message: <span className='custom-confirm'>Bạn có chắc chắn muốn cập nhật thông tin?</span>,
       buttons: [
         {
           label: 'Có',
@@ -122,8 +124,9 @@ const UpdateuserPage = () => {
 
   return (
     <div id="UpdateuserPage">
-      {success && <div className="success-message">{success}</div>}
+      
       <div className='Update-tong'>
+      {successMessage && <div className="success-message">{successMessage}</div>}
         <div className='Info-User'>
           <div className='image-userupdate'>
             <img src={avatar || Account.imageUrl} alt="" className='hinh-user-update' />
@@ -168,16 +171,16 @@ const UpdateuserPage = () => {
             <div className='input-row'>
               <div className='input-group'>
                 <label htmlFor='firstName' className='labelne'>First name</label>
-                <input type='text' id='firstName' value={Fname} onChange={(e) => setFName(e.target.value)} name='firstName' placeholder='First name' className='fname' />
+                <input type='text' id='firstName' value={Fname} onChange={(e) => setFName(e.target.value)} name='firstName' placeholder='First name' className='fname'required />
               </div>
               <div className='input-group'>
                 <label htmlFor='lastName' className='labelne'>Last name</label>
-                <input type='text' id='lastName' value={Sname} onChange={(e) => setSName(e.target.value)} name='lastName' placeholder='Last name' className='lname' />
+                <input type='text' id='lastName' value={Sname} onChange={(e) => setSName(e.target.value)} name='lastName' placeholder='Last name' className='lname'required />
               </div>
             </div>
             <div className='input-group'>
               <label htmlFor='phoneNumber' className='labelne'>Số điện thoại</label>
-              <input type='text' id='phoneNumber' value={phone} onChange={(e) => setphone(e.target.value)} name='phoneNumber' className='phonenumber' placeholder='Phone number' />
+              <input type='text' id='phoneNumber' value={phone} onChange={(e) => setphone(e.target.value)} name='phoneNumber' className='phonenumber' placeholder='Phone number' required />
             </div>
             <div className='input-group'>
               <label htmlFor='dateofbirth' className='labelne'>Ngày sinh</label>
@@ -189,6 +192,7 @@ const UpdateuserPage = () => {
                 className='dateofbirth'
                 placeholder='Date of birth'
                 onChange={(e) => setdateofbirth(e.target.value)}
+                required
               />
             </div>
             <div className='input-group'>
@@ -214,6 +218,7 @@ const UpdateuserPage = () => {
             </div>
           
           </div>
+        
         </div>
       </div>
     </div>

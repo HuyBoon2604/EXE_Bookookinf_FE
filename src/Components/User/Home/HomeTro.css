@@ -215,13 +215,13 @@ animation: changeBackground 10s infinite;
 }
 .title-hometro{
   color: white;
-  width: 25%;
+  width: 20%;
   text-align: left;
   position: absolute;
-  margin-top: 29vh;
- margin-left: 10vh;
+  margin-top: 13%;
+ margin-left: 5%;
   animation: leFadeInLeft 2s ease-in-out;
-  font-size: 4vh;
+  font-size: 5vh;
   font-family: 'Poppins';
   
 }
@@ -234,9 +234,13 @@ color: transparent;
 font-family: 'Poppins';
   font-size: 10vh;
  
-  
+  transition:  filter 0.4s ease; 
   
  
+}
+.popular-title:hover{
+ 
+  filter: brightness(1.2); 
 }
 .pop-title-contian{
   background-color: black;
@@ -731,10 +735,10 @@ from{
 .whyne{
 font-size: 20vh;
  font-family: 'Poppins';
-background: linear-gradient(to right, #ff00ff, #00ffff);
--webkit-background-clip: text;
-color: transparent;
-text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff, 0 0 20px #00ffff, 0 0 40px #00ffff;
+ background: linear-gradient(to right, #ff7eb3, #915dd1);
+    -webkit-background-clip: text;
+    color: transparent;
+/* text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff, 0 0 20px #00ffff, 0 0 40px #00ffff; */
 }
 .whychua{
 width: 100%;
@@ -748,10 +752,9 @@ left: 30vh;
   font-family: 'Poppins';
   left: 45%;
   top:25%;
-  background: linear-gradient(to right, #ff00ff, #00ffff);
--webkit-background-clip: text;
-color: transparent;
-text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff, 0 0 20px #00ffff, 0 0 40px #00ffff;
+  background: linear-gradient(to right, #ff7eb3, #915dd1);
+    -webkit-background-clip: text;
+    color: transparent;
 }
 .Colordanban{
   font-size: 20vh;
@@ -766,31 +769,29 @@ text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff, 0 0 20px #00ffff, 0 0 40px #00ff
   left: 52%;
   top:48%;
   font-family: 'Poppins';
-  background: linear-gradient(to right, #ff00ff, #00ffff);
--webkit-background-clip: text;
-color: transparent;
-text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff, 0 0 20px #00ffff, 0 0 40px #00ffff;
+  background: linear-gradient(to right, #ff7eb3, #915dd1);
+  -webkit-background-clip: text;
+  color: transparent; 
 }
 .Colordangichua{
   position: absolute;
   left: 75%;
   top:70%;
   font-family: 'Poppins';
-  background: linear-gradient(to right, #ff00ff, #00ffff);
--webkit-background-clip: text;
-color: transparent;
-text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff, 0 0 20px #00ffff, 0 0 40px #00ffff;
+  background: linear-gradient(to right, #ff7eb3, #915dd1);
+  -webkit-background-clip: text;
+  color: transparent;
 }
 .Colordangi{
   font-size: 20vh;
 }
 .Colordanhub{
 font-size: 20vh;
-background: linear-gradient(to right, #ff00ff, #00ffff);
--webkit-background-clip: text;
-color: transparent;
+background: linear-gradient(to right, #ff7eb3, #915dd1);
+    -webkit-background-clip: text;
+    color: transparent;
 font-family: 'Poppins';
-text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff, 0 0 20px #00ffff, 0 0 40px #00ffff;
+
 }
 .Colordanchua{
 position: absolute;
@@ -935,4 +936,106 @@ border: 1px solid black;
 }
 .anhmy{
   width: 15%;
+}
+
+.carousel-container {
+  background-color: black;
+  color: white;
+  text-align: center;
+  padding: 50px 0;
+  margin-top: 10%;
+  animation-timeline: scroll();
+  position: relative;
+ 
+ 
+}
+
+.carousel {
+  /* position: relative; */
+  max-width: 800px;
+  margin: auto;
+  overflow: hidden;
+}
+
+.carousel-inner {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
+
+.carousel-item {
+  min-width: 100%;
+  box-sizing: border-box;
+  display: none;
+}
+
+.carousel-item.active {
+  display: block;
+}
+
+.carousel-item img {
+ 
+  border-radius: 10px;
+  transition: transform 0.3s ease, filter 0.3s ease; 
+  
+}
+
+.carousel-item img:hover {
+  transform: translateY(-10px); 
+  filter: brightness(1.2); 
+  
+}
+
+.carousel-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px; 
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.carousel-button.prev {
+  left: 20%;
+  font-size: 40px;
+  margin-top: 10%;
+  color: white;
+}
+.carousel-button:hover {
+  background-color: rgba(0, 0, 0, 0.8); 
+  transform: translateY(-50%) scale(1.1); 
+}
+
+
+
+.carousel-button.next {
+  right: 20%;
+  font-size: 40px;
+  margin-top: 10%;
+  
+  color: white;
+}
+
+.madein {
+  font-size: 100px;
+  margin-bottom: 20px;
+  font-family: 'Poppins';
+  background: linear-gradient(to right, #ff7eb3, #915dd1);
+    -webkit-background-clip: text;
+    color: transparent;
+
+}
+
+ .colordan {
+  font-weight: bold;
+  font-family: 'Poppins';
+  background: linear-gradient(to right, #ff7eb3, #915dd1);
+    -webkit-background-clip: text;
+    color: transparent;
 }

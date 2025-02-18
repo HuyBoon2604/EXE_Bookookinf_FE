@@ -73,17 +73,20 @@
   .chuavuine {
     margin-bottom: 5%;
     font-family: 'Poppins';
+
   }
   
-  .nameofstu, .typeofstu, .Addressofstu, .Timeofstu, .Dateorderstu {
-    font-size: 16px;
+  .nameofstu, .typeofstu, .Addressofstu, .Timeofstu, .Dateorderstu,.nameofhost {
+    font-size: 20px;
     color: #333;
   }
   
   .custumor-title {
-    font-size: 24px;
+    font-size: 40px;
     margin-bottom: 20px;
-    color: #333;
+    background: linear-gradient(to right, #ff7eb3, #915dd1);
+  -webkit-background-clip: text;
+  color: transparent;
     font-family: 'Poppins';
   }
   
@@ -97,10 +100,20 @@
     justify-content: space-between;
     margin-bottom: 10%;
     
+    
+  }
+  .custom-confirm-alert{
+    background: linear-gradient(to right, #ff7eb3, #915dd1);
+    -webkit-background-clip: text;
+    color: transparent;
+  }
+  .custom-confirm{
+    color: black;
+    font-size: 20px;
   }
   
   .phonevui, .customername, .Priceorder, .totalpricevui {
-    font-size: 16px;
+    font-size: 20px;
     color: black;
     font-family: 'Poppins';
   }

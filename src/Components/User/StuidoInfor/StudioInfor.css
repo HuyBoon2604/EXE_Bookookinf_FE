@@ -2,7 +2,17 @@
   font-family: Arial, sans-serif;
   margin: 10px;
 }
-
+@keyframes gradient-animation {
+  0% {
+      background-position: 0% 50%;
+  }
+  50% {
+      background-position: 100% 50%;
+  }
+  100% {
+      background-position: 0% 50%;
+  }
+}
 #StudioInfor .image-gallery {
   display: flex;
   flex-direction: column;
@@ -93,7 +103,10 @@
   position: relative;
   display: flex;
   justify-content: space-between;
-  height: 60vh;
+  height: 90vh;
+  position: relative;
+
+  
 }
 
 #StudioInfor .studio-tags .tag {
@@ -108,6 +121,7 @@
   position: absolute;
   left: 65%;
   height: 100%;
+  margin-top: 3% ;
 }
 
 #StudioInfor .price-details {
@@ -167,11 +181,12 @@
 
 #StudioInfor .review-vui {
   display: flex;
+  margin-left: 3%;
 }
 
 #StudioInfor .rate-review {
   color: black;
-  margin-top: 2.2%;
+  margin-top: 2%;
   margin-left: 6px;
 }
 
@@ -190,21 +205,25 @@
   width: 60%;
   justify-items: left;
   height: 30vh;
-  margin-bottom: 30vh;
+  margin-bottom: 65vh;
 }
 
 #StudioInfor .studio-name {
   margin-left: 5vh;
-  font-size: larger;
+  font-size: 35px;
   width: 70%;
   text-align: left;
   font-family: 'Poppins';
+  background: linear-gradient(to right, #ff7eb3, #915dd1);
+    -webkit-background-clip: text;
+    color: transparent;
+    animation: gradient-animation 5s ease infinite;
 }
 
 #StudioInfor .studio-adress {
   margin-left: 5vh;
-  font-size: 80%;
-  color: grey;
+  font-size: 20px;
+  color: black;
   font-family: 'Poppins';
 }
 
@@ -273,7 +292,7 @@
 
 #StudioInfor .start-Date {
   width: 100%;
-  margin-left: 7vh;
+  margin-left: 5vh;
 }
 
 #StudioInfor #date {
@@ -284,12 +303,15 @@
 }
 
 #StudioInfor .dateandtime {
-  margin-left: 36%;
+  margin-left: 34%;
   font-family: 'Poppins';
+}
+.vuivuihe{
+  margin-right: 5vh;
 }
 
 #StudioInfor .timechua {
-  margin-left: 7vh;
+  margin-left: 5vh;
   width: 100%;
 }
 
@@ -318,7 +340,13 @@
 }
 
 #StudioInfor .review-chua {
-  margin-left: 5vh;
+  position: absolute;
+  
+  left: 0;
+  width: 100%;
+ 
+  /* padding: 20px; */
+  box-sizing: border-box;
 }
 
 #StudioInfor .review {
@@ -333,14 +361,17 @@
   color: black;
   display: flex;
   flex-wrap: wrap;
+  
+ 
 }
 
 #StudioInfor .amenities-list .type-amen {
   list-style: none;
   padding: 5px 0;
-  width: 50%;
+  width: 30%;
   margin-top: 20px;
   font-family: 'Poppins';
+  margin-right: 20%;
 }
 
 #StudioInfor .phukien {
@@ -348,7 +379,7 @@
 }
 
 #StudioInfor .amenities-section {
-  margin-bottom:10rem ;
+  margin-bottom:5rem ;
   width: 50%;
 }
 
@@ -371,6 +402,11 @@
 .price{
   font-size: 18px;
   color: black;
+  margin-left: 40%;
+  
+}
+.pricechuavui{
+  width: 100%;
 }
 #StudioInfor .dancer-masters-list {
   color: black;
@@ -432,11 +468,11 @@
 }
 
 #StudioInfor .amen-title {
-  margin-bottom: 20px;
+  margin-top: 10%;
   font-weight: bold;
   color: black;
   font-family: 'Poppins';
-  margin-left: 5vh;
+  margin-left: 4%;
 }
 
 #StudioInfor .image-with-overlay {
@@ -475,4 +511,109 @@
 
 .show-more-button:hover {
   background-color: rgb(164, 159, 159);
+}
+.about-space {
+  margin: 20px;
+  font-family: 'Poppins';
+  margin-top: 5%;
+ 
+}
+
+.title-vuivai {
+  font-weight: bold;
+  font-size: 25px;
+  margin-bottom: 10px;
+  margin-left: 2%;
+  
+
+}
+
+.description-vuivui {
+  color: black;
+  line-height: 2;
+  width: 100%;
+  font-family: 'Poppins';
+  margin-left: 2%;
+  font-size: 18px;
+  
+  overflow: hidden;
+  max-height: 200px;
+ 
+  transition: max-height 0.5s ease;
+}
+.description-vuivui.expanded {
+  max-height: none; 
+}
+
+.read-more-btn {
+  color:black;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+  margin-bottom: 6%;
+  font-size: 1em;
+  margin-left: 1%;
+  font-weight: bold;
+  font-family: 'poppins';
+}
+.thuchua{
+ 
+}
+
+.read-more-btn:hover {
+  color: #474b56;
+}
+
+.listing-section-margins {
+  margin: 20px 0;
+  padding: 20px;
+ 
+}
+
+
+.listing-section-margins ,.h5 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: #333;
+  width: 70%;
+  margin-right: 60%;
+  padding-bottom: 10px;
+}
+
+/* Flex container for each day */
+.flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0;
+}
+
+/* Space between items */
+.space-between {
+  justify-content: space-between;
+}
+
+/* Columns for day and time */
+.flex-one {
+  flex: 1;
+  font-size: 1.1rem;
+  color: black;
+}
+
+
+.flex-one:first-child {
+  font-weight: 600;
+  color: black;
+}
+
+/* Closed day styling */
+.flex-one div:contains('Closed') {
+  color: red;
+  font-weight: bold;
+}
+
+/* Time formatting */
+.flex-one div {
+  text-align: right;
 }

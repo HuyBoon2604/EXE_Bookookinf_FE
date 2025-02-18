@@ -20,6 +20,8 @@ import timezone from 'dayjs/plugin/timezone';
 import useAuth from '../../../hooks/useAuth';
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
+import Footer from "../../../Components/Items/Footer/Footer";
+
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -37,7 +39,36 @@ const [review, setreview] = useState([]);
 const { id } = useParams();
 const { auth } = useAuth();
 const [BookingId, setBookingId] = useState([]);
- 
+const [isExpanded, setIsExpanded] = useState(false);
+const text = `BEFORE YOU BOOK: Your rental time includes set up and teardown. We do not have self-check-in. For your rental, we will have someone on-site to let you into the studio, give you a tour, and even help you get started. A staff member is typically on site for the duration of your rental unless you have explicitly requested privacy, in which we can stay out of sight.
+
+- 2,000+ sqft shooting area
+- Cyc wall is 15ft wide, 20ft long, and 11ft tall (Priced separately. Select cyc wall add-on during checkout.)
+- Full bathroom including a shower
+- Huge south-facing windows
+- Wall of mirrors for extra confidence
+- All Ceiling light fixtures are smart RGB LED bulbs that can be controlled with an iPad or iPhone.
+
+
+Photographers and Filmmakers love using our space due to its natural light and modular setup. We have unique furniture that you're free to use or just move to the storage area of the studio if you need more space. Models love being photographed in the southeast corner of the space due to the ability to see themselves in the wall of mirrors directly across the room.
+
+-- CYC WALL RENTAL INFO --
+
+Our cyc wall is a modest size of 15ft wide, 20ft long, and 11ft tall. Great for small productions, interviews, music videos, large product videography/photography, and more.
+
+The cyc wall is prelit with three Aputure Nova P300C RGBWW Light Panels. That's right! Each light panel color, intensity, and animation can be controlled individually via the provided iPad or your personal iPhone. We can also manage this for you via our personal iPhones. If you'd like to add your own lights into the mix, we have a light grid spanning the entire area for you to hang your own lights!
+
+We always do our best to keep the cyc floor as clean as possible, however, we can lay down a fresh coat of paint before your shoot for an additional $40. However, you need to request this at least 24 hours in advance.
+
+The cyc wall is priced separately.
+
+How to rent our cyc wall: When filling out a rental inquiry, select "cyc wall" on the "add-ons" page. We will not know about your intentions to rent the cyc wall without this information added. 
+
+Thank you.`;
+    const toggleExpand = () => {
+      setIsExpanded(!isExpanded);
+  };
+
  
   const navigate = useNavigate();
   const [images, setImages] = useState([]);
@@ -153,8 +184,8 @@ const [BookingId, setBookingId] = useState([]);
   };
    const Showconfirmbooking = () => {
           confirmAlert({
-              title: 'Đặt Studio',
-              message: 'Bạn có muốn kiểm tra lại thông tin trước khi đặt studio ?',
+              title: <span className="custom-confirm-alert">Đặt Studio</span>,
+              message: <span className='custom-confirm'>Bạn có muốn kiểm tra lại thông tin trước khi đặt studio ?</span>,
               buttons: [
                   {
                       label: 'Không',
@@ -201,41 +232,14 @@ const [BookingId, setBookingId] = useState([]);
       console.log("aaaaa",auth)
     }
   };
-  // useEffect(() => {
-  //   // Theo dõi sự thay đổi của `BookingId`
-  //   const createOrderAndPayment = async () => {
-  //     if (BookingId && BookingId.id) {
-  //       try {
-  //         // Tạo Order mới
-  //         const createOrder = await api.post(
-  //           `/Create-New-Order?BookingId=${BookingId.id}`
-  //         );
-    
-  //         if (createOrder.status === 200 && createOrder.data && createOrder.data.id) {
-  //           const orderId = createOrder.data.id;
-  //           alert('Create Booking Success!');
-  //     // navigate(`/order/${createOrder.data.id}`);
-  //           console.log("Order created successfully, ID:", orderId);
-
-  //           // setOrderId({ id: orderId }); 
-  //         } else {
-  //           console.error("Order creation failed or response is missing 'id'.", createOrder);
-  //         }
-  //       } catch (error) {
-  //         console.error("Error creating order:", error);
-  //       }
-  //     }
-  //   };
-    
-  //   createOrderAndPayment();
-  //   }, [BookingId]);
+  
   const disablePastDates = (date) => {
     return date.isBefore(dayjs(), 'day');
   };
 
   return (
     <div id="StudioInfor">
-    <div className="studio-page">
+    
     
       <div className="image-gallery">
         <div className="image-main">
@@ -310,113 +314,23 @@ const [BookingId, setBookingId] = useState([]);
         </div>
       )}
 
-     
-      <div className="studio-info">
+     <div className="studio-info-chua">
+     <div className="studio-info">
         <div className="info-title">
 
         <h1 className="studio-name">{studio.studio?.studioName}</h1>
         <h1 className="studio-adress">{studio.studio?.studioAddress}</h1>
         <hr  width="100%" align="left" />
-        <h2 className="studio-title">Giảng viên</h2>
-          <div className="dance-master-chua">
-
-          <ul className="dancer-masters-list">
-          {dancerMasters.map((dancer, index) => (
-            <li key={index} className="dancer-master-item">
-              <img src={dancer.img} alt="" className="hinh-dancer" />
-              <p className="info-dancer">
-                <strong>{dancer.name}</strong> - {dancer.specialty}
-              </p>
-            </li>
-          ))}
-        </ul>
-        <hr  width="100%" align="left" top="10px"/>
-
-          </div>
-
-        </div>
-       
-        <div className="booking-section">
-         
-             
-        <h3 className="price-title">
-  <CiDollar className="dollar" />
-  <span className="price-text">Giá</span>
-</h3>
-         
-       
-          <div className="price-details">
-          <span className="price">
-  {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(studio.studio?.pricing)} / Giờ
-</span>
-            <span className="discount">10% off</span>
-          </div>
-          <div className="booking-form">
-          
-            <div>
-
-<h3 className="dateandtime">Ngày và Giờ</h3>
-
-            </div>
-            <div className="start-Date">
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <DemoContainer  components={['DatePicker']}>
-        <DatePicker value={stardate}   onChange={handleDateChange} label="Ngày bắt đầu" shouldDisableDate={disablePastDates} />
-        
-      </DemoContainer>
-    </LocalizationProvider>
-    </div>
-           
-<div className="timechua">  
-<LocalizationProvider dateAdapter={AdapterDayjs}>
-      <DemoContainer    components={['TimePicker']}>
-      <TimePicker
-       id="time"
-  value={checkin}
-  onChange={(newValue) => handleTimeChange(newValue, setcheckin)}
-  label="Thời gian bắt đầu"
-/>
-      </DemoContainer>
-    </LocalizationProvider>
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <DemoContainer  components={['TimePicker']}>
-      <TimePicker
-      id="time"
-  value={checkout}
-  onChange={(newValue) => handleTimeChange(newValue, setcheckout)}
-  label="Thời gian kết thúc"
-/>
-      </DemoContainer>
-    </LocalizationProvider>
-    {!validateTime(checkin, checkout) && (
-    <p style={{ color: 'red', fontSize: '14px', marginTop: '5px' }}>
-      Thời gian checkout phải lớn hơn thời gian checkin!
+ <div className="about-space">
+    <h3 className="title-vuivai">Mô tả tiện ích</h3>
+    <p className={`description-vuivui ${isExpanded ? 'expanded' : ''}`}>
+      {isExpanded ? text : `${text.slice(0, 300)}...`}
     </p>
-  )}
-
-            {/* <input type="time" id="time" className="starttime" value={checkin} onChange={(e)=> setcheckin(e.target.value)} />
-            <input type="time" id="time" className="endtime" value={checkout} onChange={(e)=> setcheckout(e.target.value)} /> */}
-  </div>
-           <div className="btn-booking">
-           
-
-            <button 
-        className="booking-button"
-        onClick={Showconfirmbooking} 
-        tabIndex={0}
-        aria-label="Book this dance class"
-      
-      >
-         Đặt Studio
-      </button>
-           </div>
-           
-          
-          </div>
-        </div>
-      
-      </div>
-      <div className="amenities-section">
+    <button onClick={toggleExpand} className="read-more-btn">
+      {isExpanded ? 'Hạn chế' : 'Xem Thêm'}
+    </button>
+    <hr  width="100%" align="left" />
+    <div className="amenities-section">
   <h2 className="amen-title">Tiện nghi được cung cấp</h2>
   <ul className="amenities-list">
     <li className="type-amen">
@@ -437,9 +351,10 @@ const [BookingId, setBookingId] = useState([]);
     </li>
   </ul>
 </div>
-      <hr  width="60%" align="left" top="10px"/>
-
-      <div className="review-chua">
+<hr width="100%" align="left"></hr>
+<div class="listing-section-margins" id="ophours_section"><h2 class="h5"><span>Giờ hoạt động</span></h2><div className="thuchua"><div class="flex space-between "><div class="flex-one">Monday</div><div class="flex-one"><div>Closed</div></div></div><div class="flex space-between "><div class="flex-one">Tuesday</div><div class="flex-one"><div>12:00 PM - 12:00 AM</div></div></div><div class="flex space-between "><div class="flex-one">Wednesday</div><div class="flex-one"><div>12:00 PM - 12:00 AM</div></div></div><div class="flex space-between "><div class="flex-one">Thursday</div><div class="flex-one"><div>12:00 PM - 12:00 AM</div></div></div><div class="flex space-between "><div class="flex-one">Friday</div><div class="flex-one"><div>12:00 PM - 12:00 AM</div></div></div><div class="flex space-between "><div class="flex-one">Saturday</div><div class="flex-one"><div>12:00 PM - 12:00 AM</div></div></div><div class="flex space-between "><div class="flex-one">Sunday</div><div class="flex-one"><div>12:00 PM - 12:00 AM</div></div></div></div></div>
+<hr  width="100%" align="left" />
+<div className="review-chua">
       <div className="review-vui">
         <h2 className="review-title">Đánh giá</h2>
         <h2 className="rate-review">({review.length})</h2>
@@ -476,9 +391,106 @@ const [BookingId, setBookingId] = useState([]);
           Xem thêm
         </button>
       )}
+      <Footer />
     </div>
+  </div>
+        </div>
+       
+        <div className="booking-section">
+         
+             
+        <h3 className="price-title">
+  <CiDollar className="dollar" />
+  <span className="price-text">Giá</span>
+</h3>
+         
+       
+          <div className="price-details">
+            <div className="pricechuavui">
+            <span className="price">
+  {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(studio.studio?.pricing)} / Giờ
+</span>
+            {/* <span className="discount">10% off</span> */}
+            </div>
+         
+          </div>
+          <div className="booking-form">
+          
+            <div>
+
+<h3 className="dateandtime">Ngày và Giờ</h3>
+
+            </div>
+            <div className="vuivuihe">
+            <div className="start-Date">
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <DemoContainer  components={['DatePicker']}>
+        <DatePicker value={stardate}   onChange={handleDateChange} label="Ngày bắt đầu" shouldDisableDate={disablePastDates} />
+        
+      </DemoContainer>
+    </LocalizationProvider>
     </div>
+           
+<div className="timechua">  
+<LocalizationProvider dateAdapter={AdapterDayjs}>
+      <DemoContainer    components={['TimePicker']}>
+      <TimePicker
+       id="time"
+  value={checkin}
+  onChange={(newValue) => handleTimeChange(newValue, setcheckin)}
+  label="Thời gian bắt đầu"
+/>
+      </DemoContainer>
+    </LocalizationProvider>
     </div>
+    <div className="timechua"> 
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <DemoContainer  components={['TimePicker']}>
+      <TimePicker
+      id="time"
+  value={checkout}
+  onChange={(newValue) => handleTimeChange(newValue, setcheckout)}
+  label="Thời gian kết thúc"
+/>
+      </DemoContainer>
+    </LocalizationProvider>
+    </div>
+    {!validateTime(checkin, checkout) && (
+    <p style={{ color: 'red', fontSize: '14px', marginTop: '5px' }}>
+      Thời gian checkout phải lớn hơn thời gian checkin!
+    </p>
+  )}
+</div>
+            {/* <input type="time" id="time" className="starttime" value={checkin} onChange={(e)=> setcheckin(e.target.value)} />
+            <input type="time" id="time" className="endtime" value={checkout} onChange={(e)=> setcheckout(e.target.value)} /> */}
+ 
+           <div className="btn-booking">
+           
+
+            <button 
+        className="booking-button"
+        onClick={Showconfirmbooking} 
+        tabIndex={0}
+        aria-label="Book this dance class"
+      
+      >
+         Đặt Studio
+      </button>
+           </div>
+           
+          
+          </div>
+        </div>
+      
+      </div>
+     </div>
+     
+      
+      
+
+    </div>
+    
+    
   );
 };
 

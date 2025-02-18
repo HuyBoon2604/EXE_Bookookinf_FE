@@ -15,7 +15,7 @@ const OrderPage = () => {
     const [Order, SetOrder] = useState([]);
     const[host, sethost] =useState([]);
     const[user, setuser] =useState([]);
-    const [success, setSuccess] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
     const [studios] = useState([
         {
             id: 1,
@@ -111,8 +111,8 @@ const OrderPage = () => {
 
     const Showconfirmcancel = () => {
         confirmAlert({
-            title: 'Hủy Đơn',
-            message: 'Bạn có muốn hủy đơn này không ?',
+            title: <span className="custom-confirm-alert">Hủy đơn</span>,
+            message: <span className='custom-confirm'>Bạn có muốn hủy đơn này không ?</span>,
             buttons: [
                 {
                     label: 'Có',
@@ -126,8 +126,8 @@ const OrderPage = () => {
     };
     const Showconfirmorder = () => {
         confirmAlert({
-            title: 'Yêu cầu đặt hàng',
-            message: 'Bạn đã kiểm tra đúng thông tin đơn ?',
+            title: <span className="custom-confirm-alert">Yêu cầu đặt hàng</span>,
+            message: <span className='custom-confirm'>Bạn đã kiểm tra đúng thông tin đơn ?</span>,
             buttons: [
                 {
                     label: 'Có',
@@ -146,11 +146,16 @@ const OrderPage = () => {
             if (response.status === 200) {
                 console.log('Order cancelled successfully');
                 // alert('Order has been cancelled');
-                setSuccess("Cập nhật thành công!");
-                
+                setSuccessMessage('Hủy đơn thành công.');
                 setTimeout(() => {
-                    navigate(`/StudioInfor/${Order.studioId}`);
-                }, 2000);
+                  setSuccessMessage('');
+                  navigate(`/StudioInfor/${Order.studioId}`);
+                }, 3000);
+                // setSuccess("Hủy đơn thành công!");
+                
+                // setTimeout(() => {
+                //     navigate(`/StudioInfor/${Order.studioId}`);
+                // }, 2000);
             } else {
                 console.error('Failed to cancel order:', response);
             }
@@ -191,8 +196,10 @@ const OrderPage = () => {
       }, [fetchUser]);
     return (
         <div id="OrderPage">
-            {success && <div className="success-message">{success}</div>}
+           
             <div className="container-order">
+            
+
                 <div className="infoorder-stu">
                     {studios.map((studio) => (
                         <div className="infoorderstu-item" key={studio.id}>
@@ -220,19 +227,19 @@ const OrderPage = () => {
                                     </div>
                                     <div className="chuavuine">
                                         <span className="typeofstu">
-                                            <strong>Kích Thước</strong> 
+                                            <strong>Loại phòng</strong> 
                                             <div className='vuiquatr'>{studio.type}</div>
                                         </span>
                                     </div>
                                     <div className="chuavuine">
                                         <span className="Addressofstu">
-                                            <strong>Địa Điểm</strong>{' '}
+                                            <strong>Địa chỉ</strong>{' '}
                                            <div className='vuiquatr'> {Order.studioAddress}</div>
                                         </span>
                                     </div>
                                     <div className="chuavuine">
                                         <span className="Timeofstu">
-                                            <strong>Mốc Thời Gian</strong> 
+                                            <strong>Thời Gian</strong> 
                                             <div className='vuiquatr'>
   {Order.checkIn?.split(' ')[1]} - {Order.checkOut?.split(' ')[1]}
 </div>
@@ -301,6 +308,7 @@ const OrderPage = () => {
                         Yêu cầu đặt hàng
                     </button>
                 </div>
+                {successMessage && <div className="success-message">{successMessage}</div>}
             </div>
         </div>
     );
