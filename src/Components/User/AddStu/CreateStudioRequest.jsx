@@ -15,7 +15,7 @@ const CreateStudioRequest = () => {
     studioName: '',
     studioAddress: '',
     studioDescription: '',
-    studioSizeId: '', // Thêm trường này để lưu ID của kích thước studio
+    studioSizeId: '', 
     capacity: '',
     imageStudio: null,
     timeon:'',
@@ -226,7 +226,7 @@ const CreateStudioRequest = () => {
             {studioData.images.map((_, index) => (
               <div className="form-group" key={index}>
                 <label>Hình Ảnh {index + 1}:</label>
-                <input type="file" onChange={(e) => handleImageUpload(e, 'images', index)} accept="image/*" />
+                <input type="file" onChange={(e) => handleImageUpload(e, 'images', index)} accept="image/*" required={index ===0} />
                 {imagePreviews.images[index] && <img src={imagePreviews.images[index]} alt={`Preview ${index + 1}`} className="image-preview" />}
               </div>
             ))}

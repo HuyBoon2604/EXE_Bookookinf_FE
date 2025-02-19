@@ -357,6 +357,7 @@
   display: flex;
   border-bottom: 1px solid #ccc;
 }
+
 .tenreview:hover{
   color : gray;
   filter: brightness(1.5);
@@ -366,6 +367,7 @@
   color: black;
   display: flex;
   flex-wrap: wrap;
+  width: 100%;
   
  
 }
@@ -385,7 +387,7 @@
 
 #StudioInfor .amenities-section {
   margin-bottom:5rem ;
-  width: 50%;
+  width: 100%;
 }
 
 #StudioInfor .price-title {
@@ -471,7 +473,7 @@
   height: 5vh;
   width: 5vh;
   border: 1px solid black;
-  margin-left: 2%;
+ 
 }
 
 #StudioInfor .amen-title {
@@ -479,7 +481,7 @@
   font-weight: bold;
   color: black;
   font-family: 'Poppins';
-  margin-left: 4%;
+  margin-left: 3%;
 }
 
 #StudioInfor .image-with-overlay {
@@ -523,6 +525,7 @@
   margin: 20px;
   font-family: 'Poppins';
   margin-top: 5%;
+  width: 100%;
  
 }
 
