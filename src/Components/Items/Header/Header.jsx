@@ -106,7 +106,11 @@ export default function Header() {
               <a href="/Contact">TIN TỨC</a>
             </button>
           </nav>
-          <div ref={languageDropdownRef}>
+          
+        </div>
+        <div className="actionGroup">
+          <div className='icon-translate'>
+            <div className='icon-translate1' ref={languageDropdownRef}>
             <CiGlobe className="globe-icon" onClick={toggleLanguageDropdown} />
             {showLanguages && (
               <div className="language-dropdown">
@@ -118,9 +122,8 @@ export default function Header() {
                 </button>
               </div>
             )}
-          </div>
-        </div>
-        <div className="actionGroup">
+          </div></div>
+        
           <div className="hostGroup">
             <div>
               {auth?.user ? (
