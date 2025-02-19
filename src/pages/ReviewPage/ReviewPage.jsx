@@ -12,6 +12,7 @@ import {
 } from '@mui/material';
 import api from '../../Components/utils/requestAPI';
 import { toast } from 'react-toastify';
+import useAuth from '../../hooks/useAuth';
 
 const ReviewPage = () => {
   const { orderId, studioId } = useParams();
@@ -19,6 +20,7 @@ const ReviewPage = () => {
   const [comment, setComment] = useState('');
   const [loading, setLoading] = useState(true);
   const [existingReview, setExistingReview] = useState(null);
+  const { auth } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -40,33 +42,22 @@ const ReviewPage = () => {
     fetchExistingReview();
   }, [orderId, studioId]);
 
-  const handleSubmitReview = async () => {
+  const handleCreateReview = async () => {
     try {
-      if (rating === 0) {
-        toast.warning('Vui lòng chọn số sao đánh giá!');
-        return;
-      }
-      
-      const endpoint = existingReview ? '/update-review' : '/submit-review';
-      const method = existingReview ? 'put' : 'post';
-      
-      await api[method](endpoint, {
-        orderId,
-        studioId,
-        rating,
-        comment
+      await api.post('/Create-New-Review', {
+        accountId:  auth.user.id,
+        studioId: studioId,
+        reviewComment:comment,
+        rating: rating,
+       
       });
-
-      toast.success(existingReview ? 
-        'Đánh giá đã được cập nhật thành công!' : 
-        'Đánh giá của bạn đã được gửi thành công!'
-      );
+  
+      toast.success('Đánh giá của bạn đã được gửi thành công!');
       navigate(-1);
     } catch (error) {
-      toast.error('Có lỗi xảy ra khi gửi đánh giá: ' + error.message);
+      throw new Error('Lỗi khi tạo đánh giá mới: ' + error.message);
     }
   };
-
   if (loading) {
     return (
       <Container sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '60vh' }}>
@@ -177,7 +168,7 @@ const ReviewPage = () => {
           </Button>
           <Button 
             variant="contained" 
-            onClick={handleSubmitReview}
+            onClick={handleCreateReview}
             sx={{
               bgcolor: '#5e35b1',
               '&:hover': {

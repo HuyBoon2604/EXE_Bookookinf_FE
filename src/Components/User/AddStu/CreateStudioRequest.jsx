@@ -33,15 +33,31 @@ const CreateStudioRequest = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-
-    // Kiểm tra nếu trường là 'pricing' và giá trị không phải là số dương
-    if (name === 'pricing' && value !== '' && Number(value) < 0) {
-        return; // Không cập nhật nếu giá trị là số âm
+  
+    // Kiểm tra nếu trường là 'pricing'
+    if (name === 'pricing') {
+      // Kiểm tra giá trị không được âm
+      if (value !== '' && Number(value.replace(/[^0-9]/g, '')) < 0) {
+        return;
+      }
+  
+      // Loại bỏ tất cả các ký tự không phải số
+      const numericValue = value.replace(/[^0-9]/g, '');
+  
+      // Định dạng giá trị với dấu phẩy
+      const formattedValue = new Intl.NumberFormat('vi-VN').format(numericValue);
+  
+      // Cập nhật state với giá trị số và giá trị đã định dạng
+      setStudioData((prev) => ({
+        ...prev,
+        [name]: numericValue, // Giá trị số để xử lý logic
+        [`${name}Formatted`]: formattedValue, // Giá trị đã định dạng để hiển thị
+      }));
+    } else {
+      // Xử lý các trường khác
+      setStudioData((prev) => ({ ...prev, [name]: value }));
     }
-
-    setStudioData((prev) => ({ ...prev, [name]: value }));
   };
-
   const handleImageUpload = (e, key, index = null) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -164,9 +180,17 @@ const CreateStudioRequest = () => {
           </div>
 
           <div className="form-group">
-            <label>Giá (VNĐ):</label>
-            <input type="number" name="pricing" value={studioData.pricing} onChange={handleInputChange} min="0" required />
-          </div>
+      <label>Giá (VNĐ):</label>
+      <input
+        type="text" // Sử dụng type="text" để hiển thị giá trị đã định dạng
+        name="pricing"
+        value={studioData.pricingFormatted || ''}
+        onChange={handleInputChange}
+        required
+      />
+      {/* Lưu giá trị số thực tế trong một trường ẩn (nếu cần) */}
+      <input type="hidden" name="pricingNumeric" value={studioData.pricing} />
+    </div>
 
           <div className="form-group">
             <label>Địa Chỉ:</label>

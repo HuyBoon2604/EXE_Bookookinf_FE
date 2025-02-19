@@ -122,7 +122,7 @@ Thank you.`;
       console.log('API review:', response.data);
 
     
-      const extractedStudio = response.data?.$values || [];
+      const extractedStudio = Array.isArray(response.data) ? response.data : response.data?.$values || [];
       setreview(extractedStudio);
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -237,6 +237,10 @@ Thank you.`;
     return date.isBefore(dayjs(), 'day');
   };
 
+  const formattedPrice = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
+  .format(studio.studio?.pricing)
+  .replace('₫', 'VND')
+  .trim();
   return (
     <div id="StudioInfor">
     
@@ -270,33 +274,24 @@ Thank you.`;
 <div className="grouped-images" onClick={() => setIsGroupOpened(!isGroupOpened)}>
   {!isGroupOpened ? (
     <div className="grouped-images-placeholder">
-    
       <div className="image-with-overlay">
-        <img
-         src={images[5]?.src} 
-         
-          className="gallery-img"
-        />
-       
-        <div className="overlay-text">
-          +{images.length - 6} more
-        </div>
+        {images[5] ? (
+          <img
+            src={images[5].src}
+            alt={images[5].name}
+            className="gallery-img"
+          />
+        ) : (
+          <div className="empty-square"></div> // Ô vuông trống
+        )}
+        {images.length > 6 && (
+          <div className="overlay-text">
+            +{images.length - 6} hình ảnh
+          </div>
+        )}
       </div>
     </div>
-  ) : (
-    <div className="grouped-images-expanded">
-      {images.slice(-2).map((img, index) => (
-        <div key={index} className="image-item">
-          <img
-            src={img.src}
-            alt={img.name}
-            className="gallery-img"
-            onClick={() => setSelectedImage(img.src)}
-          />
-        </div>
-      ))}
-    </div>
-  )}
+  ) : null} {/* Thêm null để xử lý trường hợp false */}
 </div>
 
         </div>
@@ -352,7 +347,14 @@ Thank you.`;
   </ul>
 </div>
 <hr width="100%" align="left"></hr>
-<div class="listing-section-margins" id="ophours_section"><h2 class="h5"><span>Giờ hoạt động</span></h2><div className="thuchua"><div class="flex space-between "><div class="flex-one">Monday</div><div class="flex-one"><div>Closed</div></div></div><div class="flex space-between "><div class="flex-one">Tuesday</div><div class="flex-one"><div>12:00 PM - 12:00 AM</div></div></div><div class="flex space-between "><div class="flex-one">Wednesday</div><div class="flex-one"><div>12:00 PM - 12:00 AM</div></div></div><div class="flex space-between "><div class="flex-one">Thursday</div><div class="flex-one"><div>12:00 PM - 12:00 AM</div></div></div><div class="flex space-between "><div class="flex-one">Friday</div><div class="flex-one"><div>12:00 PM - 12:00 AM</div></div></div><div class="flex space-between "><div class="flex-one">Saturday</div><div class="flex-one"><div>12:00 PM - 12:00 AM</div></div></div><div class="flex space-between "><div class="flex-one">Sunday</div><div class="flex-one"><div>12:00 PM - 12:00 AM</div></div></div></div></div>
+<div class="listing-section-margins" id="ophours_section"><h2 class="h5"><span>Giờ hoạt động</span></h2>
+<div className="thuchua"><div class="flex space-between "><div class="flex-one">Thứ hai</div><div class="flex-one"><div>Đóng cửa</div>
+</div></div><div class="flex space-between "><div class="flex-one">Thứ ba</div><div class="flex-one"><div>12:00 PM - 12:00 AM</div>
+</div></div><div class="flex space-between "><div class="flex-one">Thứ tư</div><div class="flex-one"><div>12:00 PM - 12:00 AM</div>
+</div></div><div class="flex space-between "><div class="flex-one">Thứ năm</div><div class="flex-one"><div>12:00 PM - 12:00 AM</div>
+</div></div><div class="flex space-between "><div class="flex-one">Thứ sáu</div><div class="flex-one"><div>12:00 PM - 12:00 AM</div>
+</div></div><div class="flex space-between "><div class="flex-one">Thứ bảy</div><div class="flex-one"><div>12:00 PM - 12:00 AM</div>
+</div></div><div class="flex space-between "><div class="flex-one">Chủ nhật</div><div class="flex-one"><div>12:00 PM - 12:00 AM</div></div></div></div></div>
 <hr  width="100%" align="left" />
 <div className="review-chua">
       <div className="review-vui">
@@ -369,10 +371,10 @@ Thank you.`;
             style={{ cursor: "pointer" }}
           >
             <div>
-              <img src={reviews.account.imageUrl} alt="" className="hinh-reviewer" />
+              <img src={reviews.account?.imageUrl} alt="" className="hinh-reviewer" />
             </div>
             <div>
-              <strong>{reviews.account.userName}</strong>
+              <strong className="tenreview">{reviews.account?.userName}</strong>
               <p>{reviews.reviewMessage}</p>
               <p className="reviewdate">
   ({new Date(reviews.reviewDate).toLocaleDateString('vi-VN', {
@@ -408,7 +410,7 @@ Thank you.`;
           <div className="price-details">
             <div className="pricechuavui">
             <span className="price">
-  {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(studio.studio?.pricing)} / Giờ
+            {formattedPrice} / Giờ
 </span>
             {/* <span className="discount">10% off</span> */}
             </div>

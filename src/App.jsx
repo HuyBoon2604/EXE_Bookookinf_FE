@@ -26,6 +26,7 @@ import AccountManaPage1 from './pages/AccountManaPage/AccountManaPage1';
 import RequireAuth from './Components/ReqAuth/RequireAuth'; // Bỏ .jsx extension
 
 import CheckStudio1 from './pages/CheckStudioPage/CheckStudio1';
+import ThuePhongPage1 from './pages/ThuePhongPage/ThuePhongPage1';
 import UnauthorizedPage from './pages/UnauthorizedPage/UnauthorizedPage';
 import ReviewPage from './pages/ReviewPage/ReviewPage';
 
@@ -64,6 +65,7 @@ function App() {
 <Route path="/Reservation" element={<ReservationPage/>} />
 <Route path="/searchpage" element={<SearchnePage />} />
 <Route path="/checkout-success" element={<SucessPage />} />
+<Route path="/thuephong" element={<ThuePhongPage1 />} />
 
         
         {/* Chủ Studio */}

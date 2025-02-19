@@ -55,7 +55,7 @@ catch (error) {
         />
         <div className="user-details">
           <h1 className="user-name">{user.userName}</h1>
-          <p className="join-date">Joined Oct 2024</p>
+          <p className="join-date">{user.dateOfBirth}</p>
         </div>
       </div>
       <div className="profileverichua">
