@@ -319,7 +319,7 @@ Thank you.`;
  <div className="about-space">
     <h3 className="title-vuivai">Mô tả tiện ích</h3>
     <p className={`description-vuivui ${isExpanded ? 'expanded' : ''}`}>
-      {isExpanded ? text : `${text.slice(0, 300)}...`}
+      {isExpanded ? studio.studio?.studioDescriptionAmentitiesDetail : `${studio.studio?.studioDescriptionAmentitiesDetail?.slice(0, 300)}...`}
     </p>
     <button onClick={toggleExpand} className="read-more-btn">
       {isExpanded ? 'Hạn chế' : 'Xem Thêm'}
@@ -349,12 +349,12 @@ Thank you.`;
 <hr width="100%" align="left"></hr>
 <div class="listing-section-margins" id="ophours_section"><h2 class="h5"><span>Giờ hoạt động</span></h2>
 <div className="thuchua"><div class="flex space-between "><div class="flex-one">Thứ hai</div><div class="flex-one"><div>Đóng cửa</div>
-</div></div><div class="flex space-between "><div class="flex-one">Thứ ba</div><div class="flex-one"><div>12:00 PM - 12:00 AM</div>
-</div></div><div class="flex space-between "><div class="flex-one">Thứ tư</div><div class="flex-one"><div>12:00 PM - 12:00 AM</div>
-</div></div><div class="flex space-between "><div class="flex-one">Thứ năm</div><div class="flex-one"><div>12:00 PM - 12:00 AM</div>
-</div></div><div class="flex space-between "><div class="flex-one">Thứ sáu</div><div class="flex-one"><div>12:00 PM - 12:00 AM</div>
-</div></div><div class="flex space-between "><div class="flex-one">Thứ bảy</div><div class="flex-one"><div>12:00 PM - 12:00 AM</div>
-</div></div><div class="flex space-between "><div class="flex-one">Chủ nhật</div><div class="flex-one"><div>12:00 PM - 12:00 AM</div></div></div></div></div>
+</div></div><div class="flex space-between "><div class="flex-one">Thứ ba</div><div class="flex-one"><div>{studio.studio?.timeOn} Giờ - {studio.studio?.timeOff} Giờ</div>
+</div></div><div class="flex space-between "><div class="flex-one">Thứ tư</div><div class="flex-one"><div>{studio.studio?.timeOn} Giờ - {studio.studio?.timeOff} Giờ</div>
+</div></div><div class="flex space-between "><div class="flex-one">Thứ năm</div><div class="flex-one"><div> {studio.studio?.timeOn} Giờ - {studio.studio?.timeOff} Giờ</div>
+</div></div><div class="flex space-between "><div class="flex-one">Thứ sáu</div><div class="flex-one"><div>{studio.studio?.timeOn} Giờ - {studio.studio?.timeOff} Giờ</div>
+</div></div><div class="flex space-between "><div class="flex-one">Thứ bảy</div><div class="flex-one"><div>{studio.studio?.timeOn} Giờ - {studio.studio?.timeOff} Giờ</div>
+</div></div><div class="flex space-between "><div class="flex-one">Chủ nhật</div><div class="flex-one"><div>{studio.studio?.timeOn} Giờ - {studio.studio?.timeOff} Giờ</div></div></div></div></div>
 <hr  width="100%" align="left" />
 <div className="review-chua">
       <div className="review-vui">
@@ -363,30 +363,46 @@ Thank you.`;
       </div>
 
       <div className="reviews-section">
-        {review.slice(0, visibleReviews).map((reviews, index) => (
-          <div
-            className="review"
-            key={index}
-            onClick={() => handleNavigate(reviews.accountId)}
-            style={{ cursor: "pointer" }}
-          >
-            <div>
-              <img src={reviews.account?.imageUrl} alt="" className="hinh-reviewer" />
-            </div>
-            <div>
-              <strong className="tenreview">{reviews.account?.userName}</strong>
-              <p>{reviews.reviewMessage}</p>
-              <p className="reviewdate">
-  ({new Date(reviews.reviewDate).toLocaleDateString('vi-VN', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric',
-  })})
-</p>
-            </div>
-          </div>
-        ))}
+  {review.slice(0, visibleReviews).map((reviews, index) => (
+    <div
+      className="review"
+      key={index}
+      onClick={() => handleNavigate(reviews.accountId)}
+      style={{ cursor: "pointer" }}
+    >
+      <div>
+        <img src={reviews.account?.imageUrl} alt="" className="hinh-reviewer" />
       </div>
+      <div>
+        <strong className="tenreview">{reviews.account?.userName}</strong>
+        <div className="rating">
+          {[...Array(5)].map((star, i) => {
+            const ratingValue = i + 1;
+            return (
+              <span
+                key={i}
+                className="star"
+                style={{
+                  color: ratingValue <= reviews.rating ? "#ffc107" : "#e4e5e9",
+                }}
+              >
+                &#9733;
+              </span>
+            );
+          })}
+        </div>
+        <p>{reviews.reviewMessage}</p>
+        <p className="reviewdate">
+          ({new Date(reviews.reviewDate).toLocaleDateString('vi-VN', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+          })})
+        </p>
+      </div>
+    </div>
+  ))}
+</div>
 
       {visibleReviews < review.length && ( 
         <button className="show-more-button" onClick={handleShowMore}>
