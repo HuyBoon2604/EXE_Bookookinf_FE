@@ -483,7 +483,9 @@ useEffect(() => {
                           {/* <td className="editCell">{order.studioDetails?.studioSize}</td> */}
                           <td className="editCell">{order.booking?.checkIn}</td>
                           <td className="editCell">{order.booking?.checkOut}</td>
-                          <td className="editCell">{order.status ? "Thành Công" : "Thất Bại"}</td>
+                          <td className={`editCell ${order.status ? "success" : "failed"}`}>
+                                                    {order.status ? "Thành Công" : "Thất Bại"}
+                          </td>
                         </tr>
                       ))
                     ) : (
@@ -679,11 +681,11 @@ useEffect(() => {
             {/* order.studioDetails?.imageStudio ||
                                 "https://via.placeholder.com/40" */}
             <td className="editCell">{customer.studio?.studioName}</td>
-        <td className="editCell">{customer.studio?.pricing}</td>
+        <td className="editCell">{formatPrice(customer.studio?.pricing)}</td>
         <td className="editCell">{customer.studio?.studioAddress}</td>
         <td className="editCell">{customer.studio?.studioDescription}</td>
         <td className="editCell">{customer.size?.sizeDescription}</td>
-        <td className="editCell">{customer.quantity}</td>
+        <td className="editCell">{customer.quantity} người</td>
             
             <td className="editCell">
               <button
@@ -736,17 +738,12 @@ useEffect(() => {
           />
         </td>
         <td className="editCell">{customer.studioName}</td>
-        <td className="editCell">{customer.pricing}</td>
+        <td className="editCell">{formatPrice(customer.pricing)}</td>
         <td className="editCell">{customer.studioAddress}</td>
         <td className="editCell">{customer.studioDescription}</td>
-        <td className="editCell">
-          <button
-            className="editButton"
-            // onClick={() => handleEdit(customer)}
-          >
-            Chờ Duyệt
-          </button>
-        </td>
+        <td className="editCell" style={{ color: "#B8860B",fontWeight: "bold" }}>
+  Chờ Duyệt
+</td>
       </tr>
     ))
   )}

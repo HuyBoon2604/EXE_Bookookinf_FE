@@ -92,14 +92,14 @@ export default function Header() {
             >
               LỚP NHẢY
               <div className="dropdown">
-                <a href="/Course/class1">Lớp T2-T4-T6</a>
-                <a href="/Course/class2">Lớp T3-T5-T7</a>
+                <a href="/Course/class1">Lớp Thứ 2-4-6</a>
+                <a href="/Course/class2">Lớp Thứ 3-5-7</a>
               </div>
             </button>         
             <button 
               className={`navItem ${location.pathname === '/Contact' ? 'active' : ''}`}
             >
-              <a href="/Contact">LIÊN HỆ</a>
+              <a href="/Contact">TIN TỨC</a>
             </button>
           </nav>
           <div ref={languageDropdownRef}>
