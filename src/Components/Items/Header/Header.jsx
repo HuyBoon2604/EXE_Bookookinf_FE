@@ -38,7 +38,11 @@ export default function Header() {
 
   // Hàm kiểm tra click bên ngoài cho dropdown tài khoản
   const handleClickOutside = (event) => {
-    if (accountDropdownRef.current && !accountDropdownRef.current.contains(event.target)) {
+    if (
+      accountDropdownRef.current &&
+      !accountDropdownRef.current.contains(event.target) && // Kiểm tra nếu click không nằm trong dropdown
+      event.target.closest(".contentImage") === null // Đảm bảo click không phải vào ảnh profile
+    ) {
       setDropdownVisible(false);
     }
     if (languageDropdownRef.current && !languageDropdownRef.current.contains(event.target)) {
