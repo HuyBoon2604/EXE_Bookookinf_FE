@@ -64,7 +64,7 @@ const Checkstudio = () => {
 
         console.log('📤 Sending FormData:', Object.fromEntries(formData));
 
-        const url = 'https://localhost:7199/api/Studio/Reject-Studio-Requets';
+        const url = '/api/Studio/Reject-Studio-Requets';
 
         const response = await api.post(url, formData, {
             headers: {

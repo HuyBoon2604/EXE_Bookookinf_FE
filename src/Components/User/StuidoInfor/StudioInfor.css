@@ -353,8 +353,13 @@
   width: 100%;
   margin-top: 30px;
   margin-bottom: 30px;
+  margin-left: 2%;
   display: flex;
   border-bottom: 1px solid #ccc;
+}
+.tenreview:hover{
+  color : gray;
+  filter: brightness(1.5);
 }
 
 #StudioInfor .amenities-list {
@@ -458,13 +463,15 @@
   margin-top: 40px;
   color: black;
   font-family: 'Poppins';
+  
 }
 
 #StudioInfor .hinh-reviewer {
   border-radius: 50%;
-  height: 8vh;
-  width: 8vh;
+  height: 5vh;
+  width: 5vh;
   border: 1px solid black;
+  margin-left: 2%;
 }
 
 #StudioInfor .amen-title {
@@ -495,7 +502,7 @@
   text-align: center;
 }
 #StudioInfor .reviewdate{
-  color: rgb(189, 185, 185);
+  color: black;
 }
 .show-more-button {
   margin-top: 20px;

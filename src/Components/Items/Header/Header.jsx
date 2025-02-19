@@ -83,9 +83,9 @@ export default function Header() {
               </button>
             )}
             <button 
-              className={`navItem ${location.pathname === '/Rental' ? 'active' : ''}`}
+              className={`navItem ${location.pathname === '/thuephong' ? 'active' : ''}`}
             >
-              THUÊ PHÒNG TẬP NHẢY
+               <a href="/thuephong">THUÊ PHÒNG TẬP  NHẢY</a>
             </button>
             <button 
               className={`navItem ${location.pathname.startsWith('/Course') ? 'active' : ''}`}

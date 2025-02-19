@@ -810,67 +810,58 @@ aspect-ratio: 16 / 16;
 
 }
 
-.swiper {
-width: 100%;
-aspect-ratio: 20/18;
-color: black
+
+
+
+
+
+.baihopchus {
+  padding: 20px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  max-width:500px;
+  margin: auto;
+  transition: opacity 0.5s ease-in-out;
+  position: absolute;
+  margin-top: 47%;
+  margin-left: 45%;
 }
 
-
-.swiper-slide {
-display: flex;
-justify-content: center;
-align-items: center;
-background: transparent;
-border-radius: 10px;
-box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-overflow: hidden;
-
+.thebaihoc {
+  font-size: 20px;
+  font-weight: bold;
+  color:black;
+  margin-bottom: 10px;
+  width: 100%;
 }
 
-.thebaihoc{
-width: 60%;
-position: absolute;
-font-family: 'Poppins';
-
-top:50%;
-font-size: 2.5vh;
-
-}
-.desbaihoc{
-width: 50%;
-position: absolute;
-top: 55%;
-font-family: 'Poppins';
-font-size: 2.5vh;
-
+.desbaihoc {
+  font-size: 15px;
+  color: black;
 }
 
-
-.swiper .swiper-button-next,
-.swiper .swiper-button-prev {
-color: black !important;
-position: absolute !important;
-top: 49% !important;
-height: 40px !important; 
-width: 1rem !important;
-
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
 }
 
-.swiper .swiper-button-next{
-right: 85% !important;
+.pagination span {
+  width: 10px;
+  height: 10px;
+  margin: 5px;
+  background-color: gray;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-.swiper .swiper-button-prev{
-left: 2% !important;
+.pagination span.active {
+  background-color: black;
 }
 
-
-.swiper-button-next:hover,
-.swiper-button-prev:hover {
-color: black; 
-transform: scale(1.2);
-}
 .hoahd{
 width: 100%;
 aspect-ratio: 12/12;
@@ -990,7 +981,7 @@ border: 1px solid black;
   top: 50%;
   transform: translateY(-50%);
   background-color: rgba(0, 0, 0, 0.5);
-  color: white;
+  
   border: none;
   padding: 10px;
   cursor: pointer;
@@ -1005,7 +996,7 @@ border: 1px solid black;
   left: 20%;
   font-size: 40px;
   margin-top: 10%;
-  color: white;
+  color: pink;
 }
 .carousel-button:hover {
   background-color: rgba(0, 0, 0, 0.8); 
@@ -1018,8 +1009,8 @@ border: 1px solid black;
   right: 20%;
   font-size: 40px;
   margin-top: 10%;
+  color: pink;
   
-  color: white;
 }
 
 .madein {

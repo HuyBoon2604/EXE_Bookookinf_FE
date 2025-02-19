@@ -94,6 +94,13 @@ const HomeTro = () => {
             "Tìm các lựa chọn không gian đa dạng và dễ dàng đặt lịch chỉ với một lần bấm.",
     },
 ];
+useEffect(() => {
+  const interval = setInterval(() => {
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % slides.length);
+  }, 5000); 
+
+  return () => clearInterval(interval);
+}, [slides.length]);
 const { t, i18n } = useTranslation();
 const [showLanguages, setShowLanguages] = useState(false);
 
@@ -187,29 +194,39 @@ const settings = {
 <img src="\flower.gif" alt="" className='hoahduoi' />
 </div> */}
 
-<div style={{ width: "50%", top: "50vh", position: "absolute", left: "90vh" }}>
-  <Swiper
-    modules={[Navigation, Pagination, Autoplay]}
-    navigation
-    
-    spaceBetween={30}
-    slidesPerView={1}
-    loop={true}
-    autoplay={{
-      delay: 6000, 
-      disableOnInteraction: false, 
-    }}
-  >
-    {slides.map((slide, index) => (
-      <SwiperSlide key={index}>
-        <div className="baihopchus">
-          <h2 className="thebaihoc">{slide.title}</h2>
-          <h4 className="desbaihoc">{slide.description}</h4>
-        </div>
-      </SwiperSlide>
-    ))}
-  </Swiper>
-</div>
+{/* <div
+      style={{
+        width: "50%",
+        top: "50vh",
+        position: "absolute",
+        left: "90vh",
+        textAlign: "center",
+      }}
+    >
+       </div> */}
+      <div className="baihopchus">
+        <h2 className="thebaihoc">{slides[currentIndex]?.title}</h2>
+        <h4 className="desbaihoc">{slides[currentIndex]?.description}</h4>
+      </div>
+
+      <div style={{ marginTop: "10px" }}>
+        {slides.map((_, index) => (
+          <span
+            key={index}
+            onClick={() => setCurrentIndex(index)}
+            style={{
+              display: "None",
+              width: "10px",
+              height: "10px",
+              margin: "5px",
+              backgroundColor: index === currentIndex ? "black" : "gray",
+              borderRadius: "50%",
+              cursor: "pointer",
+            }}
+          ></span>
+        ))}
+      </div>
+   
 
       </div>
       <div className="carousel-container">
@@ -241,7 +258,8 @@ const settings = {
             <div className="card-image">
               <img src={studio.imageStudio} alt={studio.title} />
               <div className="card-price">
-                {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(studio.pricing)} / Giờ
+              {new Intl.NumberFormat('vi-VN').format(Number(studio.pricing) || 0)} VND / Giờ
+
               </div>
             </div>
             <div className="card-content">

@@ -28,6 +28,12 @@ const OrderPage = () => {
             time: '11:00 - 13:00',
         },
     ]);
+    const bookingDate = new Date(Order.bookingDate); 
+// const formattedDate = new Intl.DateTimeFormat('vi-VN', {
+//   day: '2-digit',
+//   month: '2-digit',
+//   year: 'numeric'
+// }).format(bookingDate);
 
     useEffect(() => {
         const fetchOrder = async () => {
@@ -194,6 +200,10 @@ const OrderPage = () => {
       useEffect(() => {
         fetchUser();
       }, [fetchUser]);
+      const formattedPrice = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
+      .format(Order.totalPrice)
+      .replace('₫', 'VND')
+      .trim();
     return (
         <div id="OrderPage">
            
@@ -247,9 +257,11 @@ const OrderPage = () => {
                                     </div>
                                     <div className="chuavuine">
                                         <span className="Dateorderstu">
-                                            <strong>Ngày đặt</strong> <div className='vuiquatr'>
-  {Order.bookingDate?.split(' ')[0]}
+                                        <strong>Ngày đặt</strong>
+<div className='vuiquatr'>
+  {new Date(Order.bookingDate).toLocaleDateString('vi-VN')}
 </div>
+
                                         </span>
                                     </div>
                                 </div>
@@ -293,7 +305,7 @@ const OrderPage = () => {
                             <span className="totalpricevui">
                                <strong> Tổng tiền:</strong>
                             </span>
-                            <span className="kovui"> {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(Order.totalPrice)}</span>
+                            <span className="kovui"> {formattedPrice}</span>
                         </div>
                     </div>
 
