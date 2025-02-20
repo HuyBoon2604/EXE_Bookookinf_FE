@@ -440,16 +440,24 @@ text-decoration: underline;
 
 .card {
   width: 100%;
-  max-width: 600px; 
+  max-width: 550px; 
   border: 1px solid #ddd;
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   background: white;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  height: 40vh;
+  height: 45vh;
+}
+.description-vuivui {
+  transition: max-height 0.3s ease; 
+  max-height: 100px; 
+  overflow: hidden; 
 }
 
+.description-vuivui.expanded {
+  max-height: 500px; 
+}
 .card:hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
@@ -458,7 +466,7 @@ text-decoration: underline;
 .card-image {
   position: relative;
   width: 100%;
-  height: 200px; /* Chiều cao cố định cho ảnh */
+  height: 200px; 
   overflow: hidden;
 }
 
