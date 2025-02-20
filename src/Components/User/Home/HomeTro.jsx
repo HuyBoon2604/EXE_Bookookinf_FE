@@ -80,18 +80,19 @@ const HomeTro = () => {
   };
   const slides = [
     {
-        title: "Những khả năng mới và không bao giờ kết thúc",
+        title: "Không gian lý tưởng cho những bước nhảy hoàn hảo",
         description:
-            "Tìm mọi thứ từ các studio được trang bị chuyên nghiệp đến các phòng và nhà ở độc đáo.",
+            "Khám phá các phòng tập nhảy được trang bị đầy đủ tiện nghi, phù hợp cho mọi phong cách nhảy từ cổ điển đến hiện đại.",
     },
     {
-        title: "Khám phá không gian độc đáo",
-        description: "Đặt trước những không gian tạo cảm hứng cho buổi họp, sự kiện, hoặc dự án sáng tạo của bạn.",
+        title: "Đặt phòng tập nhảy dễ dàng và nhanh chóng",
+        description:
+            "Tìm và đặt ngay những phòng tập chất lượng cao, phù hợp với lịch trình và nhu cầu của bạn.",
     },
     {
-        title: "Linh hoạt dành cho mọi người",
+        title: "Khóa học nhảy chuyên nghiệp dành cho mọi lứa tuổi",
         description:
-            "Tìm các lựa chọn không gian đa dạng và dễ dàng đặt lịch chỉ với một lần bấm.",
+            "Tham gia các khóa học nhảy đa dạng, từ cơ bản đến nâng cao, với đội ngũ giảng viên giàu kinh nghiệm.",
     },
 ];
 useEffect(() => {
@@ -130,6 +131,13 @@ const settings = {
     { breakpoint: 600, settings: { slidesToShow: 1 } }
   ]
 };
+const [isExpanded, setIsExpanded] = useState(false);
+    const toggleExpand = (id) => {
+        setIsExpanded((prev) => ({
+          ...prev,
+          [id]: !prev[id] 
+        }));
+      };
 
   return (
     <div id="Home">
@@ -254,37 +262,33 @@ const settings = {
       <div className="studio-list">
       <Slider {...settings}>
         {Studio.map((studio) => (
-          <div className="card" key={studio.id} onClick={() => handleCardClick(studio.id)}>
+          <div className="card" key={studio.id} >
             <div className="card-image">
-              <img src={studio.imageStudio} alt={studio.title} />
+              <img src={studio.imageStudio} alt={studio.title} onClick={() => handleCardClick(studio.id)} />
               <div className="card-price">
               {new Intl.NumberFormat('vi-VN').format(Number(studio.pricing) || 0)} VND / Giờ
 
               </div>
             </div>
             <div className="card-content">
-              <h3 className="card-title">{studio.studioName}</h3>
+              <h3 className="card-title" onClick={() => handleCardClick(studio.id)}>{studio.studioName} </h3>
               <p className="card-address">{studio.studioAddress}</p>
-              <div className="card-rating">
-                <span className="rating-stars">⭐ {studio.ratingId} ({studio.reviews})</span>
-                <span className="rating-reviews">👤 {studio.visitors}</span>
+              <div className="card-rating" onClick={() => handleCardClick(studio.id)}>
+                <span className="rating-stars" onClick={() => handleCardClick(studio.id)}>⭐ {studio.ratingId} ({studio.reviews})</span>
+                <span className="rating-reviews" onClick={() => handleCardClick(studio.id)}>👤 {studio.visitors}</span>
               </div>
-              <p className="card-description">
-  {studio.studioDescription?.length > 20 ? (
-    <>
-      {studio.studioDescription.substring(0, 100)}...
-      <button
-        onClick={(e) => handleSeeMoreClick(e, studio.studioDescription)}
-        className="see-more-button"
-      >
-        Xem thêm
-      </button>
-    </>
-  ) : (
-    studio.studioDescription || "Không có mô tả"
-  )}
+              <p className={`description-vuivui ${isExpanded[studio.id] ? 'expanded' : ''}`} onClick={() => handleCardClick(studio.id)}>
+  {studio.studioDescription
+    ? (isExpanded[studio.id] 
+        ? studio.studioDescription 
+        : studio.studioDescription.slice(0, 100) + "...")
+    : "Không có mô tả"}
 </p>
-
+{studio.studioDescription && (
+  <button onClick={() => toggleExpand(studio.id)} className="read-more-btn">
+    {isExpanded[studio.id] ? "Hạn chế" : "Xem Thêm"}
+  </button>
+)}
             </div>
           </div>
         ))}

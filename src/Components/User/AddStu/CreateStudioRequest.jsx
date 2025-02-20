@@ -41,20 +41,21 @@ const CreateStudioRequest = () => {
         return;
       }
   
-      // Loại bỏ tất cả các ký tự không phải số
+      
       const numericValue = value.replace(/[^0-9]/g, '');
   
-      // Định dạng giá trị với dấu phẩy
+      
       const formattedValue = new Intl.NumberFormat('vi-VN').format(numericValue);
   
-      // Cập nhật state với giá trị số và giá trị đã định dạng
+      
+      
       setStudioData((prev) => ({
         ...prev,
-        [name]: numericValue, // Giá trị số để xử lý logic
-        [`${name}Formatted`]: formattedValue, // Giá trị đã định dạng để hiển thị
+        [name]: numericValue, 
+        [`${name}Formatted`]: formattedValue, 
       }));
     } else {
-      // Xử lý các trường khác
+      
       setStudioData((prev) => ({ ...prev, [name]: value }));
     }
   };
@@ -243,9 +244,18 @@ const CreateStudioRequest = () => {
           </div>
 
           <div className="form-group">
-            <label>Sức Chứa:</label>
-            <input type="text" name="capacity" value={studioData.capacity} onChange={handleInputChange} required />
-          </div>
+    <label>Sức Chứa (Người):</label>
+    <input
+        type="text"
+        name="capacity"
+        value={studioData.capacity}
+        onChange={handleInputChange}
+        required
+    />
+    {studioData.capacity <= 0 && (
+        <p style={{ color: 'red' }}>Vui lòng nhập số lớn hơn 0.</p>
+    )}
+</div>
 
           <button type="submit" className="submit-btn">Tạo Studio</button>
         </form>
