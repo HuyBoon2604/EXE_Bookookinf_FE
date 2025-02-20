@@ -76,7 +76,7 @@
 }
 .ProfilePage-Container{
   height: 50vh;
- background: white;
+ /* background: white; */
 }
 
 #UserProfile .share-profile-button .share-icon {
