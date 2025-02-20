@@ -53,7 +53,7 @@ const CheckoutError = () => {
             <div className="error-icon">
               <span>❌</span>
             </div>
-            <h2>Bạn Đã Hũy Thanh Toán Hoặc Bị Lỗi</h2>
+            <h2>Bạn Đã Hủy Thanh Toán Hoặc Bị Lỗi</h2>
             <p>Có vấn đề với thanh toán của bạn. Vui lòng thử lại hoặc liên hệ với bộ phận hỗ trợ.</p>
             <button className="back-to-home-btn" onClick={handleRetry}>
               Quay lại Trang Chủ
