@@ -5,9 +5,9 @@ const api = axios.create({
    // baseURL: 'https://bcsswp.azurewebsites.net',
     // local
     // baseURL: 'https://localhost:7199',
-    //  baseURL: 'https://cldhbe.azurewebsites.net
+    //  baseURL: 'https://cldhbe.azurewebsites.net',
+    // baseURL: 'https://colordanhub-c4e2c2b9exaudqfu.eastasia-01.azurewebsites.net',
     baseURL: 'https://becolordanhub.azurewebsites.net',
-
 });
 
 const authen = localStorage.getItem('Authen');
