@@ -156,18 +156,18 @@ const [bookedTimes, setBookedTimes] = useState([]);
     }
   
     
-    console.log("Booking Date:", stardate.format('DD-MM-YYYY '));
-    console.log("Check-in:", checkin.format(' HH:mm:ss'));
-    console.log("Check-out:", checkout.format(' HH:mm:ss'));
+    console.log("Booking Date:", stardate.format('DD-MM-YYYY'));
+    console.log("Check-in:", checkin.format('HH:mm:ss'));
+    console.log("Check-out:", checkout.format('HH:mm:ss'));
   
     try {
       const url = '/Add-New-Booking';
       const data = {
         accountId: auth.user.id,
         studioId: id,
-        bookingDate: stardate.format('DD-MM-YYYY '), 
-        checkIn: checkin.format(' HH:mm:ss'), 
-        checkOut: checkout.format(' HH:mm:ss'), 
+        bookingDate: stardate.format('DD-MM-YYYY'), 
+        checkIn: checkin.format('HH:mm:ss'), 
+        checkOut: checkout.format('HH:mm:ss'), 
       };
   
       const response = await api.post(url, data);
@@ -224,6 +224,12 @@ const [bookedTimes, setBookedTimes] = useState([]);
   const isTimeBooked = (time) => {
     return bookedTimes.some(
       ({ start, end }) => time.isAfter(start.subtract(1, "minute")) && time.isBefore(end.add(1, "minute"))
+    );
+  };
+  const isRangeOverlapping = (start, end) => {
+    return bookedTimes.some(
+      ({ start: bookedStart, end: bookedEnd }) =>
+        (start.isBefore(bookedEnd) && end.isAfter(bookedStart)) // Kiểm tra khoảng bị chồng lấn
     );
   };
 
@@ -432,7 +438,7 @@ const [bookedTimes, setBookedTimes] = useState([]);
             <div className="start-Date">
             <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DemoContainer  components={['DatePicker']}>
-        <DatePicker value={stardate}   onChange={handleDateChange} label="Ngày bắt đầu" shouldDisableDate={disablePastDates} />
+        <DatePicker  value={stardate}   onChange={handleDateChange } label="Ngày bắt đầu" shouldDisableDate={disablePastDates}  />
         
       </DemoContainer>
     </LocalizationProvider>
@@ -458,10 +464,18 @@ const [bookedTimes, setBookedTimes] = useState([]);
       <TimePicker
       id="time"
   value={checkout}
-  onChange={(newValue) => handleTimeChange(newValue, setcheckout)}
-  label="Thời gian kết thúc"
-  shouldDisableTime={(value) => isCheckoutDisabled(value)}
+  onChange={(newValue) => {
+    if (checkin && !isRangeOverlapping(checkin, newValue)) {
+      setcheckout(newValue);
+    }
+  }}
+  shouldDisableTime={(value) =>
+    !checkin || value.isBefore(checkin.add(30, "minute")) || isRangeOverlapping(checkin, value)
+  }
   disabled={!stardate || !checkin}
+  label="Thời gian kết thúc"
+  // shouldDisableTime={(value) => isCheckoutDisabled(value)}
+  // disabled={!stardate || !checkin}
 />
       </DemoContainer>
     </LocalizationProvider>
