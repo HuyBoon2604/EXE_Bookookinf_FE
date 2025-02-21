@@ -74,7 +74,8 @@
 
 /* Login Form styles */
 #Signup .login-form {
-  background: white;
+  background-color: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(15px);
   padding: 40px;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -92,7 +93,11 @@
   text-align: center;
   margin-bottom: 20px;
   font-weight: bold;
-  color: #9c74cf;
+  background: linear-gradient(to right, #ff7eb3, #915dd1);
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-stroke: 1px black;
+  font-family: 'Poppins';
 }
 
 #Signup .input-group {
