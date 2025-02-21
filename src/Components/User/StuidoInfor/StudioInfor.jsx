@@ -33,8 +33,8 @@ const StudioInfor = () => {
   const [isGroupOpened, setIsGroupOpened] = useState(false); 
   const [studio, setstudio] = useState([]);
 const [stardate, setStardate] = useState(dayjs().tz('Asia/Ho_Chi_Minh'));
-const [checkin, setcheckin] = useState(dayjs("10:00").tz('Asia/Ho_Chi_Minh'));
-const [checkout, setcheckout] = useState(dayjs("18:00").tz('Asia/Ho_Chi_Minh'));
+const [checkin, setcheckin] = useState(null);
+const [checkout, setcheckout] = useState(null);
 const [review, setreview] = useState([]);
 const { id } = useParams();
 const { auth } = useAuth();
@@ -132,6 +132,7 @@ const [bookedTimes, setBookedTimes] = useState([]);
     navigate(`/Profile/${accountId}`);
   };
   const validateTime = (checkin, checkout) => {
+    if (!checkin || !checkout) return false; // Nếu một trong hai là null, trả về false
     return checkout.isAfter(checkin);
   };
    const Showconfirmbooking = () => {
@@ -191,35 +192,42 @@ const [bookedTimes, setBookedTimes] = useState([]);
   useEffect(() => {
     if (!stardate || !id) return;
 
-    // const fetchBookedTimes = async () => {
-    //   try {
-    //     const formattedDate = stardate.format("DD/MM/YYYY");
-    //     const apiUrl = `/Get-Successful-BookingDates-By-Studio/${id}?dateStr=${formattedDate}`;
+    const fetchBookedTimes = async () => {
+      try {
+        const formattedDate = stardate.format("DD-MM-YYYY");
+        const apiUrl = `/Get-Successful-BookingDates-By-Studio/${id}?dateStr=${formattedDate}`;
         
-    //     const response = await api.get(apiUrl);
-    //     const booked = response.data.map(({ start, end }) => ({
-    //       start: dayjs(start),
-    //       end: dayjs(end),
-    //     }));
-    //     setBookedTimes(booked);
-    //   } catch (error) {
-    //     console.error("Lỗi khi lấy dữ liệu đặt phòng:", error);
-    //   }
-    // };
+        const response = await api.get(apiUrl);
+        console.log(response.data);
+        const booked = response.data.map(({ checkIn, checkOut }) => ({
+          start: dayjs(stardate)
+            .hour(checkIn.trim().split(":")[0])
+            .minute(checkIn.trim().split(":")[1])
+            .second(0),
+          end: dayjs(stardate)
+            .hour(checkOut.trim().split(":")[0])
+            .minute(checkOut.trim().split(":")[1])
+            .second(0),
+        }));
+        setBookedTimes(booked);
+      } catch (error) {
+        console.error("Lỗi khi lấy dữ liệu đặt phòng:", error);
+      }
+    };
 
-    // fetchBookedTimes();
-    const mockBookedData = [
-      { start: "09:00", end: "10:30" },
-      { start: "14:00", end: "15:00" },
-      { start: "16:30", end: "18:00" },
-    ];
+    fetchBookedTimes();
+    // const mockBookedData = [
+    //   { start: "09:00", end: "10:30" },
+    //   { start: "14:00", end: "15:00" },
+    //   { start: "16:30", end: "18:00" },
+    // ];
 
-    const booked = mockBookedData.map(({ start, end }) => ({
-      start: dayjs(stardate).hour(start.split(":")[0]).minute(start.split(":")[1]),
-      end: dayjs(stardate).hour(end.split(":")[0]).minute(end.split(":")[1]),
-    }));
+    // const booked = mockBookedData.map(({ start, end }) => ({
+    //   start: dayjs(stardate).hour(start.split(":")[0]).minute(start.split(":")[1]),
+    //   end: dayjs(stardate).hour(end.split(":")[0]).minute(end.split(":")[1]),
+    // }));
 
-    setBookedTimes(booked);
+    // setBookedTimes(booked);
   }, [stardate, id]);
   const isTimeBooked = (time) => {
     return bookedTimes.some(
@@ -229,7 +237,7 @@ const [bookedTimes, setBookedTimes] = useState([]);
   const isRangeOverlapping = (start, end) => {
     return bookedTimes.some(
       ({ start: bookedStart, end: bookedEnd }) =>
-        (start.isBefore(bookedEnd) && end.isAfter(bookedStart)) // Kiểm tra khoảng bị chồng lấn
+        (start.isBefore(bookedEnd) && end.isAfter(bookedStart)) 
     );
   };
 

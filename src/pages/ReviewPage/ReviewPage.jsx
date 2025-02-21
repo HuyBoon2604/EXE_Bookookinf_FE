@@ -22,7 +22,9 @@ const ReviewPage = () => {
   const [existingReview, setExistingReview] = useState(null);
   const { auth } = useAuth();
   const navigate = useNavigate();
-
+  const handleCardClick = (studioId) => {
+    navigate(`/StudioInfor/${studioId}`);
+  };
   useEffect(() => {
     const fetchExistingReview = async () => {
       try {
@@ -53,7 +55,7 @@ const ReviewPage = () => {
       });
 
       toast.success('Đánh giá của bạn đã được gửi thành công!');
-      navigate(-1);
+      navigate(`/StudioInfor/${studioId}`);
     } catch (error) {
       toast.error('Lỗi khi tạo đánh giá mới: ' + error.message);
     }
@@ -63,7 +65,7 @@ const ReviewPage = () => {
     try {
       await api.put(`Update-Review?reviewId=${existingReview.id}&ReviewComment=${comment}`)
        
-        
+      navigate(`/StudioInfor/${studioId}`);
     
   
       toast.success('Đánh giá của bạn đã được cập nhật thành công!');
