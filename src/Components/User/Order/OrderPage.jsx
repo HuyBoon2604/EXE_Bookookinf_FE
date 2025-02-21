@@ -16,6 +16,9 @@ const OrderPage = () => {
     const[host, sethost] =useState([]);
     const[user, setuser] =useState([]);
     const [successMessage, setSuccessMessage] = useState('');
+    const [Capa, Setcapa] = useState([]);
+      const [loading, setLoading] = useState(false);
+    
     const [studios] = useState([
         {
             id: 1,
@@ -50,6 +53,24 @@ const OrderPage = () => {
         fetchOrder();
         
     }, [Bookingid]);
+    useEffect(() => {
+const fetchcapacity = async () => {
+const url = `/Get-Capacity-By-StudioId?StudioId=${Order.studioId}`;
+try{
+    const response = await api.get(url);
+    console.log("capane", response.data);
+    Setcapa(response.data);
+}
+catch(error){
+    console.error("Error fetching capacity data:", error);
+}
+
+
+}
+fetchcapacity();
+
+
+    }, [Order?.studioId]);
     useEffect(() => {
         if (Order?.studioId) {
             const fetchstuofuser = async () => {
@@ -240,7 +261,7 @@ const OrderPage = () => {
                                     <div className="chuavuine">
                                         <span className="typeofstu">
                                             <strong>Loại phòng</strong> 
-                                            <div className='vuiquatr'>Vừa</div>
+                                            <div className='vuiquatr'>{Capa?.size?.sizeDescription}</div>
                                         </span>
                                     </div>
                                     <div className="chuavuine">
