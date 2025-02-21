@@ -33,13 +33,14 @@ const StudioInfor = () => {
   const [isGroupOpened, setIsGroupOpened] = useState(false); 
   const [studio, setstudio] = useState([]);
 const [stardate, setStardate] = useState(dayjs().tz('Asia/Ho_Chi_Minh'));
-const [checkin, setcheckin] = useState(dayjs("2025-01-02T10:00").tz('Asia/Ho_Chi_Minh'));
-const [checkout, setcheckout] = useState(dayjs("2025-01-02T18:00").tz('Asia/Ho_Chi_Minh'));
+const [checkin, setcheckin] = useState(dayjs("10:00").tz('Asia/Ho_Chi_Minh'));
+const [checkout, setcheckout] = useState(dayjs("18:00").tz('Asia/Ho_Chi_Minh'));
 const [review, setreview] = useState([]);
 const { id } = useParams();
 const { auth } = useAuth();
 const [BookingId, setBookingId] = useState([]);
 const [isExpanded, setIsExpanded] = useState(false);
+const [bookedTimes, setBookedTimes] = useState([]);
 
 
 
@@ -155,7 +156,7 @@ const [isExpanded, setIsExpanded] = useState(false);
     }
   
     
-    console.log("Booking Date:", stardate.format('YYYY-MM-DD HH:mm:ss'));
+    console.log("Booking Date:", stardate.format('DD-MM-YYYY '));
     console.log("Check-in:", checkin.format(' HH:mm:ss'));
     console.log("Check-out:", checkout.format(' HH:mm:ss'));
   
@@ -164,7 +165,7 @@ const [isExpanded, setIsExpanded] = useState(false);
       const data = {
         accountId: auth.user.id,
         studioId: id,
-        bookingDate: stardate.format('YYYY-MM-DD '), 
+        bookingDate: stardate.format('DD-MM-YYYY '), 
         checkIn: checkin.format(' HH:mm:ss'), 
         checkOut: checkout.format(' HH:mm:ss'), 
       };
@@ -186,6 +187,49 @@ const [isExpanded, setIsExpanded] = useState(false);
   
   const disablePastDates = (date) => {
     return date.isBefore(dayjs(), 'day');
+  };
+  useEffect(() => {
+    if (!stardate || !id) return;
+
+    // const fetchBookedTimes = async () => {
+    //   try {
+    //     const formattedDate = stardate.format("DD/MM/YYYY");
+    //     const apiUrl = `/Get-Successful-BookingDates-By-Studio/${id}?dateStr=${formattedDate}`;
+        
+    //     const response = await api.get(apiUrl);
+    //     const booked = response.data.map(({ start, end }) => ({
+    //       start: dayjs(start),
+    //       end: dayjs(end),
+    //     }));
+    //     setBookedTimes(booked);
+    //   } catch (error) {
+    //     console.error("Lỗi khi lấy dữ liệu đặt phòng:", error);
+    //   }
+    // };
+
+    // fetchBookedTimes();
+    const mockBookedData = [
+      { start: "09:00", end: "10:30" },
+      { start: "14:00", end: "15:00" },
+      { start: "16:30", end: "18:00" },
+    ];
+
+    const booked = mockBookedData.map(({ start, end }) => ({
+      start: dayjs(stardate).hour(start.split(":")[0]).minute(start.split(":")[1]),
+      end: dayjs(stardate).hour(end.split(":")[0]).minute(end.split(":")[1]),
+    }));
+
+    setBookedTimes(booked);
+  }, [stardate, id]);
+  const isTimeBooked = (time) => {
+    return bookedTimes.some(
+      ({ start, end }) => time.isAfter(start.subtract(1, "minute")) && time.isBefore(end.add(1, "minute"))
+    );
+  };
+
+  const isCheckoutDisabled = (time) => {
+    if (!checkin) return isTimeBooked(time);
+    return time.isBefore(checkin.add(30, "minute")) || isTimeBooked(time);
   };
 
   const formattedPrice = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
@@ -402,6 +446,8 @@ const [isExpanded, setIsExpanded] = useState(false);
   value={checkin}
   onChange={(newValue) => handleTimeChange(newValue, setcheckin)}
   label="Thời gian bắt đầu"
+  shouldDisableTime={(value) => isTimeBooked(value)}
+  disabled={!stardate}
 />
       </DemoContainer>
     </LocalizationProvider>
@@ -414,6 +460,8 @@ const [isExpanded, setIsExpanded] = useState(false);
   value={checkout}
   onChange={(newValue) => handleTimeChange(newValue, setcheckout)}
   label="Thời gian kết thúc"
+  shouldDisableTime={(value) => isCheckoutDisabled(value)}
+  disabled={!stardate || !checkin}
 />
       </DemoContainer>
     </LocalizationProvider>

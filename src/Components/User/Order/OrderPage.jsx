@@ -238,7 +238,7 @@ const OrderPage = () => {
                                     <div className="chuavuine">
                                         <span className="typeofstu">
                                             <strong>Loại phòng</strong> 
-                                            <div className='vuiquatr'>{studio.type}</div>
+                                            <div className='vuiquatr'>Vừa</div>
                                         </span>
                                     </div>
                                     <div className="chuavuine">
@@ -259,7 +259,7 @@ const OrderPage = () => {
                                         <span className="Dateorderstu">
                                         <strong>Ngày đặt</strong>
 <div className='vuiquatr'>
-  {new Date(Order.bookingDate).toLocaleDateString('vi-VN')}
+{Order.bookingDate}
 </div>
 
                                         </span>

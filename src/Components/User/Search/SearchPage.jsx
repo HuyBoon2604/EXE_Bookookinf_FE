@@ -18,8 +18,9 @@ const SearchPage = () => {
             location
           )}`
         );
+        const extractedStudio = Array.isArray(response.data) ? response.data : response.data?.$values || [];
         console.log("API response:", response.data);
-        setStudios(response.data?.$values || []);
+        setStudios(extractedStudio);
       } catch (error) {
         console.error("Error fetching studio:", error);
         toast.error("Không thể lấy danh sách studio!");
