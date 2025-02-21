@@ -124,7 +124,7 @@ useEffect(() => {
       {/* Login Form Section */}
       <div className="login-form">
         <div className="container">
-          <h3>Chào Mừng Bạn Đến Với Colordanhub</h3>
+          <h3 className='chaomung'>Chào Mừng Bạn Đến Với Colordanhub</h3>
           <p>Bạn Chưa Có Tài Khoản Colordanhub? <a href="/Signup">Đăng Ký</a></p>
           <form onSubmit={handleSubmit}>
             <div className="input-group">

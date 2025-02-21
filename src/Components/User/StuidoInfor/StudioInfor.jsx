@@ -152,7 +152,7 @@ const [bookedTimes, setBookedTimes] = useState([]);
       };
   const handleBooking = async () => {
     if (!validateTime(checkin, checkout)) {
-      toast.error("Thời gian checkout phải lớn hơn thời gian checkin!");
+      toast.error("Thời gian kết thúc phải lớn hơn thời gian bắt đầu!");
       return;
     }
   
@@ -446,7 +446,10 @@ const [bookedTimes, setBookedTimes] = useState([]);
             <div className="start-Date">
             <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DemoContainer  components={['DatePicker']}>
-        <DatePicker  value={stardate}   onChange={handleDateChange } label="Ngày bắt đầu" shouldDisableDate={disablePastDates}  />
+        <DatePicker  value={stardate}   onChange={handleDateChange } label="Ngày bắt đầu" shouldDisableDate={disablePastDates} sx={{
+    '& .MuiInputLabel-root': { color: 'black' }, 
+    '& .MuiInputLabel-root.Mui-focused': { color: 'blue' }, 
+  }} />
         
       </DemoContainer>
     </LocalizationProvider>
@@ -462,6 +465,10 @@ const [bookedTimes, setBookedTimes] = useState([]);
   label="Thời gian bắt đầu"
   shouldDisableTime={(value) => isTimeBooked(value)}
   disabled={!stardate}
+  sx={{
+    '& .MuiInputLabel-root': { color: 'black' }, 
+    '& .MuiInputLabel-root.Mui-focused': { color: 'blue' }, 
+  }}
 />
       </DemoContainer>
     </LocalizationProvider>
@@ -482,6 +489,10 @@ const [bookedTimes, setBookedTimes] = useState([]);
   }
   disabled={!stardate || !checkin}
   label="Thời gian kết thúc"
+  sx={{
+    '& .MuiInputLabel-root': { color: 'black' }, 
+    '& .MuiInputLabel-root.Mui-focused': { color: 'blue' }, 
+  }}
   // shouldDisableTime={(value) => isCheckoutDisabled(value)}
   // disabled={!stardate || !checkin}
 />
@@ -489,8 +500,8 @@ const [bookedTimes, setBookedTimes] = useState([]);
     </LocalizationProvider>
     </div>
     {!validateTime(checkin, checkout) && (
-    <p style={{ color: 'red', fontSize: '14px', marginTop: '5px' }}>
-      Thời gian checkout phải lớn hơn thời gian checkin!
+    <p style={{ color: 'red', fontSize: '14px', marginTop: '10px', marginLeft: '35px' }}>
+      Thời gian kết thúc phải lớn hơn thời gian bắt đầu!
     </p>
   )}
 </div>
