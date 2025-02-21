@@ -171,19 +171,21 @@ const OrderPage = () => {
     };
     const calculateHours = (checkIn, checkOut) => {
         if (!checkIn || !checkOut) return 0; 
-      
+    
+        const [checkInHours, checkInMinutes] = checkIn.split(":").map(Number);
+        const [checkOutHours, checkOutMinutes] = checkOut.split(":").map(Number);
+    
+        const checkInTime = checkInHours * 60 + checkInMinutes;
+        const checkOutTime = checkOutHours * 60 + checkOutMinutes;
+    
+        let timeDifference = checkOutTime - checkInTime;
         
-        const checkInTime = new Date(`1970-01-01T${checkIn}`);
-        const checkOutTime = new Date(`1970-01-01T${checkOut}`);
-      
+        if (timeDifference < 0) {
+            timeDifference += 24 * 60; // Trường hợp qua ngày hôm sau
+        }
     
-        const timeDifference = checkOutTime - checkInTime;
-      
-    
-        const hours = timeDifference / (1000 * 60 * 60);
-      
-        return hours;
-      };
+        return timeDifference / 60; // Chuyển đổi phút thành giờ
+    };
       const fetchUser = useCallback(async () => {
         try {
           const response = await api.get(`/api/Account/get-by-id?accountId=${auth.user.id}`);
@@ -251,7 +253,7 @@ const OrderPage = () => {
                                         <span className="Timeofstu">
                                             <strong>Thời Gian</strong> 
                                             <div className='vuiquatr'>
-  {Order.checkIn?.split(' ')[1]} - {Order.checkOut?.split(' ')[1]}
+ {Order?.checkIn}-{Order?.checkOut}
 </div>
                                         </span>
                                     </div>
@@ -259,7 +261,7 @@ const OrderPage = () => {
                                         <span className="Dateorderstu">
                                         <strong>Ngày đặt</strong>
 <div className='vuiquatr'>
-{Order.bookingDate}
+{Order?.bookingDate}
 </div>
 
                                         </span>
@@ -298,7 +300,7 @@ const OrderPage = () => {
                             <span className="Priceorder">
                                <strong>Số giờ:</strong> 
                             </span>
-                            <span className="kovui"> {calculateHours(Order.checkIn?.split(' ')[1], Order.checkOut?.split(' ')[1])} giờ</span>
+                            <span className="kovui"> {calculateHours(Order?.checkIn, Order?.checkOut)} giờ</span>
                         </div>
 
                         <div className="chuainfovui">
