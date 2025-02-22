@@ -2,6 +2,7 @@
 #Studio * {
   font-family: 'Poppins' !important;
   
+  
 }
 #Studio .editRowHeader {
   white-space: nowrap;
@@ -9,27 +10,330 @@
   color: #9747FF !important ;
 }
 
+#Studio {
+  --primary-color: #2C3E50;
+  --secondary-color: #3498DB;
+  --accent-color: #E74C3C;
+  --text-color: #2C3E50;
+  --light-bg: #F8F9FA;
+  --border-radius: 12px;
+  --shadow: 0 4px 20px rgba(0,0,0,0.08);
+  font-family: 'Poppins', sans-serif;
+}
+
 #Studio .studioManager {
-    background-color: #fff;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    font-family: Montserrat, sans-serif;
+  background-color: var(--light-bg);
+  min-height: 100vh;
+  padding: 2rem;
 }
 
 #Studio .mainContent {
-    display: flex;
-    margin-top: 116px;
-    width: 100%;
-    flex-direction: column;
-    padding: 0 24px 0 78px;
+  /* max-width: 1400px; */
+  margin: 0 auto;
+  padding: 2rem;
+  background: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
 }
 
 #Studio .heading {
-    color: #000000;
-    font-size: 50px;
-    font-weight: 800;
-    align-self: start;
+  color: var(--text-color);
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 2.5rem;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+#Studio .heading::before {
+  content: '';
+  width: 6px;
+  height: 35px;
+  background: #9747FF;
+  border-radius: 3px;
+}
+
+#Studio .navigationSection {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+  margin-bottom: 2.5rem;
+  border-bottom: 1px solid #eee;
+}
+
+#Studio .navItem {
+  padding: 1rem 1.8rem;
+  color: var(--text-color);
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 30px;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-size: 20px;
+}
+
+#Studio .navItem i {
+  font-size: 1.2rem;
+}
+
+#Studio .navItem:hover {
+  background: rgba(52, 152, 219, 0.1);
+  color: #9747FF
+}
+
+#Studio .navItem.active {
+  background: #9747FF;
+  color: white;
+  font-weight: 600;
+  font-size: 20px;
+}
+
+#Studio .editTable {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-top: 1.5rem;
+}
+
+#Studio .editRowHeader th {
+  background: var(--primary-color);
+  color: white;
+  font-weight: 600;
+  padding: 1.2rem 1.5rem;
+  text-align: left;
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+  border-top: 5px solid #9747FF;
+}
+
+#Studio .editRowHeader th:first-child {
+  border-top-left-radius: var(--border-radius);
+}
+
+#Studio .editRowHeader th:last-child {
+  border-top-right-radius: var(--border-radius);
+}
+
+#Studio .editCard td {
+  padding: 1.2rem 1.5rem;
+  border-bottom: 1px solid #eee;
+  font-size: 0.95rem;
+}
+
+#Studio .editCell img {
+  width: 140px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  transition: transform 0.3s ease;
+}
+
+#Studio .editCell img:hover {
+  transform: scale(1.05);
+}
+
+/* Form styles */
+#Studio .studioContainer {
+  background: white;
+  border-radius: var(--border-radius);
+  padding: 2.5rem;
+}
+
+#Studio .description {
+  font-size: 1.8rem;
+  color: var(--text-color);
+  margin-bottom: 2.5rem;
+  text-align: center;
+  font-weight: 600;
+  position: relative;
+}
+
+#Studio .description::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 30%;
+  height: 4px;
+  background: #9747FF;
+  border-radius: 2px;
+}
+
+#Studio .formLayout {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 3.5rem;
+}
+
+#Studio .imageSection {
+  background: var(--light-bg);
+  padding: 2rem;
+  border-radius: var(--border-radius);
+  text-align: center;
+  border: 2px dashed #ddd;
+}
+
+#Studio .productImage {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--border-radius);
+  margin-bottom: 1.5rem;
+  box-shadow: var(--shadow);
+}
+
+#Studio .inputField {
+  width: 100%;
+  padding: 1rem 1.2rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  background: #9747FF;
+}
+#Studio .inputField1 {
+  width: 100%;
+  padding: 1rem 1.2rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  background: #9747FF;
+}
+
+#Studio .inputField:focus {
+  border-color: #9747FF;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+  outline: none;
+  background: white;
+}
+#Studio .inputField1:focus {
+  border-color: #9747FF;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+  outline: none;
+  background: white;
+}
+
+#Studio .inputLabel {
+  display: block;
+  margin-bottom: 0.8rem;
+  color: var(--text-color);
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+#Studio .actionButtons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2.5rem;
+  justify-content: flex-end;
+}
+
+#Studio .submitButton,
+#Studio .cancelButton {
+  padding: 1rem 2rem;
+  border-radius: 30px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  min-width: 140px;
+}
+
+#Studio .submitButton {
+  background: var(--secondary-color);
+  color: white;
+  border: none;
+}
+
+#Studio .cancelButton {
+  background: white;
+  color: var(--text-color);
+  border: 2px solid #ddd;
+}
+
+#Studio .submitButton:hover {
+  background: #2980b9;
+  transform: translateY(-2px);
+}
+
+#Studio .cancelButton:hover {
+  border-color: var(--text-color);
+  transform: translateY(-2px);
+}
+
+/* Status badges */
+#Studio .status {
+  padding: 0.6rem 1.2rem;
+  border-radius: 20px;
+  font-weight: 500;
+  font-size: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+#Studio .status::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+#Studio .status.success {
+  background: #e6f4ea;
+  color: #1e8e3e;
+}
+
+#Studio .status.success::before {
+  background: #1e8e3e;
+}
+
+#Studio .status.failed {
+  background: #fce8e6;
+  color: #d93025;
+}
+
+#Studio .status.failed::before {
+  background: #d93025;
+}
+
+@media (max-width: 1024px) {
+  #Studio .formLayout {
+    grid-template-columns: 1fr;
+  }
+  
+  #Studio .mainContent {
+    padding: 1.5rem;
+  }
+  
+  #Studio .navigationSection {
+    overflow-x: auto;
+    padding-bottom: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  #Studio .studioManager {
+    padding: 1rem;
+  }
+  
+  #Studio .heading {
+    font-size: 1.8rem;
+  }
+  
+  #Studio .editTable {
+    display: block;
+    overflow-x: auto;
+  }
+  
+  #Studio .description {
+    font-size: 1.5rem;
+  }
 }
 
 #Studio .contentWrapper {
@@ -38,16 +342,6 @@
     gap: 19px;
     flex-wrap: wrap;
     flex-direction: column;
-}
-
-#Studio .navigationSection {
-    display: flex;
-    gap: 40px; /* Khoảng cách giữa các mục nav */
-    font-size: 18px;
-    color: #000000;
-    font-weight: 700;
-    white-space: nowrap;
-    text-align: center;
 }
 
 #Studio .orderText {
@@ -59,7 +353,7 @@
     display: flex;
     margin-top: 24px;
     height: 3px;
-    border: 1px solid #AD49E1;
+    margin-right: -10px;
 }
 
 #Studio .placeholder {
@@ -151,15 +445,7 @@
     outline-offset: 2px;
 }
 
-#Studio .footer {
-    background-color: #000;
-    display: flex;
-    margin-top: 315px;
-    width: 100%;
-    flex-direction: column;
-    overflow: hidden;
-    color: #fff;
-}
+
 
 /* Media query cho responsive layout */
 @media (max-width: 991px) {
@@ -192,10 +478,7 @@
         padding: 10px 20px;
     }
 
-    #Studio .footer {
-        max-width: 100%;
-        margin-top: 40px;
-    }
+   
 }
 
   #Studio .revenueRow {
@@ -264,8 +547,7 @@
     padding: 10px 20px; 
    }
    #Studio .editTable {
-    width: 90%; /* Đảm bảo bảng chiếm toàn bộ chiều rộng */
-    border-collapse: collapse; /* Loại bỏ khoảng cách giữa các ô */
+    width: 100%; /* Đảm bảo bảng chiếm toàn bộ chiều rộng */
 }
 
 #Studio .editRowHeader th, 
@@ -305,6 +587,7 @@
     cursor: pointer;
     transition: background-color 0.3s ease;
     width: 85%;
+    white-space: nowrap;
 }
 
 #Studio .editButton:hover {
@@ -327,6 +610,7 @@
   cursor: pointer;
   transition: background-color 0.3s ease;
   width: 85%;
+  white-space: nowrap;
 }
 
 #Studio .goButton:hover {
@@ -346,10 +630,8 @@
   }
   
   #Studio .description {
-    font-size: 24px;
-    margin-left: 300px;
-    font-family: Montserrat, sans-serif;
-    color: rgb(72, 72, 72);
+    font-size: 50px;
+    color: rgb(0, 0, 0);
     text-align: center;
   }
   
@@ -420,11 +702,21 @@
   #Studio .inputField {
     border-radius: 30px;
     background-color: white;
-    width: 95%;
     max-width: 100%;
     height: 52px;
     border: 1px solid black;
     padding: 0 20px;
+    margin-bottom: 20px;
+    font-family: Montserrat, sans-serif;
+  }
+  #Studio .inputField1 {
+    border-radius: 30px;
+    background-color: white;
+    width: 105%;
+    height: 52px;
+    border: 1px solid black;
+    padding: 0 20px;
+    margin-bottom: 20px;
     font-family: Montserrat, sans-serif;
   }
   
@@ -476,6 +768,9 @@
     #Studio .inputField {
       width: 100%;
     }
+    #Studio .inputField1 {
+      width: 100%;
+    }
   
     #Studio .submitButton{
       margin: 40px auto 0;
@@ -509,4 +804,231 @@
     color: red;
     font-weight: bold;
   }
+  
+#Studio .imageGallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+#Studio .galleryItem {
+  aspect-ratio: 1;
+  position: relative;
+}
+
+#Studio .imageContainer {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+#Studio .galleryImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#Studio .galleryImage:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+#Studio .deleteImageBtn {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #ff4444;
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+#Studio .imageContainer:hover .deleteImageBtn {
+  opacity: 1;
+}
+
+#Studio .uploadPlaceholder {
+  width: 100%;
+  height: 100%;
+  border: 2px dashed #ddd;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: var(--light-bg);
+}
+
+#Studio .uploadPlaceholder:hover {
+  border-color: var(--primary-color);
+  background: rgba(151, 71, 255, 0.1);
+}
+
+#Studio .uploadPlaceholder i {
+  font-size: 1.5rem;
+  color: #666;
+  margin-bottom: 0.5rem;
+}
+
+#Studio .uploadPlaceholder span {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+@media (max-width: 768px) {
+  #Studio .imageGallery {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Style cho input có lỗi */
+#Studio .inputField.error {
+  border: 2px solid #ff4d4f;
+}
+
+#Studio .inputField.error:hover,
+#Studio .inputField.error:focus {
+  border-color: #ff7875;
+  box-shadow: 0 0 0 2px rgba(255, 77, 79, 0.2);
+}
+
+/* Style cho error message */
+#Studio .error-message {
+  color: #ff4d4f;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+/* Custom alert styles */
+#Studio .custom-alert {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  min-width: 300px;
+  border: 2px solid #9747FF;
+}
+
+#Studio .custom-alert-title {
+  color: #9747FF;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 16px;
+}
+
+#Studio .custom-alert-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+#Studio .custom-alert-button {
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  border: none;
+}
+
+#Studio .custom-alert-confirm {
+  background: #9747FF;
+  color: white;
+}
+
+#Studio .custom-alert-cancel {
+  background: #f0f0f0;
+  color: #666;
+}
+
+/* Thêm style cho header chứa nav và search */
+#Studio .navigationWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 10px 0;
+}
+
+#Studio .navigationSection {
+  display: flex;
+  gap: 10px;
+}
+
+#Studio .searchContainer {
+  position: relative;
+  width: 300px;
+  margin-right: 60px;
+}
+
+#Studio .searchInput {
+  width: 100%;
+  padding: 10px 40px 10px 15px;
+  border: 2px solid #9747FF;
+  border-radius: 20px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  height: 25px;
+}
+
+#Studio .searchInput:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(151, 71, 255, 0.2);
+}
+
+#Studio .searchIcon {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9747FF;
+  pointer-events: none;
+}
+
+/* Điều chỉnh lại style cho nav để phù hợp với layout mới */
+#Studio .studioNav {
+  display: flex;
+  gap: 10px;
+}
+
+#Studio .studioNav button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 20px;
+  background: transparent;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#Studio .studioNav button.active {
+  background: #9747FF;
+  color: white;
+}
+
+#Studio .studioNav button:hover {
+  background: rgba(151, 71, 255, 0.1);
+}
+
+#Studio .studioNav button.active:hover {
+  background: #7A39C4;
+}
   

@@ -190,19 +190,15 @@
   }
 }
 
-#Header .globe-icon {
-  width: 20.5rem;
-    height: 2.5rem;
-  cursor: pointer;
-  color: white;
-}
-
-#Header .icon-translate {
+.icon-translate {
   display: flex;
   align-items: center;
-  justify-content: center;
-  order: 2; /* Xuất hiện sau hostGroup */
-  margin-left: 0.3125rem; /* 5px */
+  gap: 10px; /* Tạo khoảng cách giữa icon và nội dung bên cạnh */
+}
+
+.globe-icon {
+  font-size: 24px;
+  cursor: pointer;
 }
 
 #Header .imageContainer {

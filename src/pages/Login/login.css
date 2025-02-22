@@ -74,17 +74,18 @@
 
 /* Login Form styles */
 #Login .login-form {
-  background: white;
-padding: 40px;
-border-radius: 8px;
-box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-position: fixed;
-top: 50%;
-left: 50%;
-transform: translate(-50%, -50%);
-width: 35%;
-
-  
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 35%;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 #Login h3 {
@@ -92,7 +93,8 @@ width: 35%;
   text-align: center;
   margin-bottom: 20px;
   font-weight: bold;
-  color: #9c74cf;
+  color: #7A39C4;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 #Login .input-group {
@@ -106,15 +108,24 @@ width: 35%;
   font-size: 14px;
   font-weight: bold;
   margin-bottom: 5px;
+  color: #333;
 }
 
 #Login .input-group input {
   width: 100%;
   padding: 12px;
-  border: 1px solid #ccc;
+  border: 1px solid rgba(151, 71, 255, 0.2);
   border-radius: 4px;
   font-size: 16px;
   margin-top: 5px;
+  background: rgba(255, 255, 255, 0.9);
+  transition: all 0.3s ease;
+}
+
+#Login .input-group input:focus {
+  border-color: #9747FF;
+  box-shadow: 0 0 0 2px rgba(151, 71, 255, 0.2);
+  outline: none;
 }
 
 #Login .remember-me {
@@ -137,10 +148,14 @@ width: 35%;
   border-radius: 4px;
   cursor: pointer;
   margin-bottom: 20px;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
 }
 
 #Login button:hover {
-  background-color: #555;
+  background-color: #7A39C4;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(151, 71, 255, 0.3);
 }
 
 /* Social login buttons */
@@ -181,8 +196,8 @@ width: 35%;
 #Login .muted {
   margin-left: 0.5rem;
   margin-right: 0.5rem;
-  font-size: 1 rem;
-  color: #6c757d;
+  font-size: 1rem;
+  color: #555;
 }
 #Login .mutee {
   display: flex;
@@ -192,5 +207,6 @@ width: 35%;
 #Login .flex-grow-1{
   flex-grow: 1;
   border: none;
-  border-top: 1px solid #ccc; 
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  margin: 0 10px;
 }
