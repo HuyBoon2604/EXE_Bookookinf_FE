@@ -92,7 +92,7 @@ const OrderCard = ({ order, capacity, onReviewClick }) => {
 
         {/* Description */}
         <Typography variant="body2" color="textSecondary" component="p">
-          <strong>Mô tả Studio:</strong> {order.description || "N/A"}
+          <strong>Mô tả đơn hàng:</strong> {order.description || "N/A"}
         </Typography>
 
         {/* Capacity */}

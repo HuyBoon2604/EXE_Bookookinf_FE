@@ -7,6 +7,7 @@ import "./UserProfile.css";
 const UserProfile = () => {
 const { accountid } = useParams();
 const [user, setuser] = useState([]);
+const DEFAULT_IMAGE = "https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg";
   const  fetchuser = async () =>{
 try{
   const response = await api.get(
@@ -50,7 +51,7 @@ catch (error) {
       <div className="profile-header">
         <img
           className="profile-picture"
-          src={user.imageUrl}
+          src={user.imageUrl || DEFAULT_IMAGE}
           alt="User"
         />
         <div className="user-details">

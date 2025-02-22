@@ -4,12 +4,19 @@ import api from '../../utils/requestAPI';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 import './AdminManager.css';
+import useAuth from '../../../hooks/useAuth';
+
 
 const AdminManager = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [Studio, Setstudio] = useState([]);
-
+  const { auth, setAuth } = useAuth();
+  const handleLogout = () => {
+    setAuth({ user: null });
+    localStorage.clear();
+    navigate("/"); // Chuyển hướng về trang đăng nhập
+  };
   useEffect(() => {
     const fetchStudio = async () => {
       const url = "api/Studio/Get-All-Studio-With-IsActive-True";
@@ -56,11 +63,12 @@ const AdminManager = () => {
       <h1 className='admin-title'>Admin</h1>
       <div className="tabs">
         <Link to="/adminmanager" className={location.pathname === '/adminmanager' ? 'active-tab' : ''}>Studios</Link>
-        <Link to="/accountmana" className={location.pathname === '/accountmana' ? 'active-tab' : ''}>Accounts</Link>
+        <Link to="/accountmana" className={location.pathname === '/accountmana' ? 'active-tab' : ''}> Quản lý tài khoản</Link>
         <Link to="/checkstu" className={location.pathname === '/checkstu' ? 'active-tab' : ''}>Duyệt studio</Link>
+        <button className="logout-btn" onClick={handleLogout} >Đăng Xuất</button>
       </div>
 
-      <button className="export-btn" onClick={exportToExcel}>Xuất Excel</button>
+      <button className="export-btn" onClick={exportToExcel}>Xuất File Excel</button>
 
       <div className="studio-list-lo">
         {Studio.map((item) => (
@@ -74,7 +82,9 @@ const AdminManager = () => {
                 <p className='info-own'>
                   Ngày tạo: {new Date(item.createAt).toLocaleDateString()} | Studio: {item.studioName} | Địa chỉ: {item.studioAddress}
                 </p>
-                <p className='info-own'>{item.pricing} VND</p>
+                <p className='info-own'>{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
+    .format(item?.pricing || 0)
+    .replace("₫", " VND")}</p>
               </div>
             </div>
             <button className="view-detail-btn" onClick={() => handleViewclick(item.id)}>Doanh Thu</button>

@@ -3,7 +3,34 @@
     padding: 20px;
     
   }
+  .tabs {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+  }
   
+  .logout-btn {
+    background-color: #d9534f; /* Màu đỏ cảnh báo */
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .logout-btn:hover {
+    background-color: #c9302c; /* Màu đỏ đậm hơn khi hover */
+    transform: scale(1.05); /* Hiệu ứng phóng to nhẹ */
+    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  .logout-btn:active {
+    transform: scale(0.95); /* Giảm kích thước nhẹ khi click */
+  }
   .admin-title {
     font-size: 24px;
     text-decoration: underline;

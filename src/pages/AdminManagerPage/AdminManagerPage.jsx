@@ -8,7 +8,7 @@ import AdminManager from "../../Components/Admin/AdminManager/AdminManager";
 export default function AdminManagerPage() {
     return (
         <div id="HomePage">
-            <Header />
+            {/* <Header /> */}
             <AdminManager />
             <Footer />
         </div>

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../utils/requestAPI';
 import './Checkstudio.css';
-import { Link, useLocation } from 'react-router-dom';
-
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import useAuth from '../../../hooks/useAuth';
 const Checkstudio = () => {
   
   const [Studio, Setstudio] = useState([]);
@@ -10,6 +10,14 @@ const Checkstudio = () => {
   const [showRejectPopup, setShowRejectPopup] = useState(false);
   const [rejectReason, setRejectReason] = useState('');
   const [selectedStudioId, setSelectedStudioId] = useState(null);
+  const { auth, setAuth } = useAuth();
+    const location = useLocation();
+    const navigate = useNavigate();
+  const handleLogout = () => {
+    setAuth({ user: null });
+    localStorage.clear();
+    navigate("/"); // Chuyển hướng về trang đăng nhập
+  };
 
   useEffect(() => {
     const fetchStudio = async () => {
@@ -88,18 +96,12 @@ const Checkstudio = () => {
 
   return (
     <div className="admin-check-studio">
-        <div className="tabs">
-        <Link to="/adminmanager" className={location.pathname === '/adminmanager' ? 'active-tab' : ''}>
-          Studios
-        </Link>
-        
-        <Link to="/accountmana" className={location.pathname === '/accountmana' ? 'active-tab' : ''}>
-          Accounts
-        </Link>
-        <Link to="/checkstu" className={location.pathname === '/checkstu' ? 'active-tab' : ''}>
-          Duyệt studio
-        </Link>
-      </div>
+       <div className="tabs">
+               <Link to="/adminmanager" className={location.pathname === '/adminmanager' ? 'active-tab' : ''}>Studios</Link>
+               <Link to="/accountmana" className={location.pathname === '/accountmana' ? 'active-tab' : ''}> Quản lý tài khoản</Link>
+               <Link to="/checkstu" className={location.pathname === '/checkstu' ? 'active-tab' : ''}>Duyệt studio</Link>
+               <button className="logout-btn" onClick={handleLogout} >Đăng Xuất</button>
+             </div>
       <div className="admin-check-studio__header">
         <h1 className="admin-check-studio__title">Danh sách Studio chờ duyệt</h1>
       </div>
@@ -131,7 +133,9 @@ const Checkstudio = () => {
                   <td><img className='hinhstucheck' src={studio.imageStudio} alt="" /></td>
                   <td>{studio.studioAddress}</td>
                   <td>{studio.phone}</td>
-                  <td>{studio.pricing}VND</td>
+                  <td>{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
+    .format(studio?.pricing || 0)
+    .replace("₫", " VND")}</td>
                   <td>{studio.email}</td>
                   <td>{new Date(studio.createAt).toLocaleDateString()}</td>
                   <td className="action-buttons">
