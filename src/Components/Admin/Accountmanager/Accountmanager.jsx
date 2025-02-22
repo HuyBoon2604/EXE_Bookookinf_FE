@@ -1,15 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import api from '../../utils/requestAPI';
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
+import useAuth from '../../../hooks/useAuth';
 
 const Accountmanager = () => {
   
   const [account, setaccount] = useState([]);
   const DEFAULT_IMAGE = "https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg";
-
+  const { auth, setAuth } = useAuth();
+    const location = useLocation();
+    const navigate = useNavigate();
+  const handleLogout = () => {
+    setAuth({ user: null });
+    localStorage.clear();
+    navigate("/"); // Chuyển hướng về trang đăng nhập
+  };
   useEffect(() => {
     const fetchStudio = async () => {
       const url = `/api/Account/Get-All`; 
@@ -75,29 +83,24 @@ const Accountmanager = () => {
 
   return (
     <div>
+      
        <h1 className='admin-title'>Quản Lý Tài Khoản</h1>
       <div className="tabs">
-              <Link to="/adminmanager" className={location.pathname === '/adminmanager' ? 'active-tab' : ''}>
-                Studios
-              </Link>
-              
-              <Link to="/accountmana" className={location.pathname === '/accountmana' ? 'active-tab' : ''}>
-                Accounts
-              </Link>
-              <Link to="/checkstu" className={location.pathname === '/checkstu' ? 'active-tab' : ''}>
-                Duyệt studio
-              </Link>
+              <Link to="/adminmanager" className={location.pathname === '/adminmanager' ? 'active-tab' : ''}>Studios</Link>
+              <Link to="/accountmana" className={location.pathname === '/accountmana' ? 'active-tab' : ''}> Quản lý tài khoản</Link>
+              <Link to="/checkstu" className={location.pathname === '/checkstu' ? 'active-tab' : ''}>Duyệt studio</Link>
+              <button className="logout-btn" onClick={handleLogout} >Đăng Xuất</button>
             </div>
-            <button onClick={exportToExcel} className="export-btn ">Xuất Excel</button>
+            <button onClick={exportToExcel} className="export-btn ">Xuất File Excel</button>
       <table className="custom-table">
         <thead>
           <tr className="table-header">
             <th>ID</th>
             <th>Ảnh</th>
-            <th>Name</th>
+            <th>Tên</th>
             <th>Email</th>
-            <th>Address</th>
-            <th>Phone</th>
+            <th>Địa chỉ</th>
+            <th>Số điện thoại</th>
           </tr>
         </thead>
         <tbody>
@@ -111,7 +114,7 @@ const Accountmanager = () => {
                 </div></td>
               <td>{item.userName}</td>
               <td>{item.email}</td>
-              <td>{item.price}</td>
+              <td>{item.address}</td>
               <td>{item.phone}</td>
             </tr>
           ))}

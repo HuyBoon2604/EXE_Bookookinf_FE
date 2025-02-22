@@ -80,22 +80,25 @@ const RevenuePage = () => {
     XLSX.utils.book_append_sheet(workbook, worksheet, "Revenue Data");
     XLSX.writeFile(workbook, "RevenueReport.xlsx");
   };
-
+  const formattedPrice = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
+      .format(totalRevenue)
+      .replace('₫', 'VND')
+      .trim();
   return (
     <div>
       <button className="export-btn" onClick={exportToExcel}>
-        Export to Excel
+      Xuất File Excel
       </button>
 
       <table className="custom-table">
         <thead>
           <tr className="table-header">
             <th>ID</th>
-            <th>Customer Name</th>
-            <th>Account Email</th>
-            <th>Date</th>
-            <th>Price</th>
-            <th>Status</th>
+            <th>Tên khách hàng</th>
+            <th>Tài Khoản Email</th>
+            <th>Ngày đặt</th>
+            <th>Giá </th>
+            <th>Trạng thái</th>
           </tr>
         </thead>
         <tbody>
@@ -105,10 +108,14 @@ const RevenuePage = () => {
               <td>{users[item.booking?.accountId]?.userName || "N/A"}</td>
               <td>{users[item.booking?.accountId]?.email || "N/A"}</td>
               <td>{new Date(item.orderDate).toLocaleDateString()}</td>
-              <td>{item.booking?.totalPrice}</td>
+              <td>
+  {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
+    .format(item.booking?.totalPrice || 0)
+    .replace("₫", " VND")}
+</td>
               <td className="status-vui">
                 <div className="status-reven">
-                  {item.status ? "Success" : "Failed"}
+                  {item.status ? "Thành công" : "Thất bại"}
                 </div>
               </td>
             </tr>
@@ -117,7 +124,7 @@ const RevenuePage = () => {
       </table>
 
       <div className="total-revenue">
-        <strong>Total Revenue: {totalRevenue.toFixed(2)} VND</strong>
+        <strong>Total Revenue: {formattedPrice} </strong>
       </div>
     </div>
   );

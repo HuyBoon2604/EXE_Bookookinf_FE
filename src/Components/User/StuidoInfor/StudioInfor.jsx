@@ -348,7 +348,7 @@ const [bookedTimes, setBookedTimes] = useState([]);
 </div>
 <hr width="100%" align="left"></hr>
 <div class="listing-section-margins" id="ophours_section"><h2 class="h5"><span>Giờ hoạt động</span></h2>
-<div className="thuchua"><div class="flex space-between "><div class="flex-one">Thứ hai</div><div class="flex-one"><div>Đóng cửa</div>
+<div className="thuchua"><div class="flex space-between "><div class="flex-one">Thứ hai</div><div class="flex-one"><div>{studio.studio?.timeOn} Giờ - {studio.studio?.timeOff} Giờ</div>
 </div></div><div class="flex space-between "><div class="flex-one">Thứ ba</div><div class="flex-one"><div>{studio.studio?.timeOn} Giờ - {studio.studio?.timeOff} Giờ</div>
 </div></div><div class="flex space-between "><div class="flex-one">Thứ tư</div><div class="flex-one"><div>{studio.studio?.timeOn} Giờ - {studio.studio?.timeOff} Giờ</div>
 </div></div><div class="flex space-between "><div class="flex-one">Thứ năm</div><div class="flex-one"><div> {studio.studio?.timeOn} Giờ - {studio.studio?.timeOff} Giờ</div>
@@ -446,7 +446,7 @@ const [bookedTimes, setBookedTimes] = useState([]);
             <div className="start-Date">
             <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DemoContainer  components={['DatePicker']}>
-        <DatePicker  value={stardate}   onChange={handleDateChange } label="Ngày bắt đầu" shouldDisableDate={disablePastDates} sx={{
+        <DatePicker  value={stardate}   onChange={handleDateChange } label="Ngày bắt đầu" format="DD/MM/YYYY" shouldDisableDate={disablePastDates} sx={{
     '& .MuiInputLabel-root': { color: 'black' }, 
     '& .MuiInputLabel-root.Mui-focused': { color: 'blue' }, 
   }} />

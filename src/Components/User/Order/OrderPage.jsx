@@ -9,6 +9,7 @@ import useAuth from '../../../hooks/useAuth';
 
 const OrderPage = () => {
     const { Bookingid } = useParams();
+    const DEFAULT_IMAGE = "https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg";
     const { auth } = useAuth();
     const navigate = useNavigate();
     const [orderId, setOrderId] = useState('');
@@ -246,7 +247,7 @@ fetchcapacity();
                                             <strong>Người tạo studio</strong>{' '}
                                             <div className='vuiquatr'>
   <a href={`/profile/${host.account?.id}`}>
-    <img src={host.account?.imageUrl} className='anhhost' alt="" />
+    <img src={host.account?.imageUrl || DEFAULT_IMAGE} className='anhhost' alt="" />
   </a>
 </div> 
                                            <span className='vuiquatr'>{host.account?.userName} </span> 
