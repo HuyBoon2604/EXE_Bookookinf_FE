@@ -20,6 +20,7 @@ const UpdateuserPage = () => {
   const [avatar, setavatar] = useState('');
   const [avatarFile, setAvatarFile] = useState(null); 
   const [successMessage, setSuccessMessage] = useState('');
+  const DEFAULT_IMAGE = "https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg";
   const handleviewprofile = () => {
     navigate(`/Profile/${auth.user.id}`);
   };

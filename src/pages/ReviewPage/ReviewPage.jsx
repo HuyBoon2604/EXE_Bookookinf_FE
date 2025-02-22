@@ -22,15 +22,18 @@ const ReviewPage = () => {
   const [existingReview, setExistingReview] = useState(null);
   const { auth } = useAuth();
   const navigate = useNavigate();
-
+  const handleCardClick = (studioId) => {
+    navigate(`/StudioInfor/${studioId}`);
+  };
   useEffect(() => {
     const fetchExistingReview = async () => {
       try {
-        const response = await api.get(`/get-review?orderId=${orderId}&studioId=${studioId}`);
+        const response = await api.get(`/Get-Review-By-AccountId-${auth.user.id}-and-StudioId-${studioId}`);
         if (response.data) {
           setExistingReview(response.data);
           setRating(response.data.rating);
-          setComment(response.data.comment);
+          setComment(response.data.reviewMessage);
+          console.log(response.data)
         }
       } catch (error) {
         console.error('Error fetching review:', error);
@@ -40,24 +43,46 @@ const ReviewPage = () => {
     };
 
     fetchExistingReview();
-  }, [orderId, studioId]);
+  }, [auth.user.id, studioId]);
 
   const handleCreateReview = async () => {
     try {
       await api.post('/Create-New-Review', {
-        accountId:  auth.user.id,
+        accountId: auth.user.id,
         studioId: studioId,
-        reviewComment:comment,
+        reviewComment: comment,
         rating: rating,
-       
       });
-  
+
       toast.success('Đánh giá của bạn đã được gửi thành công!');
-      navigate(-1);
+      navigate(`/StudioInfor/${studioId}`);
     } catch (error) {
-      throw new Error('Lỗi khi tạo đánh giá mới: ' + error.message);
+      toast.error('Lỗi khi tạo đánh giá mới: ' + error.message);
     }
   };
+
+  const handleUpdateReview = async () => {
+    try {
+      await api.put(`Update-Review?reviewId=${existingReview.id}&ReviewComment=${comment}`)
+       
+      navigate(`/StudioInfor/${studioId}`);
+    
+  
+      toast.success('Đánh giá của bạn đã được cập nhật thành công!');
+      
+    } catch (error) {
+      toast.error('Lỗi khi cập nhật đánh giá: ' + error.message);
+    }
+  };
+
+  const handleSubmit = () => {
+    if (existingReview) {
+      handleUpdateReview();
+    } else {
+      handleCreateReview();
+    }
+  };
+
   if (loading) {
     return (
       <Container sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '60vh' }}>
@@ -103,7 +128,7 @@ const ReviewPage = () => {
           <Typography 
             component="legend"
             sx={{
-              color: '#7c4dff',
+              color: '#7c 4dff',
               fontSize: '1.1rem',
               fontWeight: 500
             }}
@@ -168,7 +193,7 @@ const ReviewPage = () => {
           </Button>
           <Button 
             variant="contained" 
-            onClick={handleCreateReview}
+            onClick={handleSubmit}
             sx={{
               bgcolor: '#5e35b1',
               '&:hover': {
@@ -185,4 +210,4 @@ const ReviewPage = () => {
   );
 };
 
-export default ReviewPage; 
+export default ReviewPage;

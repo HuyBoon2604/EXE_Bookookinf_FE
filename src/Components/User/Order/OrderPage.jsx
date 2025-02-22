@@ -9,6 +9,7 @@ import useAuth from '../../../hooks/useAuth';
 
 const OrderPage = () => {
     const { Bookingid } = useParams();
+    const DEFAULT_IMAGE = "https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg";
     const { auth } = useAuth();
     const navigate = useNavigate();
     const [orderId, setOrderId] = useState('');
@@ -16,6 +17,9 @@ const OrderPage = () => {
     const[host, sethost] =useState([]);
     const[user, setuser] =useState([]);
     const [successMessage, setSuccessMessage] = useState('');
+    const [Capa, Setcapa] = useState([]);
+      const [loading, setLoading] = useState(false);
+    
     const [studios] = useState([
         {
             id: 1,
@@ -50,6 +54,24 @@ const OrderPage = () => {
         fetchOrder();
         
     }, [Bookingid]);
+    useEffect(() => {
+const fetchcapacity = async () => {
+const url = `/Get-Capacity-By-StudioId?StudioId=${Order.studioId}`;
+try{
+    const response = await api.get(url);
+    console.log("capane", response.data);
+    Setcapa(response.data);
+}
+catch(error){
+    console.error("Error fetching capacity data:", error);
+}
+
+
+}
+fetchcapacity();
+
+
+    }, [Order?.studioId]);
     useEffect(() => {
         if (Order?.studioId) {
             const fetchstuofuser = async () => {
@@ -171,19 +193,21 @@ const OrderPage = () => {
     };
     const calculateHours = (checkIn, checkOut) => {
         if (!checkIn || !checkOut) return 0; 
-      
+    
+        const [checkInHours, checkInMinutes] = checkIn.split(":").map(Number);
+        const [checkOutHours, checkOutMinutes] = checkOut.split(":").map(Number);
+    
+        const checkInTime = checkInHours * 60 + checkInMinutes;
+        const checkOutTime = checkOutHours * 60 + checkOutMinutes;
+    
+        let timeDifference = checkOutTime - checkInTime;
         
-        const checkInTime = new Date(`1970-01-01T${checkIn}`);
-        const checkOutTime = new Date(`1970-01-01T${checkOut}`);
-      
+        if (timeDifference < 0) {
+            timeDifference += 24 * 60; // Trường hợp qua ngày hôm sau
+        }
     
-        const timeDifference = checkOutTime - checkInTime;
-      
-    
-        const hours = timeDifference / (1000 * 60 * 60);
-      
-        return hours;
-      };
+        return timeDifference / 60; // Chuyển đổi phút thành giờ
+    };
       const fetchUser = useCallback(async () => {
         try {
           const response = await api.get(`/api/Account/get-by-id?accountId=${auth.user.id}`);
@@ -223,7 +247,7 @@ const OrderPage = () => {
                                             <strong>Người tạo studio</strong>{' '}
                                             <div className='vuiquatr'>
   <a href={`/profile/${host.account?.id}`}>
-    <img src={host.account?.imageUrl} className='anhhost' alt="" />
+    <img src={host.account?.imageUrl || DEFAULT_IMAGE} className='anhhost' alt="" />
   </a>
 </div> 
                                            <span className='vuiquatr'>{host.account?.userName} </span> 
@@ -238,7 +262,7 @@ const OrderPage = () => {
                                     <div className="chuavuine">
                                         <span className="typeofstu">
                                             <strong>Loại phòng</strong> 
-                                            <div className='vuiquatr'>{studio.type}</div>
+                                            <div className='vuiquatr'>{Capa?.size?.sizeDescription}</div>
                                         </span>
                                     </div>
                                     <div className="chuavuine">
@@ -251,7 +275,7 @@ const OrderPage = () => {
                                         <span className="Timeofstu">
                                             <strong>Thời Gian</strong> 
                                             <div className='vuiquatr'>
-  {Order.checkIn?.split(' ')[1]} - {Order.checkOut?.split(' ')[1]}
+ {Order?.checkIn}-{Order?.checkOut}
 </div>
                                         </span>
                                     </div>
@@ -259,7 +283,7 @@ const OrderPage = () => {
                                         <span className="Dateorderstu">
                                         <strong>Ngày đặt</strong>
 <div className='vuiquatr'>
-  {new Date(Order.bookingDate).toLocaleDateString('vi-VN')}
+{Order?.bookingDate}
 </div>
 
                                         </span>
@@ -298,7 +322,7 @@ const OrderPage = () => {
                             <span className="Priceorder">
                                <strong>Số giờ:</strong> 
                             </span>
-                            <span className="kovui"> {calculateHours(Order.checkIn?.split(' ')[1], Order.checkOut?.split(' ')[1])} giờ</span>
+                            <span className="kovui"> {calculateHours(Order?.checkIn, Order?.checkOut)} giờ</span>
                         </div>
 
                         <div className="chuainfovui">

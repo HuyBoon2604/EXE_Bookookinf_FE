@@ -440,15 +440,39 @@ text-decoration: underline;
 
 .card {
   width: 100%;
-  max-width: 600px; 
+  max-width: 450px; /* Giới hạn chiều rộng card */
   border: 1px solid #ddd;
   border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   background: white;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  height: 40vh;
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
 }
+.description-vuivui {
+  max-height: 60px; /* Chiều cao tối đa khi thu gọn */
+  overflow: hidden;
+  transition: max-height 0.3s ease-in-out;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.description-vuivui.expanded {
+  max-height: 500px; /* Chiều cao tối đa khi mở rộng */
+  overflow: visible;
+}
+.read-more-btn {
+  
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  margin-top: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
 
 .card:hover {
   transform: translateY(-5px);
@@ -458,7 +482,7 @@ text-decoration: underline;
 .card-image {
   position: relative;
   width: 100%;
-  height: 200px; /* Chiều cao cố định cho ảnh */
+  height: 22vh; 
   overflow: hidden;
 }
 
@@ -481,7 +505,9 @@ text-decoration: underline;
 }
 
 .card-content {
-  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   text-align: left;
 }
 
@@ -491,6 +517,7 @@ text-decoration: underline;
   margin: 0 0 8px;
   color: #333;
   font-family: 'Poppins';
+  margin-left: 2%;
 }
 
 .card-address {
@@ -498,6 +525,7 @@ text-decoration: underline;
   color: #666;
   margin: 0 0 8px;
   font-family: 'Poppins';
+  margin-left: 2%;
 }
 
 .card-rating {
@@ -507,6 +535,7 @@ text-decoration: underline;
   font-size: 0.9rem;
   color: #333;
   margin-bottom: 12px;
+  margin-left: 2%;
 }
 
 .rating-stars {
@@ -545,6 +574,7 @@ text-decoration: underline;
   left:100%  !important;
   background: gray !important;
   border-radius: 50% !important;
+  
 }
 .slick-prev {
   left: -15px !important;
@@ -821,7 +851,7 @@ aspect-ratio: 16 / 16;
   border-radius: 10px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   text-align: center;
-  max-width:500px;
+  max-width:26%;
   margin: auto;
   transition: opacity 0.5s ease-in-out;
   position: absolute;

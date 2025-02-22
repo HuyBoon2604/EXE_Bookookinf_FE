@@ -46,7 +46,7 @@ const fetchCapacities = useCallback(async (studioIds) => {
     const capacityPromises = studioIds.map(async (studioId) => {
       const response = await api.get(`/Get-Capacity-By-StudioId?StudioId=${studioId}`);
     
-     
+    
       
       return { studioId, capacity: response.data };
     });
