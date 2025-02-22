@@ -56,6 +56,8 @@ export const Course = () => {
   const navigate = useNavigate();
   const { auth } = useAuth();
     const { Id } = useParams();
+  const [isStudent, setIsStudent] = useState(false);
+  const [hasPurchased, setHasPurchased] = useState(false);
 
   const handleImageSelect = (index) => {
     setSelectedImage(index);
@@ -122,6 +124,20 @@ useEffect(() => {
         ].filter(Boolean);
         setImages(studioImages);
         console.log("Images:", studioImages);
+
+        // Kiểm tra nếu user có roleId = 3
+        if (auth?.user?.roleId === 3) {
+          setIsStudent(true);
+        }
+
+        console.log("User Role ID:", auth.user.roleId);
+
+        // Thêm kiểm tra trạng thái mua khóa học
+        if (auth?.user?.id) {
+          const purchased = await checkPurchaseStatus(Id, auth.user.id);
+          setHasPurchased(purchased);
+          console.log("Trạng thái mua khóa học:", purchased);
+        }
       }
     } catch (error) {
       console.error("Lỗi khi lấy dữ liệu:", error);
@@ -129,7 +145,7 @@ useEffect(() => {
   }
 
   fetchData();
-}, [Id]);
+}, [Id, auth.user.roleId]);
 
 // Hàm lấy chi tiết lớp học theo classId
 async function fetchClassDetails(classId) {
@@ -272,6 +288,22 @@ const handleShareClick = async () => {
   }
 };
 
+// Thêm hàm kiểm tra khóa học đã mua
+const checkPurchaseStatus = async (classId, accountId) => {
+  try {
+    const response = await api.get(`/Check-Student-Booking-Class?classDanceId=${classId}&accountId=${accountId}`);
+    return response.status === 200 && response.data;
+  } catch (error) {
+    console.error("Lỗi khi kiểm tra trạng thái mua khóa học:", error);
+    return false;
+  }
+};
+
+// Thêm hàm xử lý đánh giá
+const handleReview = () => {
+  // Chuyển đến form đánh giá
+  window.location.href = `/review/${Id}`;
+};
 
   return (
     <div id="Course">
@@ -510,15 +542,29 @@ const handleShareClick = async () => {
         </div>
       </div>
       
-      <button 
-        className="bookingButton"
-        onClick={handlePayment} 
-        tabIndex={0}
-        aria-label="Book this dance class"
-      
-      >
-        Mua Khóa Học
-      </button>
+      {auth?.user?.roleId !== "3" && (
+        <>
+          {hasPurchased ? (
+            <button 
+              className="reviewButton"
+              onClick={handleReview}
+              tabIndex={0}
+              aria-label="Review this class"
+            >
+              Đánh giá khóa học
+            </button>
+          ) : (
+            <button 
+              className="bookingButton"
+              onClick={handlePayment} 
+              tabIndex={0}
+              aria-label="Book this dance class"
+            >
+              Mua Khóa Học
+            </button>
+          )}
+        </>
+      )}
     </div>
           </div>
         </div>

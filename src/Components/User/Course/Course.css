@@ -735,3 +735,28 @@
   color: red;
 }
 
+#Course .reviewButton {
+  background-color: #9747FF;
+  align-self: center;
+  margin-top: 18px;
+  width: 100%;
+  max-width: 282px;
+  overflow: hidden;
+  color: rgba(255, 255, 255, 1) !important;
+  font-weight: 900;
+  white-space: nowrap;
+  padding: 15px 70px;
+  border: 1px solid rgba(0, 0, 0, 1);
+  cursor: pointer;
+  font-size: 20px;
+}
+
+#Course .reviewButton:hover {
+  background-color: #7A39C4;
+}
+
+#Course .reviewButton:focus-visible {
+  outline: 3px solid #FFFFFF;
+  outline-offset: 2px;
+}
+
