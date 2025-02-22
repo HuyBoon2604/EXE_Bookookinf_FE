@@ -2,10 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 import api from '../../utils/requestAPI';
+import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
 
 const Accountmanager = () => {
   
   const [account, setaccount] = useState([]);
+  const DEFAULT_IMAGE = "https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg";
 
   useEffect(() => {
     const fetchStudio = async () => {
@@ -24,7 +27,23 @@ const Accountmanager = () => {
 
     fetchStudio();
   }, []); 
+  const exportToExcel = () => {
+    const data = account.map((item) => ({
+      ID: item.id,
+      Name: item.userName,
+      Email: item.email,
+      Address: item.address || "N/A",
+      Phone: item.phone || "N/A"
+    }));
 
+    const worksheet = XLSX.utils.json_to_sheet(data);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Accounts");
+
+    const excelBuffer = XLSX.write(workbook, { bookType: "xlsx", type: "array" });
+    const dataBlob = new Blob([excelBuffer], { type: "application/octet-stream" });
+    saveAs(dataBlob, "AccountData.xlsx");
+  };
   
   const data = [
     {
@@ -56,6 +75,7 @@ const Accountmanager = () => {
 
   return (
     <div>
+       <h1 className='admin-title'>Quản Lý Tài Khoản</h1>
       <div className="tabs">
               <Link to="/adminmanager" className={location.pathname === '/adminmanager' ? 'active-tab' : ''}>
                 Studios
@@ -68,6 +88,7 @@ const Accountmanager = () => {
                 Duyệt studio
               </Link>
             </div>
+            <button onClick={exportToExcel} className="export-btn ">Xuất Excel</button>
       <table className="custom-table">
         <thead>
           <tr className="table-header">
@@ -86,7 +107,7 @@ const Accountmanager = () => {
               <td className='anhchuamana'><div className='chuamana'>
                 
                 
-              <img src={item.imageUrl} className='anhmana' alt="" />
+              <td><img src={item.imageUrl || DEFAULT_IMAGE} className='anhmana' alt="Profile" /></td>
                 </div></td>
               <td>{item.userName}</td>
               <td>{item.email}</td>

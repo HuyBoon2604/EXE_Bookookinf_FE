@@ -7,7 +7,23 @@
   .admin-title {
     font-size: 24px;
     text-decoration: underline;
-    color: black;
+    background: linear-gradient(to right, #ff7eb3, #915dd1);
+    -webkit-background-clip: text;
+    color: transparent;
+  }
+  .export-btn {
+    padding: 10px 15px;
+    margin: 10px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 5px;
+  }
+  
+  .export-btn:hover {
+    background-color: #218838;
   }
   
   .tabs {
