@@ -3,7 +3,7 @@ import './Studio.css'; // Thay vì import styles từ file CSS module, sử dụ
 import api from '../../utils/requestAPI';
 import useAuth from '../../../hooks/useAuth';
 import CreateStudioRequest from '../AddStu/CreateStudioRequest';
-import defaultImage from 'C:/Users/Welcome/Desktop/exe_colordance/EXE_Bookookinf_FE/public/Background 15.png';
+import defaultImage from '../../../assets/images/Background 15.png';
 
 
 
