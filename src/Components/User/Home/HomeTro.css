@@ -23,14 +23,15 @@ body::-webkit-scrollbar-track {
 }
 
 .search-section {
-  height: 30vh;
+  height: 60vh;
   background-size: cover;
   text-align: center;
   padding: 100px 20px;
   position: relative;
   color: black;
-  background: url("https://i0.wp.com/news.lindelatravel.com/wp-content/uploads/2024/04/BoostDancePerformance.png?resize=800%2C445&ssl=1");
-  /* background-attachment: fixed; */
+  background: url("https://t4.ftcdn.net/jpg/06/42/06/11/360_F_642061192_6j18hweXVFwRLO2xRgU0pmNEbj2wcqOa.jpg") no-repeat center center;
+  background-size: cover;
+  background-attachment: fixed;
   
 
 
@@ -39,16 +40,16 @@ animation: changeBackground 10s infinite;
 
 @keyframes changeBackground {
     0% {
-        background-image: url("https://i0.wp.com/news.lindelatravel.com/wp-content/uploads/2024/04/BoostDancePerformance.png?resize=800%2C445&ssl=1");
+        background-image: url("/dance-4661508_1280.jpg");
     }
     33% {
-        background-image: url("https://i.pinimg.com/736x/db/41/0f/db410f6581b8c139d6f593b6e206a9c7.jpg");
+        background-image: url("/audition-6975628_1280.jpg");
     }
     66% {
-        background-image: url("https://i.pinimg.com/736x/8b/3d/81/8b3d819e47e2d88b81bf0f6da77edd15.jpg");
+        background-image: url("/dance-6911162_1280.jpg");
     }
     100% {
-        background-image: url("https://i.pinimg.com/736x/56/0b/37/560b37025bf1596a29b4e9196685f79a.jpg");
+        background-image: url("/dance-4530413_1280.jpg");
     }
 }
 
@@ -125,7 +126,7 @@ animation: changeBackground 10s infinite;
 
 
 .search-bar {
-  margin-top: 7%;
+  margin-top: 8%;
   display: flex;
   justify-content: space-around;
   gap: 10px;
@@ -215,13 +216,13 @@ animation: changeBackground 10s infinite;
 }
 .title-hometro{
   color: white;
-  width: 20%;
+  width: 40%;
   text-align: left;
   position: absolute;
-  margin-top: 13%;
+  margin-top: 28%;
  margin-left: 5%;
   animation: leFadeInLeft 2s ease-in-out;
-  font-size: 5vh;
+  font-size: 8vh;
   font-family: 'Poppins';
   
 }
@@ -435,7 +436,7 @@ text-decoration: underline;
 .studio-list {
   width: 100%;
   margin: 20px 0;
- 
+  position: relative;
 }
 
 .card {
@@ -619,7 +620,7 @@ body {
 }
 
 .search-bar {
-  margin-top: 20%;
+  margin-top: 60%;
   display: flex;
   justify-content: space-around;
   gap: 5px;
@@ -846,7 +847,7 @@ aspect-ratio: 16 / 16;
 
 
 .baihopchus {
-  padding: 20px;
+  padding: 0.5%;
   background: white;
   border-radius: 10px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
@@ -967,7 +968,8 @@ border: 1px solid black;
   margin-top: 10%;
   animation-timeline: scroll();
   position: relative;
- 
+ width: 100%;
+ height: 100vh;
  
 }
 
@@ -993,14 +995,15 @@ border: 1px solid black;
   display: block;
 }
 
-.carousel-item img {
+.carousel-item .hinhtheloai {
  
   border-radius: 10px;
   transition: transform 0.3s ease, filter 0.3s ease; 
+  width: 60%;
   
 }
 
-.carousel-item img:hover {
+.carousel-item .hinhtheloai:hover {
   transform: translateY(-10px); 
   filter: brightness(1.2); 
   
@@ -1059,4 +1062,30 @@ border: 1px solid black;
   background: linear-gradient(to right, #ff7eb3, #915dd1);
     -webkit-background-clip: text;
     color: transparent;
+}
+.prev-button, .next-button {
+  background-color:black;
+  color: pink;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 24px;
+  cursor: pointer;
+  position: absolute;
+ bottom: 100%;
+  transform: translateY(-50%);
+  transition: background-color 0.3s ease;
+}
+
+.prev-button:hover, .next-button:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.prev-button {
+  left: 90%;
+}
+
+.next-button {
+  right: 10px;
 }
