@@ -98,6 +98,7 @@ const handleReviewClick = (orderId, studioId) => {
           >
             {/* <Tab label="Lịch Sử" value="1" /> */}
             <Tab label="Lịch sử đơn Hàng" value="1" />
+            <Tab label="Khóa học đã mua" value="2" />
           </TabList>
         </Box>
         {/* <TabPanel value="1">
@@ -133,6 +134,37 @@ const handleReviewClick = (orderId, studioId) => {
             </Box>
           ) : (
             <p>Bạn chưa có đơn hàng nào.</p>
+          )}
+        </TabPanel>
+        <TabPanel value="2">
+          {loading ? (
+            <p>Đang tải...</p>
+          ) : orderSuccess.length > 0 ? (
+            <Box
+              sx={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
+                gap: "20px",
+              }}
+            >
+            {orderSuccess.map((order) => {
+    const studioId = order.booking?.studio?.id || order.studioId;
+    const capacity = Capa?.[studioId] || [];
+    console.log("Capacity for studio", studioId, ":", capacity);
+   
+    return (
+      <OrderCard 
+        key={order.id} 
+        order={order} 
+        capacity={capacity}
+        onReviewClick={() => handleReviewClick(order.id, studioId)}
+      />
+    );
+})}
+
+            </Box>
+          ) : (
+            <p>Bạn chưa mua khóa học nào.</p>
           )}
         </TabPanel>
       </TabContext>
