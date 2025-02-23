@@ -142,9 +142,10 @@ useEffect(() => {
 
         // Thêm kiểm tra trạng thái mua khóa học
         if (auth?.user?.id) {
-          const purchased = await checkPurchaseStatus(Id, auth.user.id);
+          const purchased = await checkPurchaseStatus(auth?.user?.id);
           setHasPurchased(purchased);
           console.log("Trạng thái mua khóa học:", purchased);
+          console.log("Account ID:", auth?.user?.id);
         }
 
         // Gọi API lấy reviews
@@ -156,7 +157,7 @@ useEffect(() => {
   }
 
   fetchData();
-}, [Id, auth.user.roleId]);
+}, [Id, auth?.user?.roleId]);
 
 // Hàm lấy chi tiết lớp học theo classId
 async function fetchClassDetails(classId) {
@@ -203,11 +204,9 @@ const handlePayment = async () => {
 try {
   // Thông tin truyền vào POST
   const data_userArtwok = {
-    accountId: auth.user.id,
+    accountId: auth?.user?.id,
     classDanceId: ClassId.id,
     bookingDate: getTodayDate(),
-    checkIn: "String",
-    checkOut: "String",
     totalPrice: ClassId.pricing,
   };
 
@@ -236,7 +235,7 @@ const createOrderAndPayment = async () => {
     try {
       // Tạo Order mới
       const createOrder = await api.post(
-        `/Create-New-Order?BookingId=${classBooking.id}`
+        `/Create-New-Classdance-Order?BookingId=${classBooking.id}`
       );
 
       if (createOrder.status === 200 && createOrder.data && createOrder.data.id) {
@@ -300,10 +299,36 @@ const handleShareClick = async () => {
 };
 
 // Thêm hàm kiểm tra khóa học đã mua
-const checkPurchaseStatus = async (classId, accountId) => {
+const checkPurchaseStatus = async (accountId) => {
   try {
-    const response = await api.get(`/Check-Student-Booking-Class?classDanceId=${classId}&accountId=${accountId}`);
-    return response.status === 200 && response.data;
+    const response = await api.get(`/Get-All-Order-By-AccountId?accountId=${accountId}`);
+
+    if (response.status === 200 && Array.isArray(response.data)) {
+      // Lấy danh sách các đơn hàng
+      const orderInfo = response.data.map(order => ({
+        status: order.status,
+        classId: order?.booking?.classId
+      }));
+
+      // Log từng đơn hàng riêng lẻ
+      orderInfo.forEach((order, index) => {
+        console.log(`Order ${index + 1}:`, {
+          status: order.status,
+          classId: order.classId
+        });
+      });
+
+      // Kiểm tra nếu có đơn hàng hợp lệ
+      const hasPurchasedClass = orderInfo.some(order => 
+        order.status === true && order.classId === Id
+      );
+
+      console.log("Has Purchased Class:", hasPurchasedClass);
+      return hasPurchasedClass;
+    }
+
+    console.log("No Purchased Class:", response.data);
+    return false;
   } catch (error) {
     console.error("Lỗi khi kiểm tra trạng thái mua khóa học:", error);
     return false;
