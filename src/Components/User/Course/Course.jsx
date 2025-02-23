@@ -56,6 +56,16 @@ export const Course = () => {
   const navigate = useNavigate();
   const { auth } = useAuth();
     const { Id } = useParams();
+  const [isStudent, setIsStudent] = useState(false);
+  const [hasPurchased, setHasPurchased] = useState(false);
+  const [reviews, setReviews] = useState([]);
+  const [showAllReviews, setShowAllReviews] = useState(false);
+
+  const calculateAverageRating = (reviews) => {
+    if (!reviews.length) return 0;
+    const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
+    return (totalRating / reviews.length).toFixed(1); // Giữ 1 số thập phân
+  };
 
   const handleImageSelect = (index) => {
     setSelectedImage(index);
@@ -122,6 +132,23 @@ useEffect(() => {
         ].filter(Boolean);
         setImages(studioImages);
         console.log("Images:", studioImages);
+
+        // Kiểm tra nếu user có roleId = 3
+        if (auth?.user?.roleId === 3) {
+          setIsStudent(true);
+        }
+
+        console.log("User Role ID:", auth.user.roleId);
+
+        // Thêm kiểm tra trạng thái mua khóa học
+        if (auth?.user?.id) {
+          const purchased = await checkPurchaseStatus(Id, auth.user.id);
+          setHasPurchased(purchased);
+          console.log("Trạng thái mua khóa học:", purchased);
+        }
+
+        // Gọi API lấy reviews
+        await fetchReviews();
       }
     } catch (error) {
       console.error("Lỗi khi lấy dữ liệu:", error);
@@ -129,7 +156,7 @@ useEffect(() => {
   }
 
   fetchData();
-}, [Id]);
+}, [Id, auth.user.roleId]);
 
 // Hàm lấy chi tiết lớp học theo classId
 async function fetchClassDetails(classId) {
@@ -272,6 +299,64 @@ const handleShareClick = async () => {
   }
 };
 
+// Thêm hàm kiểm tra khóa học đã mua
+const checkPurchaseStatus = async (classId, accountId) => {
+  try {
+    const response = await api.get(`/Check-Student-Booking-Class?classDanceId=${classId}&accountId=${accountId}`);
+    return response.status === 200 && response.data;
+  } catch (error) {
+    console.error("Lỗi khi kiểm tra trạng thái mua khóa học:", error);
+    return false;
+  }
+};
+
+// Thêm hàm xử lý đánh giá
+const handleReview = () => {
+  // Chuyển đến form đánh giá
+  window.location.href = `/review/${Id}`;
+};
+
+// Thêm hàm fetchReviews
+const fetchReviews = async () => {
+  try {
+    const response = await api.get('/Get-All-Review');
+    console.log('Review Data:', response.data);
+    
+    // Lưu dữ liệu vào state
+    const reviewData = Array.isArray(response.data) ? response.data : response.data?.$values || [];
+
+    // Gọi API lấy thông tin account cho mỗi review
+    const reviewsWithAccounts = await Promise.all(
+      reviewData.map(async (review) => {
+        if (review.accountId) {
+          const account = await fetchAccountForReview(review.accountId);
+          return { ...review, account }; // Gán thông tin account vào review
+        }
+        return review;
+      })
+    );
+
+    setReviews(reviewsWithAccounts);
+  } catch (error) {
+    console.error('Error fetching reviews:', error);
+  }
+};
+
+// Hàm lấy thông tin tài khoản từ API
+const fetchAccountForReview = async (accountId) => {
+  try {
+    const response = await api.get(`/api/Account/get-by-id?accountId=${accountId}`);
+    return response.data;
+  } catch (error) {
+    console.error(`Error fetching account for ID ${accountId}:`, error);
+    return null; // Trả về null nếu lỗi để tránh crash
+  }
+};
+
+// Thêm hàm xử lý hiển thị thêm reviews
+const handleShowMoreReviews = () => {
+  setShowAllReviews(true);
+};
 
   return (
     <div id="Course">
@@ -425,48 +510,69 @@ const handleShareClick = async () => {
               <div className="reviewsHeader">
                 <h2 id="reviewsTitle" className="reviewsTitle">Đánh Giá</h2>
                 <div className="rating">
-                  <img
-                    src="\public\star.png"
-                    alt=""
-                    className="starIcon"
-                    width={50}
-                    height={50}
-                    aria-hidden="true"
-                  />
-                  <span className="ratingScore" aria-label="Rating 5.0 out of 5">5.0</span>
+                {[...Array(Math.round(calculateAverageRating(reviews)))].map((_, index) => (
+    <img 
+      key={index}
+      src="/star.png"
+      alt="star"
+      className="starIcon"
+      width={20}
+      height={20}
+    />
+  ))}
+                  <span className="ratingScore" aria-label={`Rating ${calculateAverageRating(reviews)} out of 5`}>
+  {calculateAverageRating(reviews)}
+</span>
                 </div>
               </div>
 
               <div className="reviewsList">
-                {reviews.map((review) => (
+                {(showAllReviews ? reviews : reviews.slice(0, 3)).map((review) => (
                   <article key={review.id} className="reviewCard">
                     <div className="reviewerInfo">
                       <img
-                        src={review.avatar}
-                        alt={`${review.name}'s profile`}
+                        src={review.account?.imageUrl || "https://i.imgur.com/pRy9nMo.png"}
+                        alt={`${review.account?.userName}'s profile`}
                         className="reviewerAvatar"
                         width={70}
                         height={70}
                         loading="lazy"
                       />
                       <div className="reviewerDetails">
-                        <h3 className="reviewerName">{review.name}</h3>
-                        <time className="reviewDate" dateTime="2020-03-12">
-                          {review.date}
+                        <h3 className="reviewerName">{review.account?.userName}</h3>
+                        <time className="reviewDate" dateTime={review.createAt}>
+                          {new Date(review.createAt).toLocaleDateString()}
                         </time>
                       </div>
                     </div>
-                    <p className="reviewText">{review.text}</p>
+                    <div className="reviewContent">
+                      <div className="reviewRating">
+                        {[...Array(review.rating)].map((_, index) => (
+                          <img 
+                            key={index}
+                            src="/star.png"
+                            alt="star"
+                            className="starIcon"
+                            width={20}
+                            height={20}
+                          />
+                        ))}
+                      </div>
+                      <p className="reviewText">{review.reviewMessage}</p>
+                    </div>
                   </article>
                 ))}
               </div>
 
-              <button 
-                className="showAllButton"
-                aria-label="Show all 100 reviews"
-              >
-                Xem thêm đánh giá
-              </button>
+              {reviews.length > 3 && !showAllReviews && (
+                <button 
+                  className="showAllButton"
+                  onClick={handleShowMoreReviews}
+                  aria-label={`Show all ${reviews.length} reviews`}
+                >
+                  Xem thêm đánh giá
+                </button>
+              )}
             </section>
           </div>
 
@@ -510,15 +616,29 @@ const handleShareClick = async () => {
         </div>
       </div>
       
-      <button 
-        className="bookingButton"
-        onClick={handlePayment} 
-        tabIndex={0}
-        aria-label="Book this dance class"
-      
-      >
-        Mua Khóa Học
-      </button>
+      {auth?.user?.roleId !== "3" && (
+        <>
+          {hasPurchased ? (
+            <button 
+              className="reviewButton"
+              onClick={handleReview}
+              tabIndex={0}
+              aria-label="Review this class"
+            >
+              Đánh giá khóa học
+            </button>
+          ) : (
+            <button 
+              className="bookingButton"
+              onClick={handlePayment} 
+              tabIndex={0}
+              aria-label="Book this dance class"
+            >
+              Mua Khóa Học
+            </button>
+          )}
+        </>
+      )}
     </div>
           </div>
         </div>

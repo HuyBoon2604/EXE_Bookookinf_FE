@@ -33,7 +33,6 @@ const Login = () => {
         console.error(error);
         setLoginError('Tên đăng nhập hoặc mật khẩu không chính xác'); 
         window.alert('Tên đăng nhập hoặc mật khẩu không chính xác'); 
-        // window.alert('Tên đăng nhập hoặc mật khẩu không chính xác');
     }
 }
 
