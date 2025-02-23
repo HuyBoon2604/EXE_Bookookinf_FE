@@ -40,7 +40,14 @@ const HomeTro = () => {
 
 
     const [currentIndex, setCurrentIndex] = useState(0);
-
+    const [currentIndex1, setCurrentIndex1] = useState(0);
+    const nextSlide1 = () => {
+      setCurrentIndex1((prevIndex) => (prevIndex + 1) % Studio.length);
+    };
+  
+    const prevSlide1 = () => {
+      setCurrentIndex1((prevIndex) => (prevIndex - 1 + Studio.length) % Studio.length);
+    };
     const nextSlide = () => {
         setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
     };
@@ -170,7 +177,7 @@ const [isExpanded, setIsExpanded] = useState(false);
           </div>
         </div>
       </section>
-     
+     <div className='tongohyeah'>
       <div className='wcolordancecontain'>
 <div className='whychua'>
   <h2 className='whyne'>Chọn</h2>
@@ -247,7 +254,7 @@ const [isExpanded, setIsExpanded] = useState(false);
                             key={index}
                             className={`carousel-item ${index === currentIndex ? 'active' : ''}`}
                         >
-                            <img src={image.src} alt={image.alt} />
+                            <img className='hinhtheloai' src={image.src} alt={image.alt} />
                         </div>
                     ))}
                 </div>
@@ -260,43 +267,44 @@ const [isExpanded, setIsExpanded] = useState(false);
       <section className="popular-studios">
         
       <div className="studio-list">
-      <Slider {...settings}>
-        {Studio.map((studio) => (
-          <div className="card" key={studio.id} >
+      <button onClick={prevSlide1} className="prev-button"><FaArrowLeft /></button>
+      <div className="card-container">
+        {Studio.slice(currentIndex1, currentIndex1 + 3).map((studio) => (
+          <div className="card" key={studio.id}>
             <div className="card-image">
-              <img src={studio.imageStudio} alt={studio.title} onClick={() => handleCardClick(studio.id)} />
+              <img src={studio.imageStudio} alt={studio.title} />
               <div className="card-price">
-              {new Intl.NumberFormat('vi-VN').format(Number(studio.pricing) || 0)} VND / Giờ
-
+                {new Intl.NumberFormat('vi-VN').format(Number(studio.pricing) || 0)} VND / Giờ
               </div>
             </div>
             <div className="card-content">
-              <h3 className="card-title" onClick={() => handleCardClick(studio.id)}>{studio.studioName} </h3>
+              <h3 className="card-title">{studio.studioName}</h3>
               <p className="card-address">{studio.studioAddress}</p>
-              <div className="card-rating" onClick={() => handleCardClick(studio.id)}>
-                <span className="rating-stars" onClick={() => handleCardClick(studio.id)}>⭐ {studio.ratingId} ({studio.reviews})</span>
-                <span className="rating-reviews" onClick={() => handleCardClick(studio.id)}>👤 {studio.visitors}</span>
+              <div className="card-rating">
+                <span className="rating-stars">⭐ {studio.ratingId} ({studio.reviews})</span>
+                <span className="rating-reviews">👤 {studio.visitors}</span>
               </div>
-              <p className={`description-vuivui ${isExpanded[studio.id] ? 'expanded' : ''}`} onClick={() => handleCardClick(studio.id)}>
-  {studio.studioDescription
-    ? (isExpanded[studio.id] 
-        ? studio.studioDescription 
-        : studio.studioDescription.slice(0, 100) + "...")
-    : "Không có mô tả"}
-</p>
-{studio.studioDescription && (
-  <button onClick={() => toggleExpand(studio.id)} className="read-more-btn">
-    {isExpanded[studio.id] ? "Hạn chế" : "Xem Thêm"}
-  </button>
-)}
+              <p className={`description-vuivui ${isExpanded[studio.id] ? 'expanded' : ''}`}>
+                {studio.studioDescription
+                  ? (isExpanded[studio.id]
+                      ? studio.studioDescription
+                      : studio.studioDescription.slice(0, 100) + "...")
+                  : "Không có mô tả"}
+              </p>
+              {studio.studioDescription && (
+                <button onClick={() => toggleExpand(studio.id)} className="read-more-btn">
+                  {isExpanded[studio.id] ? "Hạn chế" : "Xem Thêm"}
+                </button>
+              )}
             </div>
           </div>
         ))}
-      </Slider>
+      </div>
+      <button onClick={nextSlide1} className="next-button"><FaArrowRight /></button>
     </div>
       </section>
 
-    
+      </div>
       
     </div>
     </div>
