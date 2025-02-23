@@ -60,7 +60,6 @@
   gap: 1rem;
   padding: 1rem;
   margin-bottom: 2.5rem;
-  border-bottom: 1px solid #eee;
 }
 
 #Studio .navItem {
@@ -966,11 +965,13 @@
   align-items: center;
   margin-bottom: 20px;
   padding: 10px 0;
+  border-bottom: 1px solid #eee;
 }
 
 #Studio .navigationSection {
   display: flex;
   gap: 10px;
+  white-space: nowrap;
 }
 
 #Studio .searchContainer {
@@ -986,7 +987,7 @@
   border-radius: 20px;
   font-size: 14px;
   transition: all 0.3s ease;
-  height: 25px;
+  height: 30px;
 }
 
 #Studio .searchInput:focus {
@@ -996,7 +997,7 @@
 
 #Studio .searchIcon {
   position: absolute;
-  right: 15px;
+  right: -10%;
   top: 50%;
   transform: translateY(-50%);
   color: #9747FF;
@@ -1030,5 +1031,55 @@
 
 #Studio .studioNav button.active:hover {
   background: #7A39C4;
+}
+
+#Studio .searchAndExport {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-right: 20px;
+  margin-bottom: 40px;
+}
+
+#Studio .export-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#Studio .export-btn img {
+  /* width: 100%; */
+  height: 150%;
+  object-fit: contain;
+}
+
+/* Tooltip styling */
+#Studio .export-btn::after {
+  content: "Xuất File Excel";
+  position: absolute;
+  bottom: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+#Studio .export-btn:hover::after {
+  opacity: 1;
+  visibility: visible;
 }
   
