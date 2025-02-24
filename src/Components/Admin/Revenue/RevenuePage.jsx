@@ -17,6 +17,11 @@ const handleLogout = () => {
   localStorage.clear();
   navigate("/"); 
 };
+const handelback =() =>{
+navigate(-1);
+
+
+}
   useEffect(() => {
     const fetchStudio = async () => {
       try {
@@ -94,12 +99,11 @@ const handleLogout = () => {
       .trim();
   return (
     <div>
+       <button className="back-btn" onClick={handelback}>⬅ Quay lại</button>
      <div className="tabs">
-             <Link to="/adminmanager" className={location.pathname === '/adminmanager' ? 'active-tab' : ''}>Studios</Link>
-             <Link to="/accountmana" className={location.pathname === '/accountmana' ? 'active-tab' : ''}> Quản lý tài khoản</Link>
-             <Link to="/checkstu" className={location.pathname === '/checkstu' ? 'active-tab' : ''}>Duyệt studio</Link>
+             
              <button 
-                       className="export-btn" 
+                       className="export-btnn" 
                        onClick={exportToExcel}
                        aria-label="Xuất File Excel"
                      >
@@ -107,6 +111,7 @@ const handleLogout = () => {
                          src="https://cdn-icons-png.flaticon.com/512/732/732220.png" 
                          alt="Excel Icon"
                        />
+                       
                      </button>
              <button className="logout-btn" onClick={handleLogout} >Đăng Xuất</button>
              

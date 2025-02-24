@@ -39,7 +39,7 @@
     -webkit-background-clip: text;
     color: transparent;
   }
-  .export-btn {
+  .export-btnn {
     background: transparent;
     border: none;
     cursor: pointer;
@@ -54,7 +54,7 @@
    
     
   }
-  .export-btn img {
+  .export-btnn img {
     width: 100%;
     height: 100%;
     
@@ -68,7 +68,7 @@
   .tabs {
     display: flex;
     gap: 20px;
-    margin-bottom: 20px;
+   margin-top: 2%;
   }
   .tabs a {
     text-decoration: none;

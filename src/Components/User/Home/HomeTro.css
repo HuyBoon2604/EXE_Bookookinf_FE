@@ -1028,7 +1028,7 @@ border: 1px solid black;
 }
 .prev-button, .next-button {
   background-color:black;
-  color: pink;
+  color: white;
   border: none;
   border-radius: 50%;
   width: 30px;
@@ -1121,10 +1121,14 @@ height: 100%;
  color: WHITE;
  border: black;
  font-size: 2vh;
+ transform: rotateX('2px');
+ font-family: 'Montserrat', sans-serif;
+ font-style: italic;
 }
 .thuephongcon:hover{
   background: #9747FF;
-  color: WHITE
+  color: WHITE;
+  border: 1px solid black;
 }
 .slideanhstu {
   width: 40%;
@@ -1154,7 +1158,7 @@ height: 100%;
   z-index: 10; 
   border-radius: 50%;
   border: 1px solid white;
-  animation:rotateLogo 3s  linear infinite ;
+  animation:rotateLogo 4s  linear infinite ;
   transform-style: preserve-3d;
 }
 @keyframes rotateLogo {

@@ -31,6 +31,11 @@ const HomeTro = () => {
       navigate(`/searchpage?location=${searchLocation}`);
     }
   };
+  const handelthuephongtap = () =>{
+navigate('/thuephong')
+
+
+  }
   const navigate = useNavigate();
   const images = [
     { src: 'Product/476359764_122108515478729479_1248223907243159727_n.jpg', alt: 'Image 1', className:"anhloai" },
@@ -193,7 +198,7 @@ const [isExpanded, setIsExpanded] = useState(false);
       </div>
 
       <div className='btn-thuephongtap'>
-        <button className='thuephongcon'>Thuê phòng tập</button>
+        <button onClick={handelthuephongtap} className='thuephongcon'>Thuê phòng tập</button>
       </div>
     </div>
   </div>
@@ -207,8 +212,12 @@ const [isExpanded, setIsExpanded] = useState(false);
 
   {/* Thêm 2 logo vào góc dưới bên trái */}
   <div className="logos-duoi-trai">
+  <a href="https://www.facebook.com/profile.php?id=61571884383793" target="_blank" rel="noopener noreferrer">
    <FaFacebook className="logo-duoi-trai" style={{ color: "#1877F2", fontSize: "20px" }} />
+   </a>
+   <a href="https://www.instagram.com/colordanhub.dance/" target="_blank" rel="noopener noreferrer">
     <FaInstagram className="logo-duoi-trai" style={{ color: "#E4405F", fontSize: "20px", marginLeft: "15px" }} />
+    </a>
   </div>
 </div>
 
