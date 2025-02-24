@@ -1,17 +1,17 @@
 body {
   font-family: 'Poppins';
-  overflow-x: scroll;
+  
 }
 
 /* Đảm bảo thanh cuộn ngang luôn xuất hiện */
 html, body {
-  overflow-x: scroll; /* Luôn hiển thị thanh cuộn ngang */
+ 
   min-width: 500px; /* Đặt chiều rộng tối thiểu cho body */
 }
 
 #root {
   min-width: 500px; /* Đặt chiều rộng tối thiểu cho root */
-  overflow-x: scroll; /* Luôn hiển thị thanh cuộn ngang */
+  
 }
 
 /* Tùy chỉnh thanh cuộn ngang */

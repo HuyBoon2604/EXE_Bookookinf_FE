@@ -6,7 +6,7 @@ import RevenuePage from "../../../Components/Admin/Revenue/RevenuePage";
 export default function RevenuePage1() {
     return (
         <div id="HomePage">
-            <Header />
+           
             <RevenuePage />
             <Footer />
         </div>

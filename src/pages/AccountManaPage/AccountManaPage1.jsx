@@ -8,7 +8,7 @@ import Accountmanager from "../../Components/Admin/Accountmanager/Accountmanager
 export default function AccountManaPage1() {
     return (
         <div id="HomePage">
-            <Header />
+            {/* <Header /> */}
             <Accountmanager />
             <Footer />
         </div>

@@ -465,6 +465,7 @@ const [bookedTimes, setBookedTimes] = useState([]);
   label="Thời gian bắt đầu"
   shouldDisableTime={(value) => isTimeBooked(value)}
   disabled={!stardate}
+  views={['hours']} 
   sx={{
     '& .MuiInputLabel-root': { color: 'black' }, 
     '& .MuiInputLabel-root.Mui-focused': { color: 'blue' }, 
@@ -488,6 +489,7 @@ const [bookedTimes, setBookedTimes] = useState([]);
     !checkin || value.isBefore(checkin.add(30, "minute")) || isRangeOverlapping(checkin, value)
   }
   disabled={!stardate || !checkin}
+  views={['hours']} 
   label="Thời gian kết thúc"
   sx={{
     '& .MuiInputLabel-root': { color: 'black' }, 

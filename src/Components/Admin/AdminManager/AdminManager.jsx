@@ -15,7 +15,7 @@ const AdminManager = () => {
   const handleLogout = () => {
     setAuth({ user: null });
     localStorage.clear();
-    navigate("/"); // Chuyển hướng về trang đăng nhập
+    navigate("/"); 
   };
   useEffect(() => {
     const fetchStudio = async () => {
@@ -65,10 +65,21 @@ const AdminManager = () => {
         <Link to="/adminmanager" className={location.pathname === '/adminmanager' ? 'active-tab' : ''}>Studios</Link>
         <Link to="/accountmana" className={location.pathname === '/accountmana' ? 'active-tab' : ''}> Quản lý tài khoản</Link>
         <Link to="/checkstu" className={location.pathname === '/checkstu' ? 'active-tab' : ''}>Duyệt studio</Link>
+        <button 
+                  className="export-btn" 
+                  onClick={exportToExcel}
+                  aria-label="Xuất File Excel"
+                >
+                  <img 
+                    src="https://cdn-icons-png.flaticon.com/512/732/732220.png" 
+                    alt="Excel Icon"
+                  />
+                </button>
         <button className="logout-btn" onClick={handleLogout} >Đăng Xuất</button>
+        
       </div>
 
-      <button className="export-btn" onClick={exportToExcel}>Xuất File Excel</button>
+      
 
       <div className="studio-list-lo">
         {Studio.map((item) => (

@@ -3,12 +3,20 @@ import { useParams } from "react-router-dom";
 import "./RevenuePage.css";
 import api from "../../utils/requestAPI";
 import * as XLSX from "xlsx";
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import useAuth from '../../../hooks/useAuth';
 
 const RevenuePage = () => {
   const { id } = useParams();
   const [studio, setStudio] = useState([]);
   const [users, setUsers] = useState({});
-
+  const { auth, setAuth } = useAuth();
+const navigate = useNavigate();
+const handleLogout = () => {
+  setAuth({ user: null });
+  localStorage.clear();
+  navigate("/"); 
+};
   useEffect(() => {
     const fetchStudio = async () => {
       try {
@@ -86,9 +94,23 @@ const RevenuePage = () => {
       .trim();
   return (
     <div>
-      <button className="export-btn" onClick={exportToExcel}>
-      Xuất File Excel
-      </button>
+     <div className="tabs">
+             <Link to="/adminmanager" className={location.pathname === '/adminmanager' ? 'active-tab' : ''}>Studios</Link>
+             <Link to="/accountmana" className={location.pathname === '/accountmana' ? 'active-tab' : ''}> Quản lý tài khoản</Link>
+             <Link to="/checkstu" className={location.pathname === '/checkstu' ? 'active-tab' : ''}>Duyệt studio</Link>
+             <button 
+                       className="export-btn" 
+                       onClick={exportToExcel}
+                       aria-label="Xuất File Excel"
+                     >
+                       <img 
+                         src="https://cdn-icons-png.flaticon.com/512/732/732220.png" 
+                         alt="Excel Icon"
+                       />
+                     </button>
+             <button className="logout-btn" onClick={handleLogout} >Đăng Xuất</button>
+             
+           </div>
 
       <table className="custom-table">
         <thead>
