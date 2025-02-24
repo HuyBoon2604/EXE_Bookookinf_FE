@@ -200,7 +200,7 @@ const [isExpanded, setIsExpanded] = useState(false);
 
   <div className="slideanhstu">
     <div className="anhluot">
-      <img src="public\pexels-hikaique-307847.jpg" alt="" className="anhluotcon" />
+      <img src="/pexels-hikaique-307847.jpg" alt="" className="anhluotcon" />
       <img src="https://ava-grp-talk.zadn.vn/a/1/9/8/4/360/36650c664e257c37760d0f7a27fe0a8d.jpg" alt="Logo" className="logo-trai-tren" />
     </div>
   </div>
