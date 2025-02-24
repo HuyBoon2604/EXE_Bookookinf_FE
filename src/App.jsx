@@ -29,6 +29,7 @@ import CheckStudio1 from './pages/CheckStudioPage/CheckStudio1';
 import ThuePhongPage1 from './pages/ThuePhongPage/ThuePhongPage1';
 import UnauthorizedPage from './pages/UnauthorizedPage/UnauthorizedPage';
 import ReviewPage from './pages/ReviewPage/ReviewPage';
+import BlogPost from './Components/Items/Contact/BlogPost';
 
 function App() {
   return (
@@ -89,6 +90,7 @@ function App() {
         <Route path="/unauthorized" element={<UnauthorizedPage />} />
         
         <Route path="/review/:orderId/:studioId" element={<ReviewPage />} />
+        <Route path="/contact/:id" element={<BlogPost />} />
       </Routes>
     </>
   );

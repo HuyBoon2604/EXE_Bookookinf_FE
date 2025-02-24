@@ -913,15 +913,15 @@ left: 182vh;
 top: 90vh
 }
 
-.globe-icon{
+/* .globe-icon{
   position: absolute;
   color: white;
   width: 2%;
   height: 3vh;
   left: 75%;
   bottom: 37%;
-}
-.language-dropdown {
+} */
+/* .language-dropdown {
   position: absolute;
   height: 20vh;
   background-color: rgba(255, 255, 255, 0.5); 
@@ -936,10 +936,10 @@ top: 90vh
   gap: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
   border: 1px solid rgba(255, 255, 255, 0.2); 
-}
+} */
 .btn_en{
 background-color: #9747FF;
-color:white;
+color: #9747FF;
 height: 5vh;
 width: 35%;
 border-radius: 10px;

@@ -4,6 +4,9 @@ import api from '../../utils/requestAPI';
 import useAuth from '../../../hooks/useAuth';
 import CreateStudioRequest from '../AddStu/CreateStudioRequest';
 import defaultImage from '../../../assets/images/Background 15.png';
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
+import { toast } from 'react-toastify';
 
 
 
@@ -685,9 +688,81 @@ const getFilteredData = (data) => {
         item?.capacity?.studio?.studioName?.toLowerCase().includes(searchStr) ||
         item?.capacity?.studio?.studioAddress?.toLowerCase().includes(searchStr)
       );
+      case 'Chờ duyệt':
+      // Filter cho studio (data là object)
+      return Object.entries(data).filter(([_, item]) => 
+        item?.studioName?.toLowerCase().includes(searchStr) ||
+        item?.studioAddress?.toLowerCase().includes(searchStr)
+      );
       
     default:
       return Array.isArray(data) ? data : Object.entries(data);
+  }
+};
+
+// Thêm hàm exportToExcel vào component Studio
+const exportToExcel = async () => {
+  try {
+    // Tạo workbook mới
+    const workbook = XLSX.utils.book_new();
+
+    // Sheet 1: Giao dịch
+    const orderData = ordersData.map(data => ({
+      'Hình ảnh': data?.studioDetails?.imageStudio || "https://i.imgur.com/pRy9nMo.png",
+      'Tên khách hàng': data?.accountDetails?.userName,
+      'Số tiền': `${data?.booking?.totalPrice} VND`,
+      'Thời gian bắt đầu': data?.booking?.checkIn,
+      'Thời gian kết thúc': data?.booking?.checkOut,
+      'Trạng thái': data?.status ? "Thành Công" : "Thất Bại"
+    }));
+
+    const orderSheet = XLSX.utils.json_to_sheet(orderData);
+    XLSX.utils.book_append_sheet(workbook, orderSheet, 'Giao dịch');
+
+    // Sheet 2: Doanh Thu
+    const revenueData = ordersDataSuccess.map(data => ({
+      'Tên khách hàng': data?.accountDetails?.userName,
+      'Số tiền': `${data?.booking?.totalPrice} VND`,
+      'Hình thức thanh toán': 'Chuyển khoản',
+      'Ngày thanh toán': data?.booking?.bookingDate
+    }));
+    const revenueSheet = XLSX.utils.json_to_sheet(revenueData);
+    XLSX.utils.book_append_sheet(workbook, revenueSheet, 'Doanh Thu');
+
+    // Sheet 3: Thông tin Studio
+    const studioData = Object.entries(studioState).map(([_, data]) => ({
+      'Hình ảnh': data?.capacity?.studio?.imageStudio || "https://i.imgur.com/pRy9nMo.png",
+      'Tên Studio': data?.capacity?.studio?.studioName,
+      'Địa chỉ': data?.capacity?.studio?.studioAddress,
+      'Số tiền một giờ': `${data?.capacity?.studio?.pricing} VND`,
+      'Loại phòng': data?.capacity?.size?.sizeDescription,
+      'Sức chứa': `${data?.capacity?.quantity} người`,
+      'Thời gian mở cửa': data?.capacity?.studio?.timeOn,
+      'Thời gian đóng cửa': data?.capacity?.studio?.timeOff,
+      'Mô tả tiện ích': data?.capacity?.studio?.studioDescriptionAmentitiesDetail
+    }));
+    const studioSheet = XLSX.utils.json_to_sheet(studioData);
+    XLSX.utils.book_append_sheet(workbook, studioSheet, 'Thông tin Studio');
+
+    // Sheet 4: Chờ duyệt
+    const pendingData = studioIsUnactive.map(studio => ({
+      'Tên Studio': studio.studioName,
+      'Số tiền một giờ': `${studio.pricing} VND`,
+      'Địa chỉ': studio.studioAddress,
+      'Thông tin chi tiết': studio.studioDescription,
+      'Trạng thái': 'Chờ Duyệt'
+    }));
+    const pendingSheet = XLSX.utils.json_to_sheet(pendingData);
+    XLSX.utils.book_append_sheet(workbook, pendingSheet, 'Chờ duyệt');
+
+    // Xuất file Excel
+    const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+    const excelFile = new Blob([excelBuffer], { type: 'application/octet-stream' });
+    saveAs(excelFile, 'Studio_Management.xlsx');
+
+  } catch (error) {
+    console.error('Lỗi khi xuất Excel:', error);
+    toast.error('Có lỗi trong quá trình xuất Excel');
   }
 };
 
@@ -730,16 +805,27 @@ const getFilteredData = (data) => {
                   Tạo Studio
                 </div>
               </nav>
-
-              <div className="searchContainer">
-                <input
-                  type="text"
-                  placeholder={getSearchPlaceholder()}
-                  value={searchTerm}
-                  onChange={handleSearch}
-                  className="searchInput"
-                />
-                <i className="fas fa-search searchIcon"></i>
+              <div className="searchAndExport">
+                <div className="searchContainer">
+                  <input
+                    type="text"
+                    placeholder={getSearchPlaceholder()}
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="searchInput"
+                  />
+                  <span className="searchIcon">🔍</span>
+                </div>
+                <button 
+                  className="export-btn" 
+                  onClick={exportToExcel}
+                  aria-label="Xuất File Excel"
+                >
+                  <img 
+                    src="https://cdn-icons-png.flaticon.com/512/732/732220.png" 
+                    alt="Excel Icon"
+                  />
+                </button>
               </div>
             </div>
 
@@ -824,255 +910,205 @@ const getFilteredData = (data) => {
 
 {activeNav === 'Edit Studio' && (
   <div>
-  {isEditing ? (
-        // Giao diện chỉnh sửa thông tin studio
-        <div className="studioContainer">
-          <div className="description">Chỉnh sửa thông tin Studio</div>
-          <form onSubmit={handleSubmit} className="studioForm">
-            <div className="formLayout">
-              <div className="imageColumn">
-                <div className="imageSection">
-                  {/* Main image display */}
-                  <img
-                    src={formData[`poster${selectedImageIndex + 1}`] || " https://i.imgur.com/pRy9nMo.png"}
-                    alt="Product preview"
-                    className="productImage"
-                  />
-                  <div className="imageControls">
-                    <span className="imageSize">Tải hình ảnh </span>
-                    <img
-                      src="https://cdn.builder.io/api/v1/image/assets/c05fb6b607a34c3cab6bc37bd3664ed7/ba92d3688b6fd9de0346bb5670f498b04e1cea50f5dd4e592aee512ab7910bd3?apiKey=c05fb6b607a34c3cab6bc37bd3664ed7&"
-                      alt="Size control"
-                      className="controlIcon"
-                      onClick={handleUploadClick} // Kích hoạt sự kiện chọn file
-                      style={{ cursor: "pointer" }}
-                    />
-                  </div>
-                  
-                  {/* Image gallery */}
-                  <div className="imageGallery">
-                  {[...Array(6)].map((_, index) => (
-  <div key={index} className="galleryItem">
-    {formData[`poster${index + 1}`] ? (
-      <div className="imageContainer">
-        <img
-          src={formData[`poster${index + 1}`]}
-          alt={`Gallery ${index + 1}`}
-          onClick={() => setSelectedImageIndex(index)}
-          className="galleryImage"
-        />
-        <button
-          className="deleteImageBtn"
-          type="button"
-          onClick={(e) => handleDeleteImage(e, index)}
-          disabled={formData[`poster${index + 1}`]?.includes('placeholder')}
-        >
-          X<i className="fas fa-times"></i>
-        </button>
-      </div>
-    ) : (
-      <div
-        className="uploadPlaceholder"
-        onClick={() => setSelectedImageIndex(index)}
-      >
-        <i className="fas fa-plus"></i>
-        <span>Thêm ảnh</span>
-      </div>
-    )}
-
-    {/* Input file ẩn cho từng ảnh */}
-    <input
-      type="file"
-      ref={(el) => (fileInputRefs.current[index] = el)}
-      style={{ display: "none" }}
-      onChange={(e) => handleFileChange(e, index + 1)} // Truyền index + 1
-      accept="image/*"
-    />
-  </div>
-))}
-    </div>
-                </div>
-              </div>
-              <div className="inputColumn">
-                <div className="inputGroup">
-                {[
-  {
-    id: "name",
-    label: "Tên Studio",
-    placeholder: editingCustomer ? editingCustomer.studio?.studioName : "",
-  },
-  {
-    id: "price",
-    label: "Số tiền một giờ",
-    placeholder: editingCustomer ? editingCustomer.studio?.pricing : "",
-  },
-  {
-    id: "address",
-    label: "Địa chỉ",
-    placeholder: editingCustomer ? editingCustomer.studio?.studioAddress : "",
-  },
-  {
-    id: "detail",
-    label: "Thông tin chi tiết về Studio",
-    placeholder: editingCustomer ? editingCustomer.studio?.studioDescription : "",
-  },
-  {
-    id: "timeOn",
-    label: "Giờ hoạt động",
-    type : "time",
-    placeholder: editingCustomer ? editingCustomer.studio?.timeOn : "",
-  },
-  {
-    id: "timeOff",
-    label: "Giờ đóng cửa",
-    type : "time",
-    placeholder: editingCustomer ? editingCustomer.studio?.timeOff : "",
-  },
-  {
-    id: "descriptionAmentites",
-    label: "Mô tả tiện ích",
-    placeholder: editingCustomer ? editingCustomer.studio?.studioDescriptionAmentitiesDetail : "",
-  },
-  {
-    id: "size",
-    label: "Loại phòng",
-    placeholder: "Chọn loại phòng",
-  },
-  {
-    id: "quantity",
-    label: "Sức chứa",
-    placeholder: editingCustomer ? editingCustomer.quantity : "",
-  },
-].map((field) => (
-  <div key={field.id} className="inputWrapper">
-    <label htmlFor={field.id} className="inputLabel">
-      {field.label}
-    </label>
-    {field.id === "size" ? (
-      <div>
-        <select
-          id={field.id}
-          className={`inputField1 ${errors[field.id] ? 'error' : ''}`}
-          value={formData.size || ""}
-          onChange={handleInputChange(field.id)}
-          aria-label={field.label}
-        >
-          <option value="" disabled>
-            {field.placeholder}
-          </option>
-          <option value="1">Nhỏ</option>
-          <option value="2">Vừa</option>
-          <option value="3">Lớn</option>
-        </select>
-        {errors[field.id] && (
-          <div className="error-message">Bạn chưa nhập thông tin</div>
-        )}
-      </div>
-    ) : field.type === "time" ? (
-      <input
-        
-        type="time"
-        id={field.id}
-        className="inputField"
-        // placeholder={field.placeholder}
-        value={formData[field.id] || ""}
-        onChange={handleInputChange(field.id)}
-        aria-label={field.label}
-        required
-      />
-    ) : (
-      <div>
-        <input
-          type={field.type || "text"}
-          id={field.id}
-          className={`inputField ${errors[field.id] ? 'error' : ''}`}
-          placeholder={field.placeholder}
-          value={formData[field.id] || ""}
-          onChange={handleInputChange(field.id)}
-          aria-label={field.label}
-          required
-        />
-        {errors[field.id] && (
-          <div className="error-message">Bạn chưa nhập thông tin</div>
-        )}
-      </div>
-    )}
-  </div>
-))}
-
-                  <div className="actionButtons">
-                    <button type="submit" className="submitButton">
-                      Lưu
-                    </button>
-                    <button
-                      type="button"
-                      className="cancelButton"
-                      onClick={handleCancel}
-                    >
-                      Hủy
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </form>
-        </div>
-      ) : (
-    // Giao diện danh sách studio
-    <table className="editTable">
-      <thead>
-        <tr className="editRowHeader">
-          <th className="editCells">Hình ảnh</th>
-          <th className="editCells">Tên Studio</th>
-          <th className="editCells">Số tiền một giờ</th>
-          <th className="editCells">Địa chỉ</th>
-          <th className="editCells">Thông tin chi tiết về Studio</th>
-          <th className="editCells">Mô tả tiện ích</th>
-          <th className="editCells">Loại Phòng</th>
-          <th className="editCells">Sức Chứa</th>
-          <th className="editCells">Chức Năng</th>
-          
-          
-        </tr>
-      </thead>
-      <tbody>
-      {getFilteredData(studioState).map(([studioId, data], index) => (
-        <tr className="editCard" key={`studio-${index}`}>
-          <td className="editCell">
-            <img 
-              src={data?.capacity?.studio?.imageStudio || " https://i.imgur.com/pRy9nMo.png"} 
-              alt="icon" 
+    {isEditing ? (
+  // Giao diện chỉnh sửa thông tin studio
+  <div className="studioContainer">
+    <div className="description">Chỉnh sửa thông tin Studio</div>
+    <form onSubmit={handleSubmit} className="studioForm">
+      <div className="formLayout">
+        <div className="imageColumn">
+          <div className="imageSection">
+            {/* Main image display */}
+            <img
+              src={formData[`poster${selectedImageIndex + 1}`] || "https://i.imgur.com/pRy9nMo.png"}
+              alt="Product preview"
+              className="productImage"
             />
-          </td>
-          <td className="editCell">{data?.capacity?.studio?.studioName}</td>
-          <td className="editCell">{formatPrice(data?.capacity?.studio?.pricing)}</td>
-          <td className="editCell">{data?.capacity?.studio?.studioAddress}</td>
-          <td className="editCell">{data?.capacity?.studio?.studioDescription}</td>
-          <td className="editCell">{data?.capacity?.studio?.studioDescriptionAmentitiesDetail}</td>
-          <td className="editCell">{data?.capacity?.size?.sizeDescription}</td>
-          <td className="editCell">{data?.capacity?.quantity} người</td>
-          
-          <td className="editCell">
-            <button
-              className="editButton"
-              onClick={() => handleEdit(data)}
-            >
-              Chỉnh Sửa
-            </button>
-            <button
-            className="goButton"
-            onClick={() => {
-            window.location.href = `/StudioInfor/${studioId}`;
-            }}>
-             Đi đến Studio
+            <div className="imageControls">
+              <span className="imageSize">Tải hình ảnh</span>
+              <img
+                src="https://cdn.builder.io/api/v1/image/assets/c05fb6b607a34c3cab6bc37bd3664ed7/ba92d3688b6fd9de0346bb5670f498b04e1cea50f5dd4e592aee512ab7910bd3?apiKey=c05fb6b607a34c3cab6bc37bd3664ed7&"
+                alt="Size control"
+                className="controlIcon"
+                onClick={handleUploadClick}
+                style={{ cursor: "pointer" }}
+              />
+            </div>
+            {/* Image gallery */}
+            <div className="imageGallery">
+              {[...Array(6)].map((_, index) => (
+                <div key={index} className="galleryItem">
+                  {formData[`poster${index + 1}`] ? (
+                    <div className="imageContainer">
+                      <img
+                        src={formData[`poster${index + 1}`]}
+                        alt={`Gallery ${index + 1}`}
+                        onClick={() => setSelectedImageIndex(index)}
+                        className="galleryImage"
+                      />
+                      <button
+                        className="deleteImageBtn"
+                        type="button"
+                        onClick={(e) => handleDeleteImage(e, index)}
+                        disabled={formData[`poster${index + 1}`]?.includes('placeholder')}
+                      >
+                        X<i className="fas fa-times"></i>
+                      </button>
+                    </div>
+                  ) : (
+                    <div
+                      className="uploadPlaceholder"
+                      onClick={() => setSelectedImageIndex(index)}
+                    >
+                      <i className="fas fa-plus"></i>
+                      <span>Thêm ảnh</span>
+                    </div>
+                  )}
+                  {/* Input file ẩn cho từng ảnh */}
+                  <input
+                    type="file"
+                    ref={(el) => (fileInputRefs.current[index] = el)}
+                    style={{ display: "none" }}
+                    onChange={(e) => handleFileChange(e, index + 1)}
+                    accept="image/*"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+        <div className="inputColumn">
+          <div className="inputGroup">
+            {[
+              { id: "name", label: "Tên Studio", placeholder: editingCustomer?.studio?.studioName || "" },
+              { id: "price", label: "Số tiền một giờ", placeholder: editingCustomer?.studio?.pricing || "" },
+              { id: "address", label: "Địa chỉ", placeholder: editingCustomer?.studio?.studioAddress || "" },
+              { id: "detail", label: "Thông tin chi tiết về Studio", placeholder: editingCustomer?.studio?.studioDescription || "" },
+              { id: "timeOn", label: "Giờ hoạt động", type: "time", placeholder: editingCustomer?.studio?.timeOn || "" },
+              { id: "timeOff", label: "Giờ đóng cửa", type: "time", placeholder: editingCustomer?.studio?.timeOff || "" },
+              { id: "descriptionAmentites", label: "Mô tả tiện ích", placeholder: editingCustomer?.studio?.studioDescriptionAmentitiesDetail || "" },
+              { id: "size", label: "Loại phòng", placeholder: "Chọn loại phòng" },
+              { id: "quantity", label: "Sức chứa", placeholder: editingCustomer?.quantity || "" },
+            ].map((field) => (
+              <div key={field.id} className="inputWrapper">
+                <label htmlFor={field.id} className="inputLabel">
+                  {field.label}
+                </label>
+                {field.id === "size" ? (
+                  <select
+                    id={field.id}
+                    className={`inputField1 ${errors[field.id] ? 'error' : ''}`}
+                    value={formData.size || ""}
+                    onChange={handleInputChange(field.id)}
+                    aria-label={field.label}
+                  >
+                    <option value="" disabled>
+                      {field.placeholder}
+                    </option>
+                    <option value="1">Nhỏ</option>
+                    <option value="2">Vừa</option>
+                    <option value="3">Lớn</option>
+                  </select>
+                ) : field.type === "time" ? (
+                  <input
+                    type="time"
+                    id={field.id}
+                    className="inputField"
+                    value={formData[field.id] || ""}
+                    onChange={handleInputChange(field.id)}
+                    aria-label={field.label}
+                    required
+                  />
+                ) : (
+                  <input
+                    type={field.type || "text"}
+                    id={field.id}
+                    className={`inputField ${errors[field.id] ? 'error' : ''}`}
+                    placeholder={field.placeholder}
+                    value={formData[field.id] || ""}
+                    onChange={handleInputChange(field.id)}
+                    aria-label={field.label}
+                    required
+                  />
+                )}
+                {errors[field.id] && (
+                  <div className="error-message">Bạn chưa nhập thông tin</div>
+                )}
+              </div>
+            ))}
+            <div className="actionButtons">
+              <button type="submit" className="submitButton">
+                Lưu
               </button>
-          </td>
-        </tr>
-      ))}
-      </tbody>
-    </table>
-  )}
-</div>
+              <button
+                type="button"
+                className="cancelButton"
+                onClick={handleCancel}
+              >
+                Hủy
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+) : (
+      // Giao diện danh sách studio
+      <table className="editTable">
+        <thead>
+          <tr className="editRowHeader">
+            <th className="editCells">Hình ảnh</th>
+            <th className="editCells">Tên Studio</th>
+            <th className="editCells">Số tiền một giờ</th>
+            <th className="editCells">Địa chỉ</th>
+            <th className="editCells">Thông tin chi tiết về Studio</th>
+            <th className="editCells">Mô tả tiện ích</th>
+            <th className="editCells">Loại Phòng</th>
+            <th className="editCells">Sức Chứa</th>
+            <th className="editCells">Chức Năng</th>
+            
+            
+          </tr>
+        </thead>
+        <tbody>
+        {getFilteredData(studioState).map(([studioId, data], index) => (
+          <tr className="editCard" key={`studio-${index}`}>
+            <td className="editCell">
+              <img 
+                src={data?.capacity?.studio?.imageStudio || " https://i.imgur.com/pRy9nMo.png"} 
+                alt="icon" 
+              />
+            </td>
+            <td className="editCell">{data?.capacity?.studio?.studioName}</td>
+            <td className="editCell">{formatPrice(data?.capacity?.studio?.pricing)}</td>
+            <td className="editCell">{data?.capacity?.studio?.studioAddress}</td>
+            <td className="editCell">{data?.capacity?.studio?.studioDescription}</td>
+            <td className="editCell">{data?.capacity?.studio?.studioDescriptionAmentitiesDetail}</td>
+            <td className="editCell">{data?.capacity?.size?.sizeDescription}</td>
+            <td className="editCell">{data?.capacity?.quantity} người</td>
+            
+            <td className="editCell">
+              <button
+                className="editButton"
+                onClick={() => handleEdit(data)}
+              >
+                Chỉnh Sửa
+              </button>
+              <button
+              className="goButton"
+              onClick={() => {
+              window.location.href = `/StudioInfor/${studioId}`;
+              }}>
+               Đi đến Studio
+                </button>
+            </td>
+          </tr>
+        ))}
+        </tbody>
+      </table>
+    )}
+  </div>
 )}
 {activeNav === 'Chờ duyệt' && (
    <table className="editTable">
@@ -1094,7 +1130,7 @@ const getFilteredData = (data) => {
       </td>
     </tr>
   ) : (
-    studioIsUnactive.map((customer, index) => (
+    getFilteredData(studioIsUnactive).map((customer, index) => ( // **Bỏ {} ngoài map()**
       <tr className="editCard" key={`customer-${index}`}>
         <td className="editCell">
           <img
@@ -1106,14 +1142,13 @@ const getFilteredData = (data) => {
         <td className="editCell">{formatPrice(customer.pricing)}</td>
         <td className="editCell">{customer.studioAddress}</td>
         <td className="editCell">{customer.studioDescription}</td>
-        <td className="editCell" style={{ color: "#B8860B",fontWeight: "bold" }}>
-  Chờ Duyệt
-</td>
+        <td className="editCell" style={{ color: "#B8860B", fontWeight: "bold" }}>
+          Chờ Duyệt
+        </td>
       </tr>
     ))
   )}
 </tbody>
-
  </table>
 )}
 
