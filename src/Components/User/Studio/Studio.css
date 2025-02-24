@@ -600,7 +600,7 @@
 #Studio .goButton {
   margin-top: 20px;
   border-radius: 20px;
-  background-color: #9747FF;
+  background-color: rgb(65, 64, 64);
   font-size: 14px;
   color: #fff;
   font-weight: 600;
@@ -613,7 +613,7 @@
 }
 
 #Studio .goButton:hover {
-  background-color: #8033FF;
+  background-color: black;
 }
 
 #Studio .goButton:focus {

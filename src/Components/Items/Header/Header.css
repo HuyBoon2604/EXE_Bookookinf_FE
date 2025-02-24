@@ -21,7 +21,7 @@ html, body {
   z-index: 1000;
   white-space: nowrap;
   font-family: 'Poppins';
-  padding-top: 6.25rem;
+  padding-top: 5rem;
   width: 100%;
   min-width: 1024px;
 }

@@ -8,6 +8,8 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import 'swiper/css/autoplay';
 import Slider from "react-slick";
+import { FaFacebook } from "react-icons/fa";
+import { FaInstagram } from "react-icons/fa";
 
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
@@ -177,7 +179,41 @@ const [isExpanded, setIsExpanded] = useState(false);
           </div>
         </div>
       </section>
-     <div className='tongohyeah'>
+     {/* <div className='tongohyeah'> */}
+     <section className='nenhometong'>
+     <div className='khungcha'>
+  <div className='khungcon'> 
+    <div className='khungconcon'>
+      <div className='chua-title-con'>
+        <h2 className='title-con'>FIND YOUR IDEAL STUDIO SPACE</h2>
+      </div>
+
+      <div className='chua-des-con'>
+        <h3 className='des-con'>Find the ideal space for your next session</h3>
+      </div>
+
+      <div className='btn-thuephongtap'>
+        <button className='thuephongcon'>Thuê phòng tập</button>
+      </div>
+    </div>
+  </div>
+
+  <div className="slideanhstu">
+    <div className="anhluot">
+      <img src="public\pexels-hikaique-307847.jpg" alt="" className="anhluotcon" />
+      <img src="https://ava-grp-talk.zadn.vn/a/1/9/8/4/360/36650c664e257c37760d0f7a27fe0a8d.jpg" alt="Logo" className="logo-trai-tren" />
+    </div>
+  </div>
+
+  {/* Thêm 2 logo vào góc dưới bên trái */}
+  <div className="logos-duoi-trai">
+   <FaFacebook className="logo-duoi-trai" style={{ color: "#1877F2", fontSize: "20px" }} />
+    <FaInstagram className="logo-duoi-trai" style={{ color: "#E4405F", fontSize: "20px", marginLeft: "15px" }} />
+  </div>
+</div>
+
+
+     </section>
       <div className='wcolordancecontain'>
 <div className='whychua'>
   <h2 className='whyne'>Chọn</h2>
@@ -198,27 +234,6 @@ const [isExpanded, setIsExpanded] = useState(false);
 <div className='Colordangichua'>
   <h2 className='Colordangi'>Gì ?</h2>
 </div>
-
-{/* <div className='chuahoahd'>
-<img src="\flower.gif" alt="" className='hoahd' />
-</div>
-
-
-
-<div className='chuahoahduoi'>
-<img src="\flower.gif" alt="" className='hoahduoi' />
-</div> */}
-
-{/* <div
-      style={{
-        width: "50%",
-        top: "50vh",
-        position: "absolute",
-        left: "90vh",
-        textAlign: "center",
-      }}
-    >
-       </div> */}
       <div className="baihopchus">
         <h2 className="thebaihoc">{slides[currentIndex]?.title}</h2>
         <h4 className="desbaihoc">{slides[currentIndex]?.description}</h4>
@@ -307,7 +322,7 @@ const [isExpanded, setIsExpanded] = useState(false);
       </div>
       
     </div>
-    </div>
+    // </div>
   );
 };
 const StudioCard = ({ imageUrl, title, location, price }) => {
@@ -322,6 +337,7 @@ const StudioCard = ({ imageUrl, title, location, price }) => {
       <p className="studio-price">{price}</p>
     </div>
   </div>
+  
 </div>
   
   );
