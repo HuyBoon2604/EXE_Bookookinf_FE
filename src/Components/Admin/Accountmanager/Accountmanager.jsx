@@ -90,7 +90,7 @@ const Accountmanager = () => {
               <Link to="/accountmana" className={location.pathname === '/accountmana' ? 'active-tab' : ''}> Quản lý tài khoản</Link>
               <Link to="/checkstu" className={location.pathname === '/checkstu' ? 'active-tab' : ''}>Duyệt studio</Link>
               <button 
-                        className="export-btn" 
+                        className="export-btnn" 
                         onClick={exportToExcel}
                         aria-label="Xuất File Excel"
                       >
