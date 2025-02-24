@@ -271,8 +271,8 @@ const [isExpanded, setIsExpanded] = useState(false);
       <div className="card-container">
         {Studio.slice(currentIndex1, currentIndex1 + 3).map((studio) => (
           <div className="card" key={studio.id}>
-            <div className="card-image">
-              <img src={studio.imageStudio} alt={studio.title} />
+            <div className="card-image" >
+              <img src={studio.imageStudio} alt={studio.title} onClick={() => handleCardClick(studio.id)} />
               <div className="card-price">
                 {new Intl.NumberFormat('vi-VN').format(Number(studio.pricing) || 0)} VND / Giờ
               </div>
