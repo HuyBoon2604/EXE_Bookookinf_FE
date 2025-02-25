@@ -21,6 +21,8 @@ import useAuth from '../../../hooks/useAuth';
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import Footer from "../../../Components/Items/Footer/Footer";
+import { TbAirConditioning } from "react-icons/tb";
+import { MdOutlineSurroundSound } from "react-icons/md";
 
 
 dayjs.extend(utc);
@@ -141,11 +143,11 @@ const [bookedTimes, setBookedTimes] = useState([]);
               message: <span className='custom-confirm'>Bạn có muốn kiểm tra lại thông tin trước khi đặt studio ?</span>,
               buttons: [
                   {
-                      label: 'Không',
+                      label: 'Có',
                       onClick: () => handleBooking(),
                   },
                   {
-                      label: 'Có'
+                      label: 'Không'
                   },
               ],
           });
@@ -344,6 +346,15 @@ const [bookedTimes, setBookedTimes] = useState([]);
     <FaRegNewspaper />
       <span className="phukien">Quy định</span>
     </li>
+    <li className="type-amen">
+    <TbAirConditioning />
+      <span className="phukien">Máy lạnh</span>
+    </li>
+    <li className="type-amen">
+    <MdOutlineSurroundSound />
+      <span className="phukien">Âm thanh</span>
+    </li>
+   
   </ul>
 </div>
 <hr width="100%" align="left"></hr>

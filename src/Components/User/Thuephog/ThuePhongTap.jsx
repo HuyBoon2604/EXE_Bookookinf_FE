@@ -44,7 +44,7 @@ const handleCardClick = (id) => {
       <h2 className='tieudevuinhuc'>Số lượng Studio ({totalLocations})</h2>
       <div className="locations-grid">
         {Studio.map((location, index) => (
-          <div key={index} className="location-card" >
+          <div key={index} className="location-card" onClick={() => handleCardClick(location.id)}>
             <div className="image-container">
     <img src={location.imageStudio} alt={location.title} className="location-image" onClick={() => handleCardClick(location.id)} />
     <div className="pricevui">
@@ -55,8 +55,8 @@ const handleCardClick = (id) => {
             <h3>{location.studioName}</h3>
             <p>{location.studioAddress}</p>
             <p>⭐ 5 (62)</p>
-           
-            <p className={`description-vuivui ${isExpanded[location.id] ? 'expanded' : ''}`}>
+           <p className='description-vuivui'>{location.studioDescription}</p>
+            {/* <p className={`description-vuivui ${isExpanded[location.id] ? 'expanded' : ''}`}>
   {location.studioDescription
     ? (isExpanded[location.id] 
         ? location.studioDescription 
@@ -69,7 +69,7 @@ const handleCardClick = (id) => {
   <button onClick={() => toggleExpand(location.id)} className="read-more-btn">
     {isExpanded[location.id] ? "Hạn chế" : "Xem Thêm"}
   </button>
-)}
+)} */}
           </div>
         ))}
       </div>

@@ -93,10 +93,11 @@ width: 35%;
   text-align: center;
   margin-bottom: 20px;
   font-weight: bold;
-  background: linear-gradient(to right, #ff7eb3, #915dd1);
+  /* background: linear-gradient(to right, #ff7eb3, #915dd1);
     -webkit-background-clip: text;
     color: transparent;
-    -webkit-text-stroke: 1px black;
+    -webkit-text-stroke: 1px black; */
+    color: #9747FF;
     font-family: 'Poppins';
 }
 
