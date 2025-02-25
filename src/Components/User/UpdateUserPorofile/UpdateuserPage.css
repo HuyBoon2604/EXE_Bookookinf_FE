@@ -8,7 +8,7 @@
 #UpdateuserPage .Info-User {
   width: 20%;
   background-color: #EFF0F2;
-  height: 566px;
+  height: 55vh;
   border-radius: 20px;
   margin-bottom: 20vh;
 }
@@ -31,8 +31,9 @@
 
 #UpdateuserPage .indentity-title {
   color: black;
-  margin-left: 15%;
+  margin-left: 25%;
   width: 100%;
+  font-size: 2vh;
 }
 
 #UpdateuserPage .indentity-sub {
@@ -54,7 +55,8 @@
 
 #UpdateuserPage .info-title-update {
   color: black;
-  margin-left: 15%;
+  margin-left: 30%;
+  font-size: 2vh;
 }
 
 #UpdateuserPage .info-sub {
@@ -62,7 +64,10 @@
   color: #9A9A9A;
   margin-top: 10px;
 }
-
+.info-sub-email{
+  margin-left: 12%;
+  font-size: 2vh;
+}
 #UpdateuserPage .info-confirm {
   height: 30vh;
 }
@@ -73,7 +78,7 @@
 }
 
 #UpdateuserPage .basic-info-title {
-  font-size: 24px;
+  font-size: 4vh;
   font-weight: bold;
   margin-bottom: 15px;
 }
@@ -144,8 +149,8 @@
 
 
 #UpdateuserPage .save-button {
-  padding: 10px 20px;
-  font-size: 90%;
+  padding: 2vh 4vh;
+  font-size: 2vh;
   border-radius: 5px;
   border: none;
   cursor: pointer;

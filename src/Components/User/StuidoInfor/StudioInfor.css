@@ -139,7 +139,7 @@
 
 .image-thumbnails {
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* 4 cột bằng nhau */
+  grid-template-columns: repeat(2, 1fr); 
   gap: 10px;
 }
 
@@ -178,15 +178,12 @@
   height: 34vh;
 }
 
-#StudioInfor .review-vui {
+.review-vui {
   display: flex;
-  margin-left: 3%;
-}
-
-#StudioInfor .rate-review {
-  color: black;
-  margin-top: 2%;
-  margin-left: 6px;
+  align-items: center; 
+  gap: 8px; }
+.review-title, .rate-review {
+  margin: 0; 
 }
 
 #StudioInfor .star-review {
@@ -321,17 +318,6 @@
   color: black;
 }
 
-/* #StudioInfor .booking-button {
-  width: 70%;
-  padding: 10px;
-  margin-top: 20%;
-  margin-left: 13%;
-  background-color: #9747FF;
-  color: white;
-  font-weight: bold;
-  border: 2px solid black;
-} */
-
 #StudioInfor .reviews-section {
   color: black;
   margin-top: 20px;
@@ -343,8 +329,6 @@
   
   left: 0;
   width: 100%;
- 
-  /* padding: 20px; */
   box-sizing: border-box;
 }
 
@@ -461,7 +445,7 @@
 }
 
 #StudioInfor .review-title {
-  margin-top: 40px;
+  margin-top: 2vh;
   color: black;
   font-family: 'Poppins';
   

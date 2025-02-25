@@ -12,21 +12,30 @@ const SearchPage = () => {
 
   const fetchStudio = useCallback(async () => {
     if (location) {
-      try {
-        const response = await api.get(
-          `/api/Studio/Get-All-Studio-By-Address?address=${encodeURIComponent(
-            location
-          )}`
-        );
-        const extractedStudio = Array.isArray(response.data) ? response.data : response.data?.$values || [];
-        console.log("API response:", response.data);
-        setStudios(extractedStudio);
-      } catch (error) {
-        console.error("Error fetching studio:", error);
-        toast.error("Không thể lấy danh sách studio!");
-      }
+        try {
+            // Giải mã URL & chuẩn hóa thành NFC và NFD
+            const decodedLocation = decodeURIComponent(location).normalize("NFD");
+           
+
+           
+
+            const response = await api.get(
+                `/api/Studio/Get-All-Studio-By-Address?address=${(decodedLocation)}`
+            );
+
+            const extractedStudio = Array.isArray(response.data) ? response.data : response.data?.$values || [];
+            console.log("API response:", response.data);
+            setStudios(extractedStudio);
+        } catch (error) {
+            console.error("Error fetching studio:", error);
+            toast.error("Không thể lấy danh sách studio!");
+        }
     }
-  }, [location]);
+}, [location]);
+
+
+  
+
 
   useEffect(() => {
     if (locationQuery) {
@@ -41,6 +50,7 @@ const SearchPage = () => {
   const handleCardClick = (id) => {
     navigate(`/StudioInfor/${id}`);
   };
+  
 
   return (
     <div className="search-page">
@@ -70,7 +80,13 @@ const SearchPage = () => {
                     ? studio.studioDescription.join(", ")
                     : studio.studioDescription || "No features available"}
                 </p>
-                <p className="studio-price4">From {studio.pricing || "N/A"} /hr</p>
+                <p className="studio-price4">
+  {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
+    .format(studio.pricing)
+    .replace('₫', 'VND')
+    .trim()}/ Giờ
+</p>
+
               </div>
             </div>
           ))

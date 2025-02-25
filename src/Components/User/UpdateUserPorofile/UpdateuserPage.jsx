@@ -145,9 +145,9 @@ const UpdateuserPage = () => {
             <div className='indentity-title-chua'>
               <h2 className='indentity-title'>Xác minh danh tính</h2>
             </div>
-            <div className='indentity-sub-chua'>
+            {/* <div className='indentity-sub-chua'>
               <span className='indentity-sub'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</span>
-            </div>
+            </div> */}
           </div>
           <div className='info-confirm'>
             <div className='info-title-chua'>

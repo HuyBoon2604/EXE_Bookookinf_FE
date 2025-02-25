@@ -19,16 +19,65 @@ import { Navigation, Pagination,Autoplay } from "swiper/modules";
 import { CiGlobe } from "react-icons/ci";
 import { FaArrowRight } from "react-icons/fa";
 import { FaArrowLeft } from "react-icons/fa";
+import axios from 'axios';
 
 
 
 const HomeTro = () => {
   const [Studio, Setstudio] = useState([]);
   const [searchLocation, setSearchLocation] = useState('');
+  const [districts, setDistricts] = useState([]); // Danh sách quận/huyện
+  const [searchTerm, setSearchTerm] = useState(""); // Giá trị ô tìm kiếm
+  const [filteredDistricts, setFilteredDistricts] = useState([]); // Danh sách gợi ý
+  const [showDropdown, setShowDropdown] = useState(false);
+  useEffect(() => {
+    // Gọi API để lấy danh sách tất cả quận/huyện
+    axios
+      .get("https://provinces.open-api.vn/api/?depth=2")
+      .then((response) => {
+        let allDistricts = [];
+        response.data.forEach((province) => {
+          province.districts.forEach((district) => {
+            allDistricts.push({
+              name: district.name,
+              province: province.name,
+            });
+          });
+        });
+        setDistricts(allDistricts);
+      })
+      .catch((error) => console.error("Error fetching districts:", error));
+  }, []);
+ 
+  const handleInputChange = (event) => {
+  const value = event.target.value;
+  setSearchTerm(value);
+
+  if (value.trim() === "") {
+    setFilteredDistricts([]);
+    setShowDropdown(false);
+    return;
+  }
+
+  const searchValue = removeVietnameseTones(value.toLowerCase());
+
+  const results = districts.filter((district) =>
+    removeVietnameseTones(district.name.toLowerCase()).includes(searchValue)
+  );
+
+  setFilteredDistricts(results);
+  setShowDropdown(results.length > 0);
+};
+
+  const handleSelectDistrict = (districtName) => {
+    setSearchTerm(districtName);
+    setShowDropdown(false);
+  };
+
   const handleSearchSubmit = (event) => {
     event.preventDefault();
-    if (searchLocation.trim()) {
-      navigate(`/searchpage?location=${searchLocation}`);
+    if (searchTerm.trim()) {
+      navigate(`/searchpage?location=${encodeURIComponent(searchTerm)}`);
     }
   };
   const handelthuephongtap = () =>{
@@ -145,14 +194,33 @@ const settings = {
     { breakpoint: 600, settings: { slidesToShow: 1 } }
   ]
 };
-const [isExpanded, setIsExpanded] = useState(false);
-    const toggleExpand = (id) => {
-        setIsExpanded((prev) => ({
-          ...prev,
-          [id]: !prev[id] 
-        }));
-      };
-
+// const [isExpanded, setIsExpanded] = useState(false);
+//     const toggleExpand = (id) => {
+//         setIsExpanded((prev) => ({
+//           ...prev,
+//           [id]: !prev[id] 
+//         }));
+//       };
+const dropdownStyle = {
+  position: "absolute",
+  top: "40px",
+  left: 0,
+  width: "100%",
+  backgroundColor: "#fff",
+  border: "1px solid #ccc",
+  borderRadius: "5px",
+  maxHeight: "200px",
+  overflowY: "auto",
+  boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+  zIndex: 1000,
+};
+const removeVietnameseTones = (str) => {
+  return str
+    .normalize("NFD") // Tách dấu khỏi ký tự
+    .replace(/[\u0300-\u036f]/g, "") // Xóa các dấu
+    .replace(/đ/g, "d") // Chuyển đ -> d
+    .replace(/Đ/g, "D"); // Chuyển Đ -> D
+};
   return (
     <div id="Home">
     <div className="homepage-body">
@@ -177,9 +245,23 @@ const [isExpanded, setIsExpanded] = useState(false);
   className="search-where"
   type="text"
   placeholder="Tìm kiếm dựa trên địa điểm"
-  value={searchLocation}
-  onChange={(e) => setSearchLocation(e.target.value)}
+  value={searchTerm}
+  onChange={handleInputChange}
+  onFocus={() => setShowDropdown(filteredDistricts.length > 0)}
  />
+   {showDropdown && (
+          <ul className="dropdown-list" style={dropdownStyle}>
+            {filteredDistricts.map((district, index) => (
+              <li
+                key={index}
+                onClick={() => handleSelectDistrict(district.name)}
+                className="dropdown-item"
+              >
+                {district.name}, {district.province}
+              </li>
+            ))}
+          </ul>
+        )}
 <button type="button" className='button-search' onClick={handleSearchSubmit}>Tìm kiếm</button>
           </div>
         </div>
@@ -307,19 +389,10 @@ const [isExpanded, setIsExpanded] = useState(false);
               <div className="card-rating">
                 <span className="rating-stars">⭐ {studio.ratingId} ({studio.reviews})</span>
                 <span className="rating-reviews">👤 {studio.visitors}</span>
+                
               </div>
-              <p className={`description-vuivui ${isExpanded[studio.id] ? 'expanded' : ''}`}>
-                {studio.studioDescription
-                  ? (isExpanded[studio.id]
-                      ? studio.studioDescription
-                      : studio.studioDescription.slice(0, 100) + "...")
-                  : "Không có mô tả"}
-              </p>
-              {studio.studioDescription && (
-                <button onClick={() => toggleExpand(studio.id)} className="read-more-btn">
-                  {isExpanded[studio.id] ? "Hạn chế" : "Xem Thêm"}
-                </button>
-              )}
+              <p className='descripvui'>{studio?.studioDescription}</p>
+             
             </div>
           </div>
         ))}
