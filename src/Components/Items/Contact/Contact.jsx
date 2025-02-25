@@ -54,7 +54,7 @@ const Contact = () => {
               <div className="post-meta">
                 <span className="post-date">
                   {new Date(post.createDate).toLocaleDateString()}
-                </span>
+                                  </span>
                 <span className="post-author">{post.author}</span>
               </div>
               <p className="post-excerpt">{post.description}</p>
@@ -87,8 +87,8 @@ const Contact = () => {
             </div>
           </article>
         ))}
-      </div>
-    </div>
+</div>
+</div>
   );
 };
 

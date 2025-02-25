@@ -68,6 +68,14 @@ useEffect(() => {
           // };
           const response = await api.get(url);
           var user = response.data;
+
+          if (!user.isActive) {
+            window.alert("Tài khoản của bạn chưa được kích hoạt. Vui lòng liên hệ Admin để kích hoạt tài khoản");
+            localStorage.removeItem('Authen'); // Xóa thông tin đăng nhập
+            setAuthen(null); // Đặt lại state
+            return;
+          }
+
           setAuth({ user, authen });
           if (user.roleId === '1') {
               console.log('ys');
