@@ -3,7 +3,7 @@
 
 /* Sửa lại phần body và html */
 html, body {
-  overflow-x: auto;
+  /* overflow-x: auto; */
   min-width: 800px; /* Giảm xuống thấp hơn để scroll sớm hơn */
 }
 
