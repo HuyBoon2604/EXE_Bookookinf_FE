@@ -13,7 +13,9 @@ const Signup = () => {
   const [userType, setUserType] = useState("customer");
   const { setAuth } = useAuth();
   const navigate = useNavigate();
-
+  const [showVerification, setShowVerification] = useState(false);
+  const [verificationCode, setVerificationCode] = useState(['', '', '', '', '', '']);
+  const [account, setAccount] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,19 +28,47 @@ const Signup = () => {
       confirmPassword: confirmPassword,
       roleId: roleId,
     };
-    console.log({ userName, email, password, confirmPassword, roleId });
 
     try {
       const response = await api.post(url, data);
-      setAuth({ user: response.data, authen: true });
-      alert("Bạn Đã Đăng Ký Tài Khoản Thành Công");
-      navigate('/login');
+      if (response.status === 200) {
+        setAccount(response.data);
+        setShowVerification(true);
+      }
     } catch (error) {
       console.error(error);
       alert("Đã xảy ra lỗi khi đăng ký!");
     }
-}
+  };
+
+  const handleVerificationChange = (index, value) => {
+    if (!/^\d?$/.test(value)) return; // Chỉ cho phép nhập số (hoặc xóa)
   
+    const newCode = [...verificationCode];
+    newCode[index] = value;
+    setVerificationCode(newCode); // Giữ dạng mảng
+  
+    if (value && index < 5) {
+      const nextInput = document.getElementById(`verification-${index + 1}`);
+      if (nextInput) nextInput.focus();
+    }
+  };
+
+  const handleVerify = async () => {
+    const code = verificationCode.join('');
+    console.log(code);
+    console.log(email);
+    try {
+      const response = await api.post(`/api/Account/verify-account?email=${email}&verificationCode=${code}`);
+      if (response.status === 200) {
+        setAuth({ user: response.data, authen: true });
+        alert("Xác thực thành công!");
+        navigate('/login');
+      }
+    } catch (error) {
+      alert("Mã xác thực không đúng!");
+    }
+  };
 
   return (
     <div id="Signup" >
@@ -69,93 +99,129 @@ const Signup = () => {
         <div className="container">
           <h3>Chào Mừng Bạn Đến Với Colordanhub</h3>
           <p>Bạn Đã Có Tài Khoản Rồi? <a href="/login">Đăng Nhập Ngay</a></p>
-          <form onSubmit={handleSubmit}>
-          <div className="input-group">
-              <label htmlFor="loginPassword">Họ Tên</label>
-              <input
-                type="text"
-                id="loginPassword"
-                required
-                placeholder="Nhập Họ Tên Của Bạn"
-                value={userName}
-                onChange={(e) => setUserName(e.target.value)}
-              />
-            </div>
+          {showVerification ? (
+            <div className="verification-form">
+              <div className="verification-header">
+                <button className="back-arrow" onClick={() => setShowVerification(false)}>
+                  ←
+                </button>
+                <h2>Xác thực email của bạn</h2>
+                <p>Vui lòng nhập mã xác thực gồm 6 chữ số đã được gửi đến email <strong>{email}</strong></p>
+              </div>
+              
+              <div className="verification-inputs">
+                {verificationCode.map((digit, index) => (
+                  <input
+                    key={index}
+                    id={`verification-${index}`}
+                    type="text"
+                    maxLength="1"
+                    placeholder="•"
+                    value={digit}
+                    onChange={(e) => handleVerificationChange(index, e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Backspace' && !digit && index > 0) {
+                        const prevInput = document.getElementById(`verification-${index - 1}`);
+                        if (prevInput) prevInput.focus();
+                      }
+                    }}
+                  />
+                ))}
+              </div>
 
-            <div className="input-group">
-              <label htmlFor="emailAddress">Tên Đăng Nhập</label>
-              <input
-                type="text"
-                id="emailAddress"
-                required
-                placeholder="Nhập Tài Khoản"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
+              <button className="verify-button" onClick={handleVerify}>
+  <span>Xác thực</span>
+</button>
             </div>
-            <div className="input-group">
-              <label htmlFor="loginPassword">Mật Khẩu</label>
-              <input
-                type="password"
-                id="loginPassword"
-                required
-                placeholder="Nhập Mật Khẩu"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
-            <div className="input-group">
-              <label htmlFor="confirmPassword">Xác Nhận Mật Khẩu</label>
-              <input
-                type="password"
-                id="confirmPassword"
-                required
-                placeholder="Nhập Lại Mật Khẩu"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-              />
-            </div>
-            <div className="user-type-selection">
-        <label >Bạn Muốn Trở Thành:</label>
-        <div className="radio-group">
-          <label>
-            <input
-              type="radio"
-              name="userType"
-              value="customer"
-              checked={userType === "customer"}
-              onChange={() => setUserType("customer")}
-            />
-            Khách hàng Đặt Phòng
-          </label>
-          <label>
-            <input
-              type="radio"
-              name="userType"
-              value="studioOwner"
-              checked={userType === "studioOwner"}
-              onChange={() => setUserType("studioOwner")}
-            />
-            Chủ Kinh Doanh studio 
-          </label>
-        </div>
-      </div>
-            
-            {/* <div className="remember-me">
-              <input
-                type="checkbox"
-                id="remember-me"
-                name="remember"
-                checked={rememberMe}
-                onChange={() => setRememberMe(!rememberMe)}
-              />
-              <label htmlFor="remember-me">Keep me signed in</label>
-            </div> */}
-            <button type="submit">Đăng Ký</button>
-          </form>
+          ) : (
+            <form onSubmit={handleSubmit}>
+              <div className="input-group">
+                <label htmlFor="loginPassword">Họ Tên</label>
+                <input
+                  type="text"
+                  id="loginPassword"
+                  required
+                  placeholder="Nhập Họ Tên Của Bạn"
+                  value={userName}
+                  onChange={(e) => setUserName(e.target.value)}
+                />
+              </div>
+
+              <div className="input-group">
+                <label htmlFor="emailAddress">Tên Đăng Nhập</label>
+                <input
+                  type="email"
+                  id="emailAddress"
+                  required
+                  placeholder="Nhập Tài Khoản"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
+              <div className="input-group">
+                <label htmlFor="loginPassword">Mật Khẩu</label>
+                <input
+                  type="password"
+                  id="loginPassword"
+                  required
+                  placeholder="Nhập Mật Khẩu"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </div>
+              <div className="input-group">
+                <label htmlFor="confirmPassword">Xác Nhận Mật Khẩu</label>
+                <input
+                  type="password"
+                  id="confirmPassword"
+                  required
+                  placeholder="Nhập Lại Mật Khẩu"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                />
+              </div>
+              <div className="user-type-selection">
+                <label >Bạn Muốn Trở Thành:</label>
+                <div className="radio-group">
+                  <label>
+                    <input
+                      type="radio"
+                      name="userType"
+                      value="customer"
+                      checked={userType === "customer"}
+                      onChange={() => setUserType("customer")}
+                    />
+                    Khách hàng Đặt Phòng
+                  </label>
+                  <label>
+                    <input
+                      type="radio"
+                      name="userType"
+                      value="studioOwner"
+                      checked={userType === "studioOwner"}
+                      onChange={() => setUserType("studioOwner")}
+                    />
+                    Chủ Kinh Doanh studio 
+                  </label>
+                </div>
+              </div>
+              
+              {/* <div className="remember-me">
+                <input
+                  type="checkbox"
+                  id="remember-me"
+                  name="remember"
+                  checked={rememberMe}
+                  onChange={() => setRememberMe(!rememberMe)}
+                />
+                <label htmlFor="remember-me">Keep me signed in</label>
+              </div> */}
+              <button type="submit">Đăng Ký</button>
+            </form>
+          )}
           <div className='mutee'>
           <hr className="flex-grow-1" />
-  <span className="muted">hoặc đăng nhập với</span>
+  <span className="muted">Hoặc đăng nhập với</span>
   <hr className="flex-grow-1" />
   </div>
           <div className="social-login">
