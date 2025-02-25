@@ -55,7 +55,7 @@
     margin-top: 20px;
     font-size: 1.2em;
     text-align: center;
-    padding: 100px;
+    padding: 200px;
     background-color: #fff5;
     border-radius: 5px;
     
@@ -81,5 +81,20 @@
   
   .export-button:hover {
     background-color: #45a049;
+  }
+  
+  .back-btn {
+    background-color: black;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-left: 2%;
+  }
+  
+  .back-btn:hover {
+    background-color: rgb(63, 63, 63);
   }
   

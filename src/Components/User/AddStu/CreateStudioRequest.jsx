@@ -9,7 +9,11 @@ const CreateStudioRequest = () => {
   const accountId = "ACc61f6"; 
   const { auth } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
+  const addressRegex = /^\d+\s[\p{L}0-9\s]+,\s(?:Quận|Huyện)\s[\p{L}0-9\s]+,\s(?:Thành phố|Tỉnh)\s[\p{L}0-9\s]+$/u;
 
+
+
+  
   const [studioData, setStudioData] = useState({
     pricing: '',
     studioName: '',
@@ -33,32 +37,44 @@ const CreateStudioRequest = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-  
-    // Kiểm tra nếu trường là 'pricing'
+    if (!addressRegex.test(value)) {
+      setError("Địa chỉ không hợp lệ! Ví dụ: 123 Đường Nguyễn Trãi, Quận 1, Thành phố Hồ Chí Minh");
+  } else {
+      setError("");
+  }
     if (name === 'pricing') {
-      // Kiểm tra giá trị không được âm
-      if (value !== '' && Number(value.replace(/[^0-9]/g, '')) < 0) {
-        return;
-      }
-  
-      
-      const numericValue = value.replace(/[^0-9]/g, '');
-  
-      
-      const formattedValue = new Intl.NumberFormat('vi-VN').format(numericValue);
-  
-      
-      
-      setStudioData((prev) => ({
-        ...prev,
-        [name]: numericValue, 
-        [`${name}Formatted`]: formattedValue, 
-      }));
-    } else {
-      
-      setStudioData((prev) => ({ ...prev, [name]: value }));
+        // Loại bỏ các ký tự không phải số
+        const numericValue = value.replace(/[^0-9]/g, '');
+        
+        // Không cho phép giá trị âm
+        if (numericValue !== '' && Number(numericValue) < 0) {
+            return;
+        }
+
+        // Định dạng giá tiền theo chuẩn Việt Nam
+        const formattedValue = new Intl.NumberFormat('vi-VN').format(numericValue);
+
+        setStudioData((prev) => ({
+            ...prev,
+            [name]: numericValue,
+            [`${name}Formatted`]: formattedValue,
+        }));
+    } 
+    else if (name === 'studioAddress') {  
+        // Kiểm tra định dạng địa chỉ
+        if (!addressRegex.test(value)) {
+            // setError("Địa chỉ không hợp lệ. Vui lòng nhập đúng định dạng: Số nhà, Đường, Phường, Quận/Huyện, Tỉnh/Thành phố.");
+        } else {
+            setError(""); 
+        }
+
+        setStudioData((prev) => ({ ...prev, [name]: value }));
+    } 
+    else {
+        setStudioData((prev) => ({ ...prev, [name]: value }));
     }
-  };
+};
+
   const handleImageUpload = (e, key, index = null) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -83,6 +99,12 @@ const CreateStudioRequest = () => {
 
   const ShowConfirmCancel = (e) => {
     e.preventDefault();
+  
+    // Kiểm tra nếu có lỗi, không hiển thị confirmAlert
+    if (error) {
+      return;
+    }
+  
     confirmAlert({
       title: <span className="custom-confirm-alert">Tạo Ngay</span>,
       message: <span className='custom-confirm'>Bạn đã kiểm tra đầy đủ thông tin chưa ?</span>,
@@ -193,10 +215,18 @@ const CreateStudioRequest = () => {
       <input type="hidden" name="pricingNumeric" value={studioData.pricing} />
     </div>
 
-          <div className="form-group">
-            <label>Địa Chỉ:</label>
-            <input type="text" name="studioAddress" value={studioData.studioAddress} onChange={handleInputChange} required />
-          </div>
+    <div className="form-group">
+  <label>Địa Chỉ:</label>
+  <input
+    type="text"
+    name="studioAddress"
+    placeholder='Vui lòng nhập đúng số nhà, đường, quận/huyện, thành phố/tỉnh, không viết tắt'
+    value={studioData.studioAddress}
+    onChange={handleInputChange}
+    required
+  />
+  {error && <p className="error">{error}</p>}
+</div>
           <div className="form-group">
             <label>Thời gian mở cửa:</label>
             <input type="time" name="timeon" value={studioData.timeon} onChange={handleInputChange} required />

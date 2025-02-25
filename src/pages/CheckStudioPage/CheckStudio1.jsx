@@ -8,7 +8,7 @@ import Checkstudio from "../../Components/Admin/CheckStudio/Checkstudio";
 export default function CheckStudio1() {
     return (
         <div id="CheckStupage">
-            <Header />
+            {/* <Header /> */}
             <Checkstudio />
             <Footer />
         </div>

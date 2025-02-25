@@ -21,6 +21,11 @@ import useAuth from '../../../hooks/useAuth';
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import Footer from "../../../Components/Items/Footer/Footer";
+import { TbAirConditioning } from "react-icons/tb";
+import { MdOutlineSurroundSound } from "react-icons/md";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
+import axios from "axios";
 
 
 dayjs.extend(utc);
@@ -42,13 +47,12 @@ const [BookingId, setBookingId] = useState([]);
 const [isExpanded, setIsExpanded] = useState(false);
 const [bookedTimes, setBookedTimes] = useState([]);
 
-
-
+const center = [21.03279, 105.78788];
 
     const toggleExpand = () => {
       setIsExpanded(!isExpanded);
   };
-
+  
  
   const navigate = useNavigate();
   const [images, setImages] = useState([]);
@@ -141,11 +145,11 @@ const [bookedTimes, setBookedTimes] = useState([]);
               message: <span className='custom-confirm'>Bạn có muốn kiểm tra lại thông tin trước khi đặt studio ?</span>,
               buttons: [
                   {
-                      label: 'Không',
+                      label: 'Có',
                       onClick: () => handleBooking(),
                   },
                   {
-                      label: 'Có'
+                      label: 'Không'
                   },
               ],
           });
@@ -252,7 +256,7 @@ const [bookedTimes, setBookedTimes] = useState([]);
   .trim();
   return (
     <div id="StudioInfor">
-    
+  
     
     <div className="image-gallery">
   <div className="image-main">
@@ -344,8 +348,36 @@ const [bookedTimes, setBookedTimes] = useState([]);
     <FaRegNewspaper />
       <span className="phukien">Quy định</span>
     </li>
+    <li className="type-amen">
+    <TbAirConditioning />
+      <span className="phukien">Máy lạnh</span>
+    </li>
+    <li className="type-amen">
+    <MdOutlineSurroundSound />
+      <span className="phukien">Âm thanh</span>
+    </li>
+   
   </ul>
 </div>
+{/* <div className="location-hehe">
+      <div className="tittle-local">
+        <h2 className="diadiem">Location</h2>
+      </div>
+      <MapContainer
+        center={center}
+        zoom={15}
+        style={{ width: "100%", height: "400px" }}
+      >
+      
+        <TileLayer
+  url={`https://mapapis.openmap.vn/v1/tiles/{z}/{x}/{y}?apikey=${"C6gl6YCxg3oeLpfO2atFBY2ia1m1rBr9"}`}
+  attribution='&copy; <a href="https://openmap.vn/">OpenMap.vn</a>'
+/>
+        <Marker position={center}>
+          <Popup>Vị trí của bạn</Popup>
+        </Marker>
+      </MapContainer>
+    </div> */}
 <hr width="100%" align="left"></hr>
 <div class="listing-section-margins" id="ophours_section"><h2 class="h5"><span>Giờ hoạt động</span></h2>
 <div className="thuchua"><div class="flex space-between "><div class="flex-one">Thứ hai</div><div class="flex-one"><div>{studio.studio?.timeOn} Giờ - {studio.studio?.timeOff} Giờ</div>
@@ -465,6 +497,7 @@ const [bookedTimes, setBookedTimes] = useState([]);
   label="Thời gian bắt đầu"
   shouldDisableTime={(value) => isTimeBooked(value)}
   disabled={!stardate}
+  views={['hours']} 
   sx={{
     '& .MuiInputLabel-root': { color: 'black' }, 
     '& .MuiInputLabel-root.Mui-focused': { color: 'blue' }, 
@@ -488,6 +521,7 @@ const [bookedTimes, setBookedTimes] = useState([]);
     !checkin || value.isBefore(checkin.add(30, "minute")) || isRangeOverlapping(checkin, value)
   }
   disabled={!stardate || !checkin}
+  views={['hours']} 
   label="Thời gian kết thúc"
   sx={{
     '& .MuiInputLabel-root': { color: 'black' }, 

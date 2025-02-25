@@ -3,7 +3,7 @@
 
 /* Sửa lại phần body và html */
 html, body {
-  overflow-x: auto;
+  /* overflow-x: auto; */
   min-width: 800px; /* Giảm xuống thấp hơn để scroll sớm hơn */
 }
 
@@ -21,7 +21,7 @@ html, body {
   z-index: 1000;
   white-space: nowrap;
   font-family: 'Poppins';
-  padding-top: 6.25rem;
+  padding-top: 5rem;
   width: 100%;
   min-width: 1024px;
 }

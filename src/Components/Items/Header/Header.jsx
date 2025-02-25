@@ -1,12 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './Header.css';
 import useAuth from '../../../hooks/useAuth';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { CiGlobe } from "react-icons/ci";
 
 export default function Header() {
   const { auth, setAuth } = useAuth();
+  const navigate = useNavigate();
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [showLanguages, setShowLanguages] = useState(false);
   const location = useLocation();
@@ -19,7 +20,7 @@ export default function Header() {
   const handleLogout = () => {
     setAuth({ user: null });
     localStorage.clear();
-    setDropdownVisible(false);
+    navigate("/"); 
   };
 
   const handleLanguageChange = (lng) => {

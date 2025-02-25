@@ -13,9 +13,10 @@ const Footer = () => {
         <div className="footer-section">
           <h2 className="footer-logo">Colordanhub</h2>
           <p className="footer-description">
-          Nền tảng ứng dụng cho phép người dùng có thể theo dõi thông tin: địa chỉ, giá cả, chất lượng phòng tập, loại hình phòng tập, thời gian mở cửa, đánh giá và review từ người dùng khác,...một cách nhanh chóng và thuận tiện, giúp khách hàng tối ưu hóa thời gian trong việc chọn lựa các phòng tập nhảy và studio.
+          
+Ứng dụng giúp người dùng dễ dàng tìm kiếm và so sánh các phòng tập nhảy, studio dựa trên thông tin về địa điểm, giá cả, chất lượng, loại hình, giờ mở cửa và đánh giá từ người dùng khác.
           </p>
-          <button className="playstore-button">
+          {/* <button className="playstore-button">
             <svg
               height="20px"
               width="20px"
@@ -70,7 +71,7 @@ const Footer = () => {
               />
             </svg>
             PlayStore
-          </button>
+          </button> */}
         </div>
 
         {/* Middle Sections */}
@@ -116,8 +117,8 @@ const Footer = () => {
       </div>
 
       <div className="footer-bottom">
-        <p>© 2022 thecreation.design | All rights reserved</p>
-        <p>Created with love by thecreation.design</p>
+        {/* <p>© 2022 thecreation.design | All rights reserved</p>
+        <p>Created with love by thecreation.design</p> */}
       </div>
     </footer>
   );
