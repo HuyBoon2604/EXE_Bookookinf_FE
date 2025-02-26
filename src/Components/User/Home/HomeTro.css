@@ -41,17 +41,23 @@ animation: changeBackground 10s infinite;
 
 @keyframes changeBackground {
     0% {
-        background-image: url("/dance-4661508_1280.jpg");
+        background-image: url("/1.png");
     }
-    33% {
-        background-image: url("/audition-6975628_1280.jpg");
+    20% {
+        background-image: url("/2.png");
     }
-    66% {
-        background-image: url("/dance-6911162_1280.jpg");
+    40% {
+        background-image: url("/3.png");
     }
-    100% {
-        background-image: url("/dance-4530413_1280.jpg");
+    60% {
+        background-image: url("/4 (1).png");
     }
+    80% {
+      background-image: url("/5.png");
+  }
+  100% {
+    background-image: url("/6.png");
+}
 }
 
 
