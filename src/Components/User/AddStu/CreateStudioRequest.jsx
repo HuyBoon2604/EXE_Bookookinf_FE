@@ -100,7 +100,7 @@ const CreateStudioRequest = () => {
   const ShowConfirmCancel = (e) => {
     e.preventDefault();
   
-    // Kiểm tra nếu có lỗi, không hiển thị confirmAlert
+    
     if (error) {
       return;
     }
@@ -205,13 +205,13 @@ const CreateStudioRequest = () => {
           <div className="form-group">
       <label>Giá (VNĐ):</label>
       <input
-        type="text" // Sử dụng type="text" để hiển thị giá trị đã định dạng
+        type="text" 
         name="pricing"
         value={studioData.pricingFormatted || ''}
         onChange={handleInputChange}
         required
       />
-      {/* Lưu giá trị số thực tế trong một trường ẩn (nếu cần) */}
+      
       <input type="hidden" name="pricingNumeric" value={studioData.pricing} />
     </div>
 
