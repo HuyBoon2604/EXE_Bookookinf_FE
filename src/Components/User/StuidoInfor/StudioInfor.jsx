@@ -95,6 +95,8 @@ const center = [21.03279, 105.78788];
       toast.error("Error fetching studio!");
     }
   }, [id]);
+
+  const isOwner = auth.user?.id === studio.studio?.accountId;
   const fetchreview = async () => {
     
     try {
@@ -254,6 +256,15 @@ const center = [21.03279, 105.78788];
   .format(studio.studio?.pricing)
   .replace('₫', 'VND')
   .trim();
+
+  const isWithinStudioHours = (time) => {
+    if (!studio.studio?.timeOn || !studio.studio?.timeOff) return false;
+  
+    const timeOn = dayjs(studio.studio.timeOn, "HH:mm");
+    const timeOff = dayjs(studio.studio.timeOff, "HH:mm");
+  
+    return time.isAfter(timeOn.subtract(1, "minute")) && time.isBefore(timeOff.add(1, "minute"));
+  };
   return (
     <div id="StudioInfor">
   
@@ -449,6 +460,7 @@ const center = [21.03279, 105.78788];
   </div>
         </div>
        
+        {!isOwner && (
         <div className="booking-section">
          
              
@@ -495,7 +507,7 @@ const center = [21.03279, 105.78788];
   value={checkin}
   onChange={(newValue) => handleTimeChange(newValue, setcheckin)}
   label="Thời gian bắt đầu"
-  shouldDisableTime={(value) => isTimeBooked(value)}
+  shouldDisableTime={(value) =>!isWithinStudioHours(value) || isTimeBooked(value)}
   disabled={!stardate}
   views={['hours']} 
   sx={{
@@ -518,7 +530,7 @@ const center = [21.03279, 105.78788];
     }
   }}
   shouldDisableTime={(value) =>
-    !checkin || value.isBefore(checkin.add(30, "minute")) || isRangeOverlapping(checkin, value)
+    !checkin || value.isBefore(checkin.add(30, "minute")) || isRangeOverlapping(checkin, value)|| !isWithinStudioHours(value)
   }
   disabled={!stardate || !checkin}
   views={['hours']} 
@@ -559,7 +571,7 @@ const center = [21.03279, 105.78788];
           
           </div>
         </div>
-      
+      )}
       </div>
      </div>
      

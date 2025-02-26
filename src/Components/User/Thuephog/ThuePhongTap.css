@@ -13,10 +13,14 @@
   
   .locations-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 20px;
-  }
-  
+}
+  /* .locations-grid:has(> :only-child) {
+    grid-template-columns: minmax(300px, 600px); 
+    justify-content: center; 
+} */
+
   .location-card {
     background: #fff;
     border-radius: 8px;
@@ -67,10 +71,51 @@
     background: rgba(0, 0, 0, 0.7);
     color: white;
     padding: 5px 10px;
-    font-size: 14px;
+    font-size: 1.5vh;
     font-weight: bold;
     border-radius: 5px;
-    width: 100%;
+    width: 38%;
   }
   
-  
+ 
+
+
+.search-filter-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+  padding: 15px;
+  background-color: black;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+
+.search-filter-container .locloc {
+  flex: 1 1 200px; 
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+
+.search-filter-container .locloc:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+
+.search-filter-container .locloc::placeholder {
+  color: #999;
+}
+
+
+@media (max-width: 768px) {
+  .search-filter-container .locloc {
+      flex: 1 1 100%; 
+  }
+}

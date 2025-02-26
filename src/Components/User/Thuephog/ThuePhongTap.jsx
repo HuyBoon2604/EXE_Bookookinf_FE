@@ -6,11 +6,15 @@ import { useNavigate } from 'react-router-dom';
 
 const ThuePhongTap = () => {
     const [Studio, Setstudio] = useState([]);
+    const [searchName, setSearchName] = useState('');
+    const [searchAddress, setSearchAddress] = useState('');
+    const [minPrice, setMinPrice] = useState('');
+    const [maxPrice, setMaxPrice] = useState('');
     const [isExpanded, setIsExpanded] = useState(false);
     const toggleExpand = (id) => {
         setIsExpanded((prev) => ({
           ...prev,
-          [id]: !prev[id] // Đảo trạng thái của card có id tương ứng
+          [id]: !prev[id] 
         }));
       };
   
@@ -38,43 +42,80 @@ const handleCardClick = (id) => {
     
   };
   const navigate = useNavigate();
-  const totalLocations = Studio.length;
+  const formatCurrency = (value) => {
+    return value.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+};
+const handleMinPriceChange = (e) => {
+  const formattedValue = formatCurrency(e.target.value);
+  setMinPrice(formattedValue);
+};
+
+const handleMaxPriceChange = (e) => {
+  const formattedValue = formatCurrency(e.target.value);
+  setMaxPrice(formattedValue);
+};
+ 
+  const filteredStudio = Studio.filter(studio => {
+    const matchesName = studio.studioName.toLowerCase().includes(searchName.toLowerCase());
+    const matchesAddress = studio.studioAddress.toLowerCase().includes(searchAddress.toLowerCase());
+    const matchesPrice = (minPrice === '' || studio.pricing >= minPrice) && 
+                         (maxPrice === '' || studio.pricing <= maxPrice);
+    return matchesName && matchesAddress && matchesPrice;
+});
+
+const totalLocations = filteredStudio.length;
   return (
     <div className="locations-container">
       <h2 className='tieudevuinhuc'>Số lượng Studio ({totalLocations})</h2>
-      <div className="locations-grid">
-        {Studio.map((location, index) => (
-          <div key={index} className="location-card" onClick={() => handleCardClick(location.id)}>
-            <div className="image-container">
-    <img src={location.imageStudio} alt={location.title} className="location-image" onClick={() => handleCardClick(location.id)} />
-    <div className="pricevui">
-    {new Intl.NumberFormat('vi-VN').format(Number(location.pricing) || 0)} VND / Giờ
-              </div>
-  </div>
-            
-            <h3>{location.studioName}</h3>
-            <p>{location.studioAddress}</p>
-            <p>⭐ 5 (62)</p>
-           <p className='description-vuivui'>{location.studioDescription}</p>
-            {/* <p className={`description-vuivui ${isExpanded[location.id] ? 'expanded' : ''}`}>
-  {location.studioDescription
-    ? (isExpanded[location.id] 
-        ? location.studioDescription 
-        : location.studioDescription.slice(0, 100) + "...")
-    : "Không có mô tả"}
-</p>
-
-
-{location.studioDescription && (
-  <button onClick={() => toggleExpand(location.id)} className="read-more-btn">
-    {isExpanded[location.id] ? "Hạn chế" : "Xem Thêm"}
-  </button>
-)} */}
-          </div>
-        ))}
-      </div>
-    </div>
-  );
+      <div className="search-filter-container">
+                <input
+                className='locloc'
+                    type="text"
+                    placeholder="Tìm kiếm theo tên phòng"
+                    value={searchName}
+                    onChange={(e) => setSearchName(e.target.value)}
+                />
+                <input
+                    type="text"
+                     className='locloc'
+                    placeholder="Tìm kiếm theo địa chỉ"
+                    value={searchAddress}
+                    onChange={(e) => setSearchAddress(e.target.value)}
+                />
+               <input
+                className='locloc'
+    type="text" 
+    placeholder="Giá tối thiểu"
+    value={minPrice}
+    onChange={handleMinPriceChange}
+/>
+<input
+ className='locloc'
+    type="text" 
+    placeholder="Giá tối đa"
+    value={maxPrice}
+    onChange={handleMaxPriceChange}
+/>
+            </div>
+            <div className="locations-grid">
+                {filteredStudio.map((location, index) => (
+                    <div key={index} className="location-card" onClick={() => handleCardClick(location.id)}>
+                        <div className="image-container">
+                            <img src={location.imageStudio} alt={location.title} className="location-image" />
+                            <div className="pricevui">
+                                {new Intl.NumberFormat('vi-VN').format(Number(location.pricing) || 0)} VND / Giờ
+                            </div>
+                        </div>
+                        <h3>{location.studioName}</h3>
+                        <p>{location.studioAddress}</p>
+                        <p>⭐ 5 (62)</p>
+                        <p className='description-vuivui'>{location.studioDescription}</p>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
 };
+
 
 export default ThuePhongTap;
