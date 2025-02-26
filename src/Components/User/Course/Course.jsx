@@ -338,13 +338,13 @@ const checkPurchaseStatus = async (accountId) => {
 // Thêm hàm xử lý đánh giá
 const handleReview = () => {
   // Chuyển đến form đánh giá
-  window.location.href = `/review/${Id}`;
+  window.location.href = `/Reservation`;
 };
 
 // Thêm hàm fetchReviews
 const fetchReviews = async () => {
   try {
-    const response = await api.get('/Get-All-Review');
+    const response = await api.get(`/Get-All-Review-By-ClassId?ClassId=${Id}`);
     console.log('Review Data:', response.data);
     
     // Lưu dữ liệu vào state

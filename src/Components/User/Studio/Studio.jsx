@@ -22,6 +22,7 @@ export default function Studio() {
   const [studio, setStudio] = useState([]);
   const [capacity, setCapacity] = useState([]);
   const [studioState, setStudioState] = useState([]);
+  const [studioStateUnactive, setStudioStateUnactive] = useState([]);
   const prevStudioIds = useRef([]);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0)
   const { auth } = useAuth();
@@ -277,7 +278,7 @@ export default function Studio() {
       data.append("DescriptionAmentites", formData.descriptionAmentites);
       data.append("Quantity", formData.quantity);
       data.append("SizeId", formData.size);
-
+  
       // Xử lý ảnh chính (poster1)
     if (formData.isDeleted1) {
       // Chuyển đổi URL thành file và gửi lên server
@@ -350,188 +351,167 @@ export default function Studio() {
   const handleCancel = () => {
     if (window.confirm("Bạn muốn thoát khỏi trang chỉnh sửa studio?")) {
       setIsEditing(false);
-      setEditingCustomer(null);
+    setEditingCustomer(null);
     }
   };
 
   useEffect(() => {
-    // Hàm fetch dữ liệu studio đã được duyệt theo accountId
-    async function fetchStudios() {
+    const fetchStudios = async () => {
+      if (!accountId) {
+        console.error("accountId không tồn tại");
+        return;
+      }
+  
       try {
-        // const response = await api.get(
-        //   `/api/Studio/Get-All-Studio-With-IsActive-True?accountId=${accountId}`
-          const [approvedResponse, unapprovedResponse] = await Promise.all([
-            api.get(`/api/Studio/Get-All-Studio-With-IsActive-True-By-AccountId?accountId=${accountId}`),
-            api.get(`/api/Studio/Get-All-Studio-With-IsActive-Flase-By-AccountId?accountId=${accountId}`),
-          ]);
-          const approvedStudios = approvedResponse.data.$values || approvedResponse.data;
+        const [approvedResponse, unapprovedResponse] = await Promise.all([
+          api.get(`/api/Studio/Get-All-Studio-With-IsActive-True-By-AccountId?accountId=${accountId}`),
+          api.get(`/api/Studio/Get-All-Studio-With-IsActive-Flase-By-AccountId?accountId=${accountId}`)
+        ]);
+  
+        const approvedStudios = approvedResponse.data.$values || approvedResponse.data;
         const unapprovedStudios = unapprovedResponse.data.$values || unapprovedResponse.data;
-        
-        if (approvedResponse.status === 200 && approvedResponse.data && unapprovedResponse.status === 200 && unapprovedResponse.data) {
-          // Nếu dữ liệu được bọc trong $values thì lấy mảng đó, ngược lại lấy response.data
-          setStudioIsActive(approvedStudios);
-          setStudioIsUnactive(unapprovedStudios)
-          
-
-        } else {
-          throw new Error("Không thể lấy thông tin studio đã được duyệt.");
+  
+        if (approvedResponse.status === 200 && unapprovedResponse.status === 200) {
+          setStudioIsActive(approvedStudios || []);
+          setStudioIsUnactive(unapprovedStudios || []);
+          console.log("Approved studios:", approvedStudios);
+          console.log("Unapproved studios:", unapprovedStudios);
         }
-        
       } catch (err) {
-        console.error("Error fetching approved studios:", err);
-     
-    }
-    
-
-    // Nếu có accountId, gọi hàm fetch, ngược lại tắt loading
-    if (accountId) {
-      fetchStudios();
-    } else {
-      throw new Error("accountId không tồn tại",accountId);
-    }
-  } 
-  fetchStudios();
-}, [accountId]);
-
-useEffect(() => {
-  async function fetchData() {
-    try {
-      if (!accountId) {
-        throw new Error("AccountId không tồn tại");
+        console.error("Error fetching studios:", err);
       }
+    };
+  
+    fetchStudios();
+  }, [accountId]); // Chỉ chạy lại khi accountId thay đổi
 
-      // Bước 1: Lấy danh sách các studio mà account đang sở hữu
-      const studiosResponse = await api.get(
-        `/api/Studio/Get-All-Studio-By-AccountId?AccountId=${accountId}`
-      );
-      // Nếu dữ liệu được bọc trong $values, lấy mảng đó; nếu không thì lấy trực tiếp
-      const studios = studiosResponse.data.$values || studiosResponse.data;
-      console.log("Studios:", studios);
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        if (!accountId) {
+          throw new Error("AccountId không tồn tại");
+        }
 
-      // Bước 2: Với mỗi studio, gọi API lấy các order theo studio id
-      const studiosOrders = await Promise.all(
-        studios.map(async (studio) => {
-          const ordersResponse = await api.get(
-            `/Get-All-Order-By-StudioId?StudioId=${studio.id}`
-          );
-          // Nếu dữ liệu được bọc trong $values thì lấy mảng đó, ngược lại lấy trực tiếp
-          const orders = ordersResponse.data.$values || ordersResponse.data;
+        // Bước 1: Lấy danh sách các studio mà account đang sở hữu
+        const studiosResponse = await api.get(
+          `/api/Studio/Get-All-Studio-By-AccountId?AccountId=${accountId}`
+        );
+        // Nếu dữ liệu được bọc trong $values, lấy mảng đó; nếu không thì lấy trực tiếp
+        const studios = studiosResponse.data.$values || studiosResponse.data;
+        console.log("Studios:", studios);
 
-          // Bước 3: Với mỗi order, lấy thông tin account từ accountId có trong booking
-          const enrichedOrders = await Promise.all(
-            orders.map(async (order) => {
-              const orderAccountId = order.booking?.accountId;
-              let accountDetails = null;
-              if (orderAccountId) {
-                const accountResponse = await api.get(
-                  `/api/Account/get-by-id?accountId=${orderAccountId}`
-                );
-                accountDetails = accountResponse.data;
-                console.log("Account details for order", order.id, accountDetails,order);
-              }
-              return {
-                ...order,
-                studioDetails: studio,
-                accountDetails,
-              };
-            })
-          );
+        // Bước 2: Với mỗi studio, gọi API lấy các order theo studio id
+        const studiosOrders = await Promise.all(
+          studios.map(async (studio) => {
+            const ordersResponse = await api.get(
+              `/Get-All-Order-By-StudioId?StudioId=${studio.id}`
+            );
+            // Nếu dữ liệu được bọc trong $values thì lấy mảng đó, ngược lại lấy trực tiếp
+            const orders = ordersResponse.data.$values || ordersResponse.data;
 
-          return enrichedOrders;
-        })
-      );
+            // Bước 3: Với mỗi order, lấy thông tin account từ accountId có trong booking
+            const enrichedOrders = await Promise.all(
+              orders.map(async (order) => {
+                const orderAccountId = order.booking?.accountId;
+                let accountDetails = null;
+                if (orderAccountId) {
+                  const accountResponse = await api.get(
+                    `/api/Account/get-by-id?accountId=${orderAccountId}`
+                  );
+                  accountDetails = accountResponse.data;
+                  console.log("Account details for order", order.id, accountDetails,order);
+                }
+                return {
+                  ...order,
+                  studioDetails: studio,
+                  accountDetails,
+                };
+              })
+            );
 
-      // studiosOrders là một mảng các mảng (mỗi studio trả về mảng order)
-      // Dùng flat() để gộp thành một mảng duy nhất
-      const flattenedOrders = studiosOrders.flat();
-      setOrdersData(flattenedOrders);
-    } catch (err) {
-      console.error("Lỗi khi lấy dữ liệu orders từ các studio:", err);
-    }
-  }
+            return enrichedOrders;
+          })
+        );
 
-  fetchData();
-}, [accountId]);
-
-useEffect(() => {
-  async function fetchDataSuccess() {
-    try {
-      if (!accountId) {
-        throw new Error("AccountId không tồn tại");
+        // studiosOrders là một mảng các mảng (mỗi studio trả về mảng order)
+        // Dùng flat() để gộp thành một mảng duy nhất
+        const flattenedOrders = studiosOrders.flat();
+        setOrdersData(flattenedOrders);
+      } catch (err) {
+        console.error("Lỗi khi lấy dữ liệu orders từ các studio:", err);
       }
-
-      // Bước 1: Lấy danh sách các studio mà account đang sở hữu
-      const studiosResponse = await api.get(
-        `/api/Studio/Get-All-Studio-By-AccountId?AccountId=${accountId}`
-      );
-      // Nếu dữ liệu được bọc trong $values, lấy mảng đó; nếu không thì lấy trực tiếp
-      const studios = studiosResponse.data.$values || studiosResponse.data;
-      console.log("Studios:", studios);
-
-      // Bước 2: Với mỗi studio, gọi API lấy các order theo studio id
-      const studiosOrders = await Promise.all(
-        studios.map(async (studio) => {
-          const ordersResponse = await api.get(
-            `/Get-All-Order-Success-By-StudioId?studioId=${studio.id}`
-          );
-          // Nếu dữ liệu được bọc trong $values thì lấy mảng đó, ngược lại lấy trực tiếp
-          const orders = ordersResponse.data.$values || ordersResponse.data;
-
-          // Bước 3: Với mỗi order, lấy thông tin account từ accountId có trong booking
-          const enrichedOrders = await Promise.all(
-            orders.map(async (order) => {
-              const orderAccountId = order.booking?.accountId;
-              let accountDetails = null;
-              if (orderAccountId) {
-                const accountResponse = await api.get(
-                  `/api/Account/get-by-id?accountId=${orderAccountId}`
-                );
-                accountDetails = accountResponse.data;
-                console.log("Account details for order", order.id, accountDetails,order);
-              }
-              return {
-                ...order,
-                studioDetails: studio,
-                accountDetails,
-              };
-            })
-          );
-
-          return enrichedOrders;
-        })
-      );
-
-      // studiosOrders là một mảng các mảng (mỗi studio trả về mảng order)
-      // Dùng flat() để gộp thành một mảng duy nhất
-      const flattenedOrders = studiosOrders.flat();
-      setOrdersDataSuccess(flattenedOrders);
-    } catch (err) {
-      console.error("Lỗi khi lấy dữ liệu orders từ các studio:", err);
-    }
-  }
-
-  fetchDataSuccess();
-}, [accountId]);
-
-useEffect(() => {
-  const currentStudioIds = studioIsActive.map(studio => studio.id);
-
-  // So sánh nếu danh sách studioId không thay đổi, thì không gọi API
-  if (JSON.stringify(prevStudioIds.current) === JSON.stringify(currentStudioIds)) {
-    // console.log("Không có thay đổi, bỏ qua API call");
-    return;
-  }
-
-  async function loadStudioData() {
-    if (!studioIsActive || studioIsActive.length === 0) {
-      console.error("Không có studio active nào hoặc dữ liệu không hợp lệ.");
-      return;
     }
 
-    try {
-      const studioData = await Promise.all(
-        studioIsActive.map(async (studio) => {
-          try {
+    fetchData();
+  }, [accountId]);
+
+  useEffect(() => {
+    async function fetchDataSuccess() {
+      try {
+        if (!accountId) {
+          throw new Error("AccountId không tồn tại");
+        }
+
+        // Bước 1: Lấy danh sách các studio mà account đang sở hữu
+        const studiosResponse = await api.get(
+          `/api/Studio/Get-All-Studio-By-AccountId?AccountId=${accountId}`
+        );
+        // Nếu dữ liệu được bọc trong $values, lấy mảng đó; nếu không thì lấy trực tiếp
+        const studios = studiosResponse.data.$values || studiosResponse.data;
+        console.log("Studios:", studios);
+
+        // Bước 2: Với mỗi studio, gọi API lấy các order theo studio id
+        const studiosOrders = await Promise.all(
+          studios.map(async (studio) => {
+            const ordersResponse = await api.get(
+              `/Get-All-Order-Success-By-StudioId?studioId=${studio.id}`
+            );
+            // Nếu dữ liệu được bọc trong $values thì lấy mảng đó, ngược lại lấy trực tiếp
+            const orders = ordersResponse.data.$values || ordersResponse.data;
+
+            // Bước 3: Với mỗi order, lấy thông tin account từ accountId có trong booking
+            const enrichedOrders = await Promise.all(
+              orders.map(async (order) => {
+                const orderAccountId = order.booking?.accountId;
+                let accountDetails = null;
+                if (orderAccountId) {
+                  const accountResponse = await api.get(
+                    `/api/Account/get-by-id?accountId=${orderAccountId}`
+                  );
+                  accountDetails = accountResponse.data;
+                  console.log("Account details for order", order.id, accountDetails,order);
+                }
+                return {
+                  ...order,
+                  studioDetails: studio,
+                  accountDetails,
+                };
+              })
+            );
+
+            return enrichedOrders;
+          })
+        );
+
+        // studiosOrders là một mảng các mảng (mỗi studio trả về mảng order)
+        // Dùng flat() để gộp thành một mảng duy nhất
+        const flattenedOrders = studiosOrders.flat();
+        setOrdersDataSuccess(flattenedOrders);
+      } catch (err) {
+        console.error("Lỗi khi lấy dữ liệu orders từ các studio:", err);
+      }
+    }
+
+    fetchDataSuccess();
+  }, [accountId]);
+
+  useEffect(() => {
+    const loadStudioData = async () => {
+      if (!studioIsActive?.length) return;
+
+      try {
+        const studioData = await Promise.all(
+          studioIsActive.map(async (studio) => {
             const [capacityResponse, imageResponse] = await Promise.all([
               api.get(`/Get-Capacity-By-StudioId?StudioId=${studio.id}`),
               api.get(`/Get-All-Image-Of-Studio-By-StudioId?StudioId=${studio.id}`)
@@ -539,232 +519,262 @@ useEffect(() => {
 
             return {
               studioId: studio.id,
-              capacity: capacityResponse.status === 200 ? (capacityResponse.data.$values || capacityResponse.data) : [],
-              images: imageResponse.status === 200 ? (imageResponse.data.$values || imageResponse.data) : [],
+              capacity: capacityResponse.data.$values || capacityResponse.data || [],
+              images: imageResponse.data.$values || imageResponse.data || []
             };
-          } catch (error) {
-            console.error(`Lỗi khi gọi API cho studio ${studio.id}:`, error);
+          })
+        );
+
+        const studioDataMap = studioData.reduce((acc, item) => {
+          acc[item.studioId] = { capacity: item.capacity, images: item.images };
+          return acc;
+        }, {});
+
+        setStudioState(studioDataMap);
+      } catch (error) {
+        console.error("Error loading studio data:", error);
+      }
+    };
+
+    loadStudioData();
+  }, [studioIsActive]);
+
+  useEffect(() => {
+    const loadUnactiveStudioData = async () => {
+      if (!studioIsUnactive?.length) return;
+
+      try {
+        const studioData = await Promise.all(
+          studioIsUnactive.map(async (studio) => {
+            const [capacityResponse, imageResponse] = await Promise.all([
+              api.get(`/Get-Capacity-By-StudioId?StudioId=${studio.id}`),
+              api.get(`/Get-All-Image-Of-Studio-By-StudioId?StudioId=${studio.id}`)
+            ]);
+
             return {
               studioId: studio.id,
-              capacity: [],
-              images: [],
+              capacity: {
+                studio: studio,
+                ...capacityResponse.data
+              },
+              images: imageResponse.data.$values || imageResponse.data || []
             };
-          }
-        })
-      );
+          })
+        );
 
-      const studioDataMap = studioData.reduce((acc, item) => {
-        acc[item.studioId] = { capacity: item.capacity, images: item.images };
-        return acc;
-      }, {});
+        const studioDataMap = studioData.reduce((acc, item) => {
+          acc[item.studioId] = { 
+            capacity: item.capacity,
+            images: item.images 
+          };
+          return acc;
+        }, {});
 
-      setStudioState(studioDataMap); // Cập nhật state
-      prevStudioIds.current = currentStudioIds; // Cập nhật ref để tránh gọi lại API không cần thiết
-    } catch (error) {
-      console.error("Lỗi khi tải dữ liệu studio:", error);
-    }
-  }
-
-  loadStudioData();
-}, [studioIsActive]);
-
-// Chỉ log khi studioState thực sự thay đổi, tránh spam console
-useEffect(() => {
-  if (isFirstRender.current) {
-    isFirstRender.current = false; // Bỏ qua lần render đầu tiên
-    return;
-  }
-  console.log("studioState hiện tại:", studioState);
-}, [studioState]);
-
-
-// Thêm vào phần khai báo state
-const fileInputRefs = useRef([]);
-
-// Xử lý khi click vào ảnh trong gallery
-const handleGalleryImageClick = (index) => {
-  setFormData(prev => ({
-    ...prev,
-    poster: prev[`poster${index + 1}`]
-  }));
-};
-
-// Xử lý khi xóa ảnh
-const handleDeleteImage = async (e, index) => {
-  e.preventDefault();
-  e.stopPropagation();
-
-  try {
-    const posterKey = `poster${index + 1}`; // Key của poster (poster1, poster2, ..., poster6)
-    const imgKey = `img${index + 1}`; // Key của img (img1, img2, ..., img6)
-    console.log(`🗑 Đang xóa ảnh: ${posterKey}`);
-
-    // Cập nhật state
-    setFormData(prevData => ({
-      ...prevData,
-      [posterKey]: " https://i.imgur.com/pRy9nMo.png", // Đặt giá trị của poster thành null
-      [imgKey]: " https://i.imgur.com/pRy9nMo.png", // Đặt giá trị của img thành placeholder
-      [`isDeleted${index + 1}`]: true // Đánh dấu ảnh đã bị xóa
-    }));
-
-    console.log("formData sau khi xóa ảnh:", formData);
-  } catch (error) {
-    console.error("❌ Lỗi khi xóa ảnh:", error);
-    alert("Không thể xóa ảnh. Vui lòng thử lại!");
-  }
-};
-
-// Xử lý khi click vào nút upload
-const handleUploadClick = () => {
-  if (fileInputRefs.current[selectedImageIndex]) {
-    fileInputRefs.current[selectedImageIndex].click();
-  } else {
-    console.error("Không tìm thấy input file");
-  }
-};
-
-// Xử lý khi chọn file mới
-const handleFileChange = (event, index) => {
-  const file = event.target.files[0];
-  console.log(`📸 Đang cập nhật poster ${index + 1}`);
-  
-  if (file) {
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setFormData((prevData) => ({
-        ...prevData,
-        [`poster${index}`]: reader.result,
-      }));
+        setStudioStateUnactive(studioDataMap);
+      } catch (error) {
+        console.error("Error loading unactive studio data:", error);
+      }
     };
-    reader.readAsDataURL(file);
-  }
-};
-useEffect(() => {
-  console.log("formData sau khi thay đổi1111:", formData);
-}, [formData]);
 
-// Thêm state để quản lý tìm kiếm
-const [searchTerm, setSearchTerm] = useState('');
+    loadUnactiveStudioData();
+  }, [studioIsUnactive]);
 
-// Thêm hàm xử lý tìm kiếm
-const handleSearch = (event) => {
-  setSearchTerm(event.target.value);
-};
+  useEffect(() => {
+    if (!isFirstRender.current) {
+      console.log("studioState updated:", studioState);
+      console.log("studioStateUnactive updated:", studioStateUnactive);
+    } else {
+      isFirstRender.current = false;
+    }
+  }, [studioState, studioStateUnactive]);
 
-// Thêm placeholder state để hiển thị placeholder phù hợp với từng nav
-const getSearchPlaceholder = () => {
-  switch (activeNav) {
-    case 'Order':
-      return 'Tìm kiếm theo tên khách hàng...';
-    case 'Revenue':
-      return 'Tìm kiếm theo tên khách hàng...';
-    case 'Edit Studio':
-      return 'Tìm kiếm theo tên studio...';
-    default:
-      return 'Tìm kiếm...';
-  }
-};
+  // Thêm vào phần khai báo state
+  const fileInputRefs = useRef([]);
 
-// Sửa lại hàm filter tùy theo nav đang active
-const getFilteredData = (data) => {
-  const searchStr = searchTerm.toLowerCase();
-  
-  switch (activeNav) {
-    case 'Order':
-      // Filter cho giao dịch (data là array)
-      return Array.isArray(data) ? data.filter(item => 
-        item?.accountDetails?.userName?.toLowerCase().includes(searchStr)
-      ) : [];
-      
-    case 'Revenue':
-      // Filter cho doanh thu (data là array)
-      return Array.isArray(data) ? data.filter(item => 
-        item?.accountDetails?.userName?.toLowerCase().includes(searchStr)
-      ) : [];
-      
-    case 'Edit Studio':
-      // Filter cho studio (data là object)
-      return Object.entries(data).filter(([_, item]) => 
-        item?.capacity?.studio?.studioName?.toLowerCase().includes(searchStr) ||
-        item?.capacity?.studio?.studioAddress?.toLowerCase().includes(searchStr)
-      );
-      case 'Chờ duyệt':
-      // Filter cho studio (data là object)
-      return Object.entries(data).filter(([_, item]) => 
-        item?.studioName?.toLowerCase().includes(searchStr) ||
-        item?.studioAddress?.toLowerCase().includes(searchStr)
-      );
-      
-    default:
-      return Array.isArray(data) ? data : Object.entries(data);
-  }
-};
-
-// Thêm hàm exportToExcel vào component Studio
-const exportToExcel = async () => {
-  try {
-    // Tạo workbook mới
-    const workbook = XLSX.utils.book_new();
-
-    // Sheet 1: Giao dịch
-    const orderData = ordersData.map(data => ({
-      'Hình ảnh': data?.studioDetails?.imageStudio || "https://i.imgur.com/pRy9nMo.png",
-      'Tên khách hàng': data?.accountDetails?.userName,
-      'Số tiền': `${data?.booking?.totalPrice} VND`,
-      'Thời gian bắt đầu': data?.booking?.checkIn,
-      'Thời gian kết thúc': data?.booking?.checkOut,
-      'Trạng thái': data?.status ? "Thành Công" : "Thất Bại"
+  // Xử lý khi click vào ảnh trong gallery
+  const handleGalleryImageClick = (index) => {
+    setFormData(prev => ({
+      ...prev,
+      poster: prev[`poster${index + 1}`]
     }));
+  };
 
-    const orderSheet = XLSX.utils.json_to_sheet(orderData);
-    XLSX.utils.book_append_sheet(workbook, orderSheet, 'Giao dịch');
+  // Xử lý khi xóa ảnh
+  const handleDeleteImage = async (e, index) => {
+    e.preventDefault();
+    e.stopPropagation();
 
-    // Sheet 2: Doanh Thu
-    const revenueData = ordersDataSuccess.map(data => ({
-      'Tên khách hàng': data?.accountDetails?.userName,
-      'Số tiền': `${data?.booking?.totalPrice} VND`,
-      'Hình thức thanh toán': 'Chuyển khoản',
-      'Ngày thanh toán': data?.booking?.bookingDate
-    }));
-    const revenueSheet = XLSX.utils.json_to_sheet(revenueData);
-    XLSX.utils.book_append_sheet(workbook, revenueSheet, 'Doanh Thu');
+    try {
+      const posterKey = `poster${index + 1}`; // Key của poster (poster1, poster2, ..., poster6)
+      const imgKey = `img${index + 1}`; // Key của img (img1, img2, ..., img6)
+      console.log(`🗑 Đang xóa ảnh: ${posterKey}`);
 
-    // Sheet 3: Thông tin Studio
-    const studioData = Object.entries(studioState).map(([_, data]) => ({
-      'Hình ảnh': data?.capacity?.studio?.imageStudio || "https://i.imgur.com/pRy9nMo.png",
-      'Tên Studio': data?.capacity?.studio?.studioName,
-      'Địa chỉ': data?.capacity?.studio?.studioAddress,
-      'Số tiền một giờ': `${data?.capacity?.studio?.pricing} VND`,
-      'Loại phòng': data?.capacity?.size?.sizeDescription,
-      'Sức chứa': `${data?.capacity?.quantity} người`,
-      'Thời gian mở cửa': data?.capacity?.studio?.timeOn,
-      'Thời gian đóng cửa': data?.capacity?.studio?.timeOff,
-      'Mô tả tiện ích': data?.capacity?.studio?.studioDescriptionAmentitiesDetail
-    }));
-    const studioSheet = XLSX.utils.json_to_sheet(studioData);
-    XLSX.utils.book_append_sheet(workbook, studioSheet, 'Thông tin Studio');
+      // Cập nhật state
+      setFormData(prevData => ({
+        ...prevData,
+        [posterKey]: " https://i.imgur.com/pRy9nMo.png", // Đặt giá trị của poster thành null
+        [imgKey]: " https://i.imgur.com/pRy9nMo.png", // Đặt giá trị của img thành placeholder
+        [`isDeleted${index + 1}`]: true // Đánh dấu ảnh đã bị xóa
+      }));
 
-    // Sheet 4: Chờ duyệt
-    const pendingData = studioIsUnactive.map(studio => ({
-      'Tên Studio': studio.studioName,
-      'Số tiền một giờ': `${studio.pricing} VND`,
-      'Địa chỉ': studio.studioAddress,
-      'Thông tin chi tiết': studio.studioDescription,
-      'Trạng thái': 'Chờ Duyệt'
-    }));
-    const pendingSheet = XLSX.utils.json_to_sheet(pendingData);
-    XLSX.utils.book_append_sheet(workbook, pendingSheet, 'Chờ duyệt');
+      console.log("formData sau khi xóa ảnh:", formData);
+    } catch (error) {
+      console.error("❌ Lỗi khi xóa ảnh:", error);
+      alert("Không thể xóa ảnh. Vui lòng thử lại!");
+    }
+  };
 
-    // Xuất file Excel
-    const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-    const excelFile = new Blob([excelBuffer], { type: 'application/octet-stream' });
-    saveAs(excelFile, 'Studio_Management.xlsx');
+  // Xử lý khi click vào nút upload
+  const handleUploadClick = () => {
+    if (fileInputRefs.current[selectedImageIndex]) {
+      fileInputRefs.current[selectedImageIndex].click();
+    } else {
+      console.error("Không tìm thấy input file");
+    }
+  };
 
-  } catch (error) {
-    console.error('Lỗi khi xuất Excel:', error);
-    toast.error('Có lỗi trong quá trình xuất Excel');
-  }
-};
+  // Xử lý khi chọn file mới
+  const handleFileChange = (event, index) => {
+    const file = event.target.files[0];
+    console.log(`📸 Đang cập nhật poster ${index + 1}`);
+    
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFormData((prevData) => ({
+          ...prevData,
+          [`poster${index}`]: reader.result,
+        }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+  useEffect(() => {
+    console.log("formData sau khi thay đổi1111:", formData);
+  }, [formData]);
+
+  // Thêm state để quản lý tìm kiếm
+  const [searchTerm, setSearchTerm] = useState('');
+
+  // Thêm hàm xử lý tìm kiếm
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  // Thêm placeholder state để hiển thị placeholder phù hợp với từng nav
+  const getSearchPlaceholder = () => {
+    switch (activeNav) {
+      case 'Order':
+        return 'Tìm kiếm theo tên khách hàng...';
+      case 'Revenue':
+        return 'Tìm kiếm theo tên khách hàng...';
+      case 'Edit Studio':
+        return 'Tìm kiếm theo tên studio...';
+      default:
+        return 'Tìm kiếm...';
+    }
+  };
+
+  // Sửa lại hàm filter tùy theo nav đang active
+  const getFilteredData = (data) => {
+    const searchStr = searchTerm.toLowerCase();
+    
+    switch (activeNav) {
+      case 'Order':
+        // Filter cho giao dịch (data là array)
+        return Array.isArray(data) ? data.filter(item => 
+          item?.accountDetails?.userName?.toLowerCase().includes(searchStr)
+        ) : [];
+        
+      case 'Revenue':
+        // Filter cho doanh thu (data là array)
+        return Array.isArray(data) ? data.filter(item => 
+          item?.accountDetails?.userName?.toLowerCase().includes(searchStr)
+        ) : [];
+        
+      case 'Edit Studio':
+        // Filter cho studio (data là object)
+        return Object.entries(data).filter(([_, item]) => 
+          item?.capacity?.studio?.studioName?.toLowerCase().includes(searchStr) ||
+          item?.capacity?.studio?.studioAddress?.toLowerCase().includes(searchStr)
+        );
+        case 'Chờ duyệt':
+        // Filter cho studio (data là object)
+        return Object.entries(data).filter(([_, item]) => 
+          item?.capacity?.studio?.studioName?.toLowerCase().includes(searchStr) ||
+          item?.capacity?.studio?.studioAddress?.toLowerCase().includes(searchStr)
+        );
+        
+      default:
+        return Array.isArray(data) ? data : Object.entries(data);
+    }
+  };
+
+  // Thêm hàm exportToExcel vào component Studio
+  const exportToExcel = async () => {
+    try {
+      // Tạo workbook mới
+      const workbook = XLSX.utils.book_new();
+
+      // Sheet 1: Giao dịch
+      const orderData = ordersData.map(data => ({
+        'Hình ảnh': data?.studioDetails?.imageStudio || "https://i.imgur.com/pRy9nMo.png",
+        'Tên khách hàng': data?.accountDetails?.userName,
+        'Số tiền': `${data?.booking?.totalPrice} VND`,
+        'Thời gian bắt đầu': data?.booking?.checkIn,
+        'Thời gian kết thúc': data?.booking?.checkOut,
+        'Trạng thái': data?.status ? "Thành Công" : "Thất Bại"
+      }));
+
+      const orderSheet = XLSX.utils.json_to_sheet(orderData);
+      XLSX.utils.book_append_sheet(workbook, orderSheet, 'Giao dịch');
+
+      // Sheet 2: Doanh Thu
+      const revenueData = ordersDataSuccess.map(data => ({
+        'Tên khách hàng': data?.accountDetails?.userName,
+        'Số tiền': `${data?.booking?.totalPrice} VND`,
+        'Hình thức thanh toán': 'Chuyển khoản',
+        'Ngày thanh toán': data?.booking?.bookingDate
+      }));
+      const revenueSheet = XLSX.utils.json_to_sheet(revenueData);
+      XLSX.utils.book_append_sheet(workbook, revenueSheet, 'Doanh Thu');
+
+      // Sheet 3: Thông tin Studio
+      const studioData = Object.entries(studioState).map(([_, data]) => ({
+        'Hình ảnh': data?.capacity?.studio?.imageStudio || "https://i.imgur.com/pRy9nMo.png",
+        'Tên Studio': data?.capacity?.studio?.studioName,
+        'Địa chỉ': data?.capacity?.studio?.studioAddress,
+        'Số tiền một giờ': `${data?.capacity?.studio?.pricing} VND`,
+        'Loại phòng': data?.capacity?.size?.sizeDescription,
+        'Sức chứa': `${data?.capacity?.quantity} người`,
+        'Thời gian mở cửa': data?.capacity?.studio?.timeOn,
+        'Thời gian đóng cửa': data?.capacity?.studio?.timeOff,
+        'Mô tả tiện ích': data?.capacity?.studio?.studioDescriptionAmentitiesDetail
+      }));
+      const studioSheet = XLSX.utils.json_to_sheet(studioData);
+      XLSX.utils.book_append_sheet(workbook, studioSheet, 'Thông tin Studio');
+
+      // Sheet 4: Chờ duyệt
+      const pendingData = studioIsUnactive.map(studio => ({
+        'Tên Studio': studio.studioName,
+        'Số tiền một giờ': `${studio.pricing} VND`,
+        'Địa chỉ': studio.studioAddress,
+        'Thông tin chi tiết': studio.studioDescription,
+        'Trạng thái': 'Chờ Duyệt'
+      }));
+      const pendingSheet = XLSX.utils.json_to_sheet(pendingData);
+      XLSX.utils.book_append_sheet(workbook, pendingSheet, 'Chờ duyệt');
+
+      // Xuất file Excel
+      const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+      const excelFile = new Blob([excelBuffer], { type: 'application/octet-stream' });
+      saveAs(excelFile, 'Studio_Management.xlsx');
+
+    } catch (error) {
+      console.error('Lỗi khi xuất Excel:', error);
+      toast.error('Có lỗi trong quá trình xuất Excel');
+    }
+  };
 
   return (
     <div id="Studio">
@@ -773,38 +783,38 @@ const exportToExcel = async () => {
           <h1 className="heading">Quản Lý Studio</h1>
           <div className="contentWrapper">
             <div className="navigationWrapper">
-              <nav className="navigationSection" aria-label="Main navigation">
-                <div 
-                  className={`navItem ${activeNav === 'Order' ? 'active' : ''}`} 
-                  onClick={() => handleNavClick('Order')}
-                >
-                  Giao Dịch
-                </div>
-                <div 
-                  className={`navItem ${activeNav === 'Revenue' ? 'active' : ''}`} 
-                  onClick={() => handleNavClick('Revenue')}
-                >
-                  Doanh Thu
-                </div>
-                <div 
-                  className={`navItem ${activeNav === 'Edit Studio' ? 'active' : ''}`} 
-                  onClick={() => handleNavClick('Edit Studio')}
-                >
-                  Thông tin Studio
-                </div>
-                <div 
-                  className={`navItem ${activeNav === 'Chờ duyệt' ? 'active' : ''}`} 
-                  onClick={() => handleNavClick('Chờ duyệt')}
-                >
-                  Chờ Duyệt
-                </div>
-                <div 
-                  className={`navItem ${activeNav === 'Tạo Studio' ? 'active' : ''}`} 
-                  onClick={() => handleNavClick('Tạo Studio')}
-                >
-                  Tạo Studio
-                </div>
-              </nav>
+             <nav className="navigationSection" aria-label="Main navigation">
+              <div 
+                className={`navItem ${activeNav === 'Order' ? 'active' : ''}`} 
+                onClick={() => handleNavClick('Order')}
+              >
+                Giao Dịch
+              </div>
+              <div 
+                className={`navItem ${activeNav === 'Revenue' ? 'active' : ''}`} 
+                onClick={() => handleNavClick('Revenue')}
+              >
+                Doanh Thu
+              </div>
+              <div 
+                className={`navItem ${activeNav === 'Edit Studio' ? 'active' : ''}`} 
+                onClick={() => handleNavClick('Edit Studio')}
+              >
+                Thông tin Studio
+              </div>
+              <div 
+                className={`navItem ${activeNav === 'Chờ duyệt' ? 'active' : ''}`} 
+                onClick={() => handleNavClick('Chờ duyệt')}
+              >
+                Chờ Duyệt
+              </div>
+              <div 
+                className={`navItem ${activeNav === 'Tạo Studio' ? 'active' : ''}`} 
+                onClick={() => handleNavClick('Tạo Studio')}
+              >
+                Tạo Studio
+              </div>
+            </nav>
               <div className="searchAndExport">
                 <div className="searchContainer">
                   <input
@@ -850,23 +860,23 @@ const exportToExcel = async () => {
                 </thead>
                 <tbody>
                     {getFilteredData(ordersData).map((data, index) => (
-                      <tr className="editCard" key={`order-${index}`}>
-                        <td className="editCell">
-                          {/* Ví dụ: hiển thị hình ảnh của studio, nếu có */}
-                          <img
+                        <tr className="editCard" key={`order-${index}`}>
+                          <td className="editCell">
+                            {/* Ví dụ: hiển thị hình ảnh của studio, nếu có */}
+                            <img
                             src={data.studioDetails?.imageStudio || " https://i.imgur.com/pRy9nMo.png"}
-                            alt="Studio"
-                          />
-                        </td>
+                              alt="Studio"
+                            />
+                          </td>
                         <td className="editCell">{data.accountDetails?.userName}</td>
                         <td className="editCell">{formatPrice(data.booking?.totalPrice)}</td>
-                        {/* <td className="editCell">{order.studioDetails?.studioSize}</td> */}
+                          {/* <td className="editCell">{order.studioDetails?.studioSize}</td> */}
                         <td className="editCell">{data.booking?.checkIn}</td>
                         <td className="editCell">{data.booking?.checkOut}</td>
                         <td className={`editCell ${data.status ? "success" : "failed"}`}>
                                                       {data.status ? "Thành Công" : "Thất Bại"}
-                        </td>
-                      </tr>
+                          </td>
+                        </tr>
                     ))}
                   </tbody>
                 </table>
@@ -910,29 +920,29 @@ const exportToExcel = async () => {
 
 {activeNav === 'Edit Studio' && (
   <div>
-    {isEditing ? (
-  // Giao diện chỉnh sửa thông tin studio
-  <div className="studioContainer">
-    <div className="description">Chỉnh sửa thông tin Studio</div>
-    <form onSubmit={handleSubmit} className="studioForm">
-      <div className="formLayout">
-        <div className="imageColumn">
-          <div className="imageSection">
+  {isEditing ? (
+        // Giao diện chỉnh sửa thông tin studio
+        <div className="studioContainer">
+          <div className="description">Chỉnh sửa thông tin Studio</div>
+          <form onSubmit={handleSubmit} className="studioForm">
+            <div className="formLayout">
+              <div className="imageColumn">
+                <div className="imageSection">
             {/* Main image display */}
-            <img
+                  <img
               src={formData[`poster${selectedImageIndex + 1}`] || "https://i.imgur.com/pRy9nMo.png"}
-              alt="Product preview"
-              className="productImage"
-            />
-            <div className="imageControls">
+                    alt="Product preview"
+                    className="productImage"
+                  />
+                  <div className="imageControls">
               <span className="imageSize">Tải hình ảnh</span>
-              <img
-                src="https://cdn.builder.io/api/v1/image/assets/c05fb6b607a34c3cab6bc37bd3664ed7/ba92d3688b6fd9de0346bb5670f498b04e1cea50f5dd4e592aee512ab7910bd3?apiKey=c05fb6b607a34c3cab6bc37bd3664ed7&"
-                alt="Size control"
-                className="controlIcon"
+                    <img
+                      src="https://cdn.builder.io/api/v1/image/assets/c05fb6b607a34c3cab6bc37bd3664ed7/ba92d3688b6fd9de0346bb5670f498b04e1cea50f5dd4e592aee512ab7910bd3?apiKey=c05fb6b607a34c3cab6bc37bd3664ed7&"
+                      alt="Size control"
+                      className="controlIcon"
                 onClick={handleUploadClick}
-                style={{ cursor: "pointer" }}
-              />
+                      style={{ cursor: "pointer" }}
+                    />
             </div>
             {/* Image gallery */}
             <div className="imageGallery">
@@ -965,21 +975,21 @@ const exportToExcel = async () => {
                     </div>
                   )}
                   {/* Input file ẩn cho từng ảnh */}
-                  <input
-                    type="file"
+                    <input
+                      type="file"
                     ref={(el) => (fileInputRefs.current[index] = el)}
-                    style={{ display: "none" }}
+                      style={{ display: "none" }}
                     onChange={(e) => handleFileChange(e, index + 1)}
-                    accept="image/*"
-                  />
+                      accept="image/*"
+                    />
                 </div>
               ))}
-            </div>
-          </div>
-        </div>
-        <div className="inputColumn">
-          <div className="inputGroup">
-            {[
+                  </div>
+                </div>
+              </div>
+              <div className="inputColumn">
+                <div className="inputGroup">
+                {[
               { id: "name", label: "Tên Studio", placeholder: editingCustomer?.studio?.studioName || "" },
               { id: "price", label: "Số tiền một giờ", placeholder: editingCustomer?.studio?.pricing || "" },
               { id: "address", label: "Địa chỉ", placeholder: editingCustomer?.studio?.studioAddress || "" },
@@ -989,89 +999,89 @@ const exportToExcel = async () => {
               { id: "descriptionAmentites", label: "Mô tả tiện ích", placeholder: editingCustomer?.studio?.studioDescriptionAmentitiesDetail || "" },
               { id: "size", label: "Loại phòng", placeholder: "Chọn loại phòng" },
               { id: "quantity", label: "Sức chứa", placeholder: editingCustomer?.quantity || "" },
-            ].map((field) => (
-              <div key={field.id} className="inputWrapper">
-                <label htmlFor={field.id} className="inputLabel">
-                  {field.label}
-                </label>
-                {field.id === "size" ? (
-                  <select
-                    id={field.id}
+].map((field) => (
+  <div key={field.id} className="inputWrapper">
+    <label htmlFor={field.id} className="inputLabel">
+      {field.label}
+    </label>
+    {field.id === "size" ? (
+      <select
+        id={field.id}
                     className={`inputField1 ${errors[field.id] ? 'error' : ''}`}
                     value={formData.size || ""}
-                    onChange={handleInputChange(field.id)}
-                    aria-label={field.label}
-                  >
+        onChange={handleInputChange(field.id)}
+        aria-label={field.label}
+      >
                     <option value="" disabled>
                       {field.placeholder}
                     </option>
-                    <option value="1">Nhỏ</option>
-                    <option value="2">Vừa</option>
-                    <option value="3">Lớn</option>
-                  </select>
-                ) : field.type === "time" ? (
-                  <input
-                    type="time"
-                    id={field.id}
-                    className="inputField"
-                    value={formData[field.id] || ""}
-                    onChange={handleInputChange(field.id)}
-                    aria-label={field.label}
-                    required
-                  />
-                ) : (
-                  <input
+        <option value="1">Nhỏ</option>
+        <option value="2">Vừa</option>
+        <option value="3">Lớn</option>
+      </select>
+    ) : field.type === "time" ? (
+      <input
+        type="time"
+        id={field.id}
+        className="inputField"
+        value={formData[field.id] || ""}
+        onChange={handleInputChange(field.id)}
+        aria-label={field.label}
+        required
+      />
+    ) : (
+      <input
                     type={field.type || "text"}
-                    id={field.id}
+        id={field.id}
                     className={`inputField ${errors[field.id] ? 'error' : ''}`}
-                    placeholder={field.placeholder}
-                    value={formData[field.id] || ""}
-                    onChange={handleInputChange(field.id)}
-                    aria-label={field.label}
-                    required
-                  />
-                )}
+        placeholder={field.placeholder}
+        value={formData[field.id] || ""}
+        onChange={handleInputChange(field.id)}
+        aria-label={field.label}
+        required
+      />
+    )}
                 {errors[field.id] && (
                   <div className="error-message">Bạn chưa nhập thông tin</div>
                 )}
-              </div>
-            ))}
-            <div className="actionButtons">
-              <button type="submit" className="submitButton">
-                Lưu
-              </button>
-              <button
-                type="button"
-                className="cancelButton"
-                onClick={handleCancel}
-              >
-                Hủy
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </form>
   </div>
-) : (
-      // Giao diện danh sách studio
-      <table className="editTable">
-        <thead>
-          <tr className="editRowHeader">
-            <th className="editCells">Hình ảnh</th>
-            <th className="editCells">Tên Studio</th>
-            <th className="editCells">Số tiền một giờ</th>
-            <th className="editCells">Địa chỉ</th>
-            <th className="editCells">Thông tin chi tiết về Studio</th>
+))}
+                  <div className="actionButtons">
+                    <button type="submit" className="submitButton">
+                      Lưu
+                    </button>
+                    <button
+                      type="button"
+                      className="cancelButton"
+                      onClick={handleCancel}
+                    >
+                      Hủy
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      ) : (
+    // Giao diện danh sách studio
+    <table className="editTable">
+      <thead>
+        <tr className="editRowHeader">
+          <th className="editCells">Hình ảnh</th>
+          <th className="editCells">Tên Studio</th>
+          <th className="editCells">Số tiền một giờ</th>
+          <th className="editCells">Địa chỉ</th>
+          <th className="editCells">Thông tin chi tiết về Studio</th>
             <th className="editCells">Mô tả tiện ích</th>
-            <th className="editCells">Loại Phòng</th>
-            <th className="editCells">Sức Chứa</th>
-            <th className="editCells">Chức Năng</th>
-            
-            
-          </tr>
-        </thead>
-        <tbody>
+          <th className="editCells">Loại Phòng</th>
+          <th className="editCells">Sức Chứa</th>
+          <th className="editCells">Chức Năng</th>
+          
+          
+        </tr>
+      </thead>
+      <tbody>
         {getFilteredData(studioState).map(([studioId, data], index) => (
           <tr className="editCard" key={`studio-${index}`}>
             <td className="editCell">
@@ -1105,52 +1115,59 @@ const exportToExcel = async () => {
             </td>
           </tr>
         ))}
-        </tbody>
-      </table>
-    )}
-  </div>
+      </tbody>
+    </table>
+  )}
+</div>
 )}
 {activeNav === 'Chờ duyệt' && (
-   <table className="editTable">
-   <thead>
-     <tr className="editRowHeader">
-       <th className="editCells">Hình ảnh</th>
-       <th className="editCells">Tên Studio</th>
-       <th className="editCells">Số tiền một giờ</th>
-       <th className="editCells">Địa chỉ</th>
-       <th className="editCells">Thông tin chi tiết về Studio</th>
-       <th className="editCells">Trạng thái</th>
-     </tr>
-   </thead>
-   <tbody>
-  {studioIsUnactive.length === 0 ? (
-    <tr>
-      <td colSpan="6" className="editCell">
-        Bạn không có studio nào chưa được duyệt
-      </td>
-    </tr>
-  ) : (
-    getFilteredData(studioIsUnactive).map((customer, index) => ( // **Bỏ {} ngoài map()**
-      <tr className="editCard" key={`customer-${index}`}>
-        <td className="editCell">
-          <img
-            src={customer.imageStudio || " https://i.imgur.com/pRy9nMo.png"}
-            alt="icon"
-          />
-        </td>
-        <td className="editCell">{customer.studioName}</td>
-        <td className="editCell">{formatPrice(customer.pricing)}</td>
-        <td className="editCell">{customer.studioAddress}</td>
-        <td className="editCell">{customer.studioDescription}</td>
-        <td className="editCell" style={{ color: "#B8860B", fontWeight: "bold" }}>
-          Chờ Duyệt
-        </td>
+  <table className="editTable">
+    <thead>
+      <tr className="editRowHeader">
+        <th className="editCells">Hình ảnh</th>
+        <th className="editCells">Tên Studio</th>
+        <th className="editCells">Số tiền một giờ</th>
+        <th className="editCells">Địa chỉ</th>
+        <th className="editCells">Thông tin chi tiết về Studio</th>
+        <th className="editCells">Mô tả tiện ích</th>
+        <th className="editCells">Loại Phòng</th>
+        <th className="editCells">Sức Chứa</th>
+        <th className="editCells">Trạng thái</th>
       </tr>
-    ))
-  )}
-</tbody>
- </table>
+    </thead>
+    <tbody>
+      {studioStateUnactive.length === 0 ? (
+        <tr>
+          <td colSpan="9" className="editCell">
+            Bạn không có studio nào chưa được duyệt
+          </td>
+        </tr>
+      ) : (
+        getFilteredData(studioStateUnactive).map(([studioId, data], index) => (
+          <tr className="editCard" key={`customer-${index}`}>
+            <td className="editCell">
+              <img 
+                src={data?.capacity?.studio?.imageStudio || "https://i.imgur.com/pRy9nMo.png"} 
+                alt="icon" 
+              />
+            </td>
+            <td className="editCell">{data?.capacity?.studio?.studioName}</td>
+            <td className="editCell">{formatPrice(data?.capacity?.studio?.pricing)}</td>
+            <td className="editCell">{data?.capacity?.studio?.studioAddress}</td>
+            <td className="editCell">{data?.capacity?.studio?.studioDescription}</td>
+            <td className="editCell">{data?.capacity?.studio?.studioDescriptionAmentitiesDetail}</td>
+            <td className="editCell">{data?.capacity?.size?.sizeDescription}</td>
+            <td className="editCell">{data?.capacity?.quantity} người</td>
+            <td className="editCell" style={{ color: "#B8860B", fontWeight: "bold" }}>
+              Chờ Duyệt
+            </td>
+          </tr>
+        ))
+      )}
+    </tbody>
+  </table>
 )}
+
 
 {activeNav === 'Tạo Studio' && (
    <CreateStudioRequest />
