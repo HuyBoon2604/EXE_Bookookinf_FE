@@ -28,6 +28,7 @@ export default function Studio() {
   const { auth } = useAuth();
   const isFirstRender = useRef(true);
   const accountId = auth.user.id;
+  const [isLoading, setIsLoading] = useState(false);
 
   // Thêm state để quản lý lỗi
   const [errors, setErrors] = useState({
@@ -357,6 +358,7 @@ export default function Studio() {
 
   useEffect(() => {
     const fetchStudios = async () => {
+      setIsLoading(true);
       if (!accountId) {
         console.error("accountId không tồn tại");
         return;
@@ -379,6 +381,8 @@ export default function Studio() {
         }
       } catch (err) {
         console.error("Error fetching studios:", err);
+      } finally {
+        setIsLoading(false);
       }
     };
   
@@ -387,6 +391,7 @@ export default function Studio() {
 
   useEffect(() => {
     async function fetchData() {
+      setIsLoading(true);
       try {
         if (!accountId) {
           throw new Error("AccountId không tồn tại");
@@ -437,8 +442,10 @@ export default function Studio() {
         // Dùng flat() để gộp thành một mảng duy nhất
         const flattenedOrders = studiosOrders.flat();
         setOrdersData(flattenedOrders);
-      } catch (err) {
-        console.error("Lỗi khi lấy dữ liệu orders từ các studio:", err);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setIsLoading(false);
       }
     }
 
@@ -447,6 +454,7 @@ export default function Studio() {
 
   useEffect(() => {
     async function fetchDataSuccess() {
+      setIsLoading(true);
       try {
         if (!accountId) {
           throw new Error("AccountId không tồn tại");
@@ -497,8 +505,10 @@ export default function Studio() {
         // Dùng flat() để gộp thành một mảng duy nhất
         const flattenedOrders = studiosOrders.flat();
         setOrdersDataSuccess(flattenedOrders);
-      } catch (err) {
-        console.error("Lỗi khi lấy dữ liệu orders từ các studio:", err);
+      } catch (error) {
+        console.error("Error fetching success data:", error);
+      } finally {
+        setIsLoading(false);
       }
     }
 
@@ -507,6 +517,7 @@ export default function Studio() {
 
   useEffect(() => {
     const loadStudioData = async () => {
+      setIsLoading(true);
       if (!studioIsActive?.length) return;
 
       try {
@@ -533,6 +544,8 @@ export default function Studio() {
         setStudioState(studioDataMap);
       } catch (error) {
         console.error("Error loading studio data:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -541,6 +554,7 @@ export default function Studio() {
 
   useEffect(() => {
     const loadUnactiveStudioData = async () => {
+      setIsLoading(true);
       if (!studioIsUnactive?.length) return;
 
       try {
@@ -573,6 +587,8 @@ export default function Studio() {
         setStudioStateUnactive(studioDataMap);
       } catch (error) {
         console.error("Error loading unactive studio data:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -778,6 +794,15 @@ export default function Studio() {
 
   return (
     <div id="Studio">
+      
+      {isLoading && (
+        <div className="loading-overlay">
+          <div className="loading-spinner">
+            <div className="spinner"></div>
+            <p>Đang tải dữ liệu...</p>
+          </div>
+        </div>
+      )}
       <div className="studioManager">
         <div className="mainContent">
           <h1 className="heading">Quản Lý Studio</h1>

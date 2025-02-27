@@ -80,12 +80,15 @@ useEffect(() => {
           if (user.roleId === '1') {
               console.log('ys');
               navigate('/Home');
+              window.alert('Đăng nhập thành công');
           }
           if (user.roleId === '2') {
               navigate('/Home');
+              window.alert('Đăng nhập thành công');
           } 
           if (user.roleId === '4') {
               navigate('/content');
+              window.alert('Đăng nhập thành công');
           }
           if (user.roleId === '3') {
               navigate('/adminmanager');

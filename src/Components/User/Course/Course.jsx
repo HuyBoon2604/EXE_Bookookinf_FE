@@ -488,31 +488,21 @@ const handleShowMoreReviews = () => {
             <div className="titleHeader">
             <div className="titleContainer">
               <h1 className="className">{ClassId.className}</h1>
-              <p className="teacherName">Nguyễn Việt Anh</p>
+              <p className="teacherName">Giáo Viên: Nguyễn Việt Anh</p>
               </div>
               <div className="actionButtons">
-              <button
+              {/* <button
       className="actionIcon"
       tabIndex="0"
-      onClick={handleButtonClick} // Gọi hàm khi bấm
-      // style={{ border: "none", background: "none", cursor: "pointer" }}
+      onClick={handleButtonClick} 
     >
       <img
   loading="lazy"
   src={isLiked ? "https://i.imgur.com/1ApLOZv.png"  : "https://cdn.builder.io/api/v1/image/assets/TEMP/11ec6460177dcabcb2bed7c443e2c9330b46ad24af935eb07fe2d8c5f552402b?placeholderIfAbsent=true&apiKey=c05fb6b607a34c3cab6bc37bd3664ed7"}
   alt="Action button"
-  // style={{
-  //   maxWidth: "100%", // Đảm bảo ảnh không vượt quá kích thước nút
-  //         maxHeight: "100%",
-  //         position: "absolute", // Tách ảnh khỏi bố cục cha
-  //         top: "50%", // Căn giữa dọc
-  //         left: "50%", // Căn giữa ngang
-  //         transform: "translate(-50%, -50%)", // Dịch ảnh về chính giữa
-  // }}
-  // className="actionIcon"
 />
       <span className="visually-hidden">Perform action</span>
-    </button>
+    </button> */}
   <button className="shareIcon" tabIndex="0" onClick={handleShareClick}>
     <img
       loading="lazy"
@@ -565,8 +555,8 @@ const handleShowMoreReviews = () => {
                       />
                       <div className="reviewerDetails">
                         <h3 className="reviewerName">{review.account?.userName}</h3>
-                        <time className="reviewDate" dateTime={review.createAt}>
-                          {new Date(review.createAt).toLocaleDateString()}
+                        <time className="reviewDate" dateTime={review.reviewDate}>
+                          {new Date(review.reviewDate).toLocaleDateString()}
                         </time>
                       </div>
                     </div>
