@@ -1,30 +1,70 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import api from '../../utils/requestAPI';
 import './CreateStudioRequest.css';
-import { confirmAlert } from 'react-confirm-alert'; 
-import 'react-confirm-alert/src/react-confirm-alert.css'; 
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 import useAuth from '../../../hooks/useAuth';
+import axios from 'axios';
 
 const CreateStudioRequest = () => {
-  const accountId = "ACc61f6"; 
+  const accountId = "ACc61f6";
   const { auth } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
-  const addressRegex = /^\d+\s[\p{L}0-9\s]+,\s(?:Quận|Huyện)\s[\p{L}0-9\s]+,\s(?:Thành phố|Tỉnh)\s[\p{L}0-9\s]+$/u;
+  const [provinces, setProvinces] = useState([]);
+  const [districts, setDistricts] = useState([]);
+  const [selectedProvince, setSelectedProvince] = useState('');
+  const [selectedDistrict, setSelectedDistrict] = useState('');
 
+  useEffect(() => {
+    // Gọi API để lấy danh sách tất cả tỉnh/thành phố và quận/huyện
+    axios
+      .get("https://provinces.open-api.vn/api/?depth=2")
+      .then((response) => {
+        setProvinces(response.data);
+        let allDistricts = [];
+        response.data.forEach((province) => {
+          province.districts.forEach((district) => {
+            allDistricts.push({
+              name: district.name,
+              province: province.name,
+            });
+          });
+        });
+        setDistricts(allDistricts);
+      })
+      .catch((error) => console.error("Error fetching districts:", error));
+  }, []);
 
+  const handleProvinceChange = (e) => {
+    const provinceName = e.target.value;
+    setSelectedProvince(provinceName);
+    setSelectedDistrict('');
+    setStudioData((prev) => ({
+      ...prev,
+      studioAddress: `${prev.studioAddress.split(',')[0]}, ${provinceName}`,
+    }));
+  };
 
-  
+  const handleDistrictChange = (e) => {
+    const districtName = e.target.value;
+    setSelectedDistrict(districtName);
+    setStudioData((prev) => ({
+      ...prev,
+      studioAddress: `${prev.studioAddress.split(',')[0]}, ${districtName}, ${selectedProvince}`,
+    }));
+  };
+
   const [studioData, setStudioData] = useState({
     pricing: '',
     studioName: '',
     studioAddress: '',
     studioDescription: '',
-    studioSizeId: '', 
+    studioSizeId: '',
     capacity: '',
     imageStudio: null,
-    timeon:'',
-    timeoff:'',
-    tienichvuivui:'',
+    timeon: '',
+    timeoff: '',
+    tienichvuivui: '',
     images: Array(5).fill(null),
   });
 
@@ -37,43 +77,22 @@ const CreateStudioRequest = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    if (!addressRegex.test(value)) {
-      setError("Địa chỉ không hợp lệ! Ví dụ: 123 Đường Nguyễn Trãi, Quận 1, Thành phố Hồ Chí Minh");
-  } else {
-      setError("");
-  }
+
     if (name === 'pricing') {
-        // Loại bỏ các ký tự không phải số
-        const numericValue = value.replace(/[^0-9]/g, '');
-        
-        // Không cho phép giá trị âm
-        if (numericValue !== '' && Number(numericValue) < 0) {
-            return;
-        }
-
-        // Định dạng giá tiền theo chuẩn Việt Nam
-        const formattedValue = new Intl.NumberFormat('vi-VN').format(numericValue);
-
-        setStudioData((prev) => ({
-            ...prev,
-            [name]: numericValue,
-            [`${name}Formatted`]: formattedValue,
-        }));
-    } 
-    else if (name === 'studioAddress') {  
-        // Kiểm tra định dạng địa chỉ
-        if (!addressRegex.test(value)) {
-            // setError("Địa chỉ không hợp lệ. Vui lòng nhập đúng định dạng: Số nhà, Đường, Phường, Quận/Huyện, Tỉnh/Thành phố.");
-        } else {
-            setError(""); 
-        }
-
-        setStudioData((prev) => ({ ...prev, [name]: value }));
-    } 
-    else {
-        setStudioData((prev) => ({ ...prev, [name]: value }));
+      const numericValue = value.replace(/[^0-9]/g, '');
+      if (numericValue !== '' && Number(numericValue) < 0) {
+        return;
+      }
+      const formattedValue = new Intl.NumberFormat('vi-VN').format(numericValue);
+      setStudioData((prev) => ({
+        ...prev,
+        [name]: numericValue,
+        [`${name}Formatted`]: formattedValue,
+      }));
+    } else {
+      setStudioData((prev) => ({ ...prev, [name]: value }));
     }
-};
+  };
 
   const handleImageUpload = (e, key, index = null) => {
     const file = e.target.files[0];
@@ -99,12 +118,11 @@ const CreateStudioRequest = () => {
 
   const ShowConfirmCancel = (e) => {
     e.preventDefault();
-  
-    
+
     if (error) {
       return;
     }
-  
+
     confirmAlert({
       title: <span className="custom-confirm-alert">Tạo Ngay</span>,
       message: <span className='custom-confirm'>Bạn đã kiểm tra đầy đủ thông tin chưa ?</span>,
@@ -133,12 +151,12 @@ const CreateStudioRequest = () => {
     formData.append('StudioName', studioData.studioName);
     formData.append('StudioAddress', studioData.studioAddress);
     formData.append('StudioDescription', studioData.studioDescription);
-    formData.append('SizeId', studioData.studioSizeId); 
+    formData.append('SizeId', studioData.studioSizeId);
     formData.append('Quantity', studioData.capacity);
     formData.append('poster', studioData.imageStudio);
     formData.append('TimeOn', studioData.timeon.toString());
     formData.append('TimeOff', studioData.timeoff.toString());
-    formData.append('DescriptionAmentites', studioData.tienichvuivui)
+    formData.append('DescriptionAmentites', studioData.tienichvuivui);
 
     studioData.images.forEach((image, index) => {
       if (image) {
@@ -161,9 +179,9 @@ const CreateStudioRequest = () => {
         studioDescription: '',
         studioSizeId: '',
         capacity: '',
-        timeon:'',
-    timeoff:'',
-    tienichvuivui:'',
+        timeon: '',
+        timeoff: '',
+        tienichvuivui: '',
         imageStudio: null,
         images: Array(5).fill(null),
       });
@@ -192,7 +210,7 @@ const CreateStudioRequest = () => {
       )}
       <div className="create-studio-container">
         <h2>Tạo Studio Mới</h2>
-        
+
         {error && <div className="error-message">{error}</div>}
         {success && <div className="success-message">{success}</div>}
 
@@ -203,30 +221,57 @@ const CreateStudioRequest = () => {
           </div>
 
           <div className="form-group">
-      <label>Giá (VNĐ):</label>
-      <input
-        type="text" 
-        name="pricing"
-        value={studioData.pricingFormatted || ''}
-        onChange={handleInputChange}
-        required
-      />
-      
-      <input type="hidden" name="pricingNumeric" value={studioData.pricing} />
-    </div>
+            <label>Giá (VNĐ):</label>
+            <input
+              type="text"
+              name="pricing"
+              value={studioData.pricingFormatted || ''}
+              onChange={handleInputChange}
+              required
+            />
+            <input type="hidden" name="pricingNumeric" value={studioData.pricing} />
+          </div>
 
-    <div className="form-group">
-  <label>Địa Chỉ:</label>
-  <input
-    type="text"
-    name="studioAddress"
-    placeholder='Vui lòng nhập đúng số nhà, đường, quận/huyện, thành phố/tỉnh, không viết tắt'
-    value={studioData.studioAddress}
-    onChange={handleInputChange}
-    required
-  />
-  {error && <p className="error">{error}</p>}
-</div>
+          <div className="form-group">
+            <label>Địa Chỉ:</label>
+            <input
+              type="text"
+              name="studioAddress"
+              placeholder='[Số nhà] [Tên đường], [Quận/Huyện] [Tên quận/huyện], [Thành phố/Tỉnh] [Tên thành phố/tỉnh]
+Không Viết Tắt'
+              value={studioData.studioAddress}
+              onChange={handleInputChange}
+              required
+            />
+            {error && <p className="error">{error}</p>}
+          </div>
+
+          <div className="form-group">
+            <label>Tỉnh/Thành Phố:</label>
+            <select value={selectedProvince} onChange={handleProvinceChange} required>
+              <option value="">Chọn tỉnh/thành phố</option>
+              {provinces.map((province) => (
+                <option key={province.code} value={province.name}>
+                  {province.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="form-group">
+            <label>Quận/Huyện:</label>
+            <select value={selectedDistrict} onChange={handleDistrictChange} required>
+              <option value="">Chọn quận/huyện</option>
+              {districts
+                .filter((district) => district.province === selectedProvince)
+                .map((district) => (
+                  <option key={district.name} value={district.name}>
+                    {district.name}
+                  </option>
+                ))}
+            </select>
+          </div>
+
           <div className="form-group">
             <label>Thời gian mở cửa:</label>
             <input type="time" name="timeon" value={studioData.timeon} onChange={handleInputChange} required />
@@ -257,7 +302,7 @@ const CreateStudioRequest = () => {
             {studioData.images.map((_, index) => (
               <div className="form-group" key={index}>
                 <label>Hình Ảnh {index + 1}:</label>
-                <input type="file" onChange={(e) => handleImageUpload(e, 'images', index)} accept="image/*" required={index ===0} />
+                <input type="file" onChange={(e) => handleImageUpload(e, 'images', index)} accept="image/*" required={index === 0} />
                 {imagePreviews.images[index] && <img src={imagePreviews.images[index]} alt={`Preview ${index + 1}`} className="image-preview" />}
               </div>
             ))}
@@ -274,18 +319,18 @@ const CreateStudioRequest = () => {
           </div>
 
           <div className="form-group">
-    <label>Sức Chứa (Người):</label>
-    <input
-        type="text"
-        name="capacity"
-        value={studioData.capacity}
-        onChange={handleInputChange}
-        required
-    />
-    {studioData.capacity <= 0 && (
-        <p style={{ color: 'red' }}>Vui lòng nhập số lớn hơn 0.</p>
-    )}
-</div>
+            <label>Sức Chứa (Người):</label>
+            <input
+              type="text"
+              name="capacity"
+              value={studioData.capacity}
+              onChange={handleInputChange}
+              required
+            />
+            {studioData.capacity <= 0 && (
+              <p style={{ color: 'red' }}>Vui lòng nhập số lớn hơn 0.</p>
+            )}
+          </div>
 
           <button type="submit" className="submit-btn">Tạo Studio</button>
         </form>
