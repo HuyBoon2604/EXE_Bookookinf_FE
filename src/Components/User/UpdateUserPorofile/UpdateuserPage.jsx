@@ -144,22 +144,25 @@ const UpdateuserPage = () => {
           <div className='indentity-tong'>
             <div className='indentity-title-chua'>
               <h2 className='indentity-title'>Xác minh danh tính</h2>
+             
             </div>
-            {/* <div className='indentity-sub-chua'>
-              <span className='indentity-sub'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</span>
-            </div> */}
-          </div>
-          <div className='info-confirm'>
             <div className='info-title-chua'>
               <h2 className='info-title-update'>{Account.userName}</h2>
             </div>
+          </div>
+          <div className='info-confirm'>
+           
             <div className='info-sub'>
               <div>
                 <span className='info-sub-email'>Email được xác nhận</span>
               </div>
-              {/* <div>
-                <span className='info-sub-mobile'>Mobile Confirmed</span>
-              </div> */}
+              <label for="file-input" class="drop-container">
+  <span class="drop-title">Cập nhật hình ảnh</span>
+  
+  <input type="file"  accept="image/*"
+              onChange={handleAvatarUpload} required="" id="file-input"/>
+</label>
+             
             </div>
           </div>
         </div>
@@ -207,12 +210,7 @@ const UpdateuserPage = () => {
           
   
  
-   <label for="file-input" class="drop-container">
-  <span class="drop-title">Cập nhật hình ảnh</span>
-  
-  <input type="file"  accept="image/*"
-              onChange={handleAvatarUpload} required="" id="file-input"/>
-</label>
+   
 
             
               <button className='save-button' onClick={showConfirmDialog}>Cập nhật</button>

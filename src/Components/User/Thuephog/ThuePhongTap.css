@@ -86,9 +86,10 @@
   gap: 10px;
   margin-bottom: 20px;
   padding: 15px;
-  background-color: black;
+  background: linear-gradient(to right, #ff7eb3, #915dd1);
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 
@@ -99,6 +100,7 @@
   border-radius: 4px;
   font-size: 14px;
   outline: none;
+  border: 1px solid black;
   transition: border-color 0.3s ease;
 }
 

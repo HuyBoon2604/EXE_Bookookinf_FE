@@ -7,14 +7,51 @@
 
 #UpdateuserPage .Info-User {
   width: 20%;
-  background-color: #EFF0F2;
-  height: 55vh;
+  background: linear-gradient(to right, #ff7eb3, #915dd1);
+  height: 600px;
   border-radius: 20px;
   margin-bottom: 20vh;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid #d0d1d3; 
+}
+#UpdateuserPage .Info-User:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  border-color: #6a1b9a;
+}
+#UpdateuserPage .Info-User:active {
+  transform: translateY(-5px); 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+}
+#UpdateuserPage .Info-User .indentity-title,.info-title-update {
+  color: White;
+  font-size: 3vh;
+  transition: color 0.3s ease;
 }
 
+
+#UpdateuserPage .Info-User .info-title-update {
+  color: White;
+  font-size: 3vh;
+  transition: color 0.3s ease;
+}
+
+
+
+#UpdateuserPage .Info-User .info-sub-email {
+  color:white;
+  font-size: 2.5vh;
+  transition: color 0.3s ease;
+  margin-left: 7%;
+}
+
+#UpdateuserPage .Info-User:hover p {
+  color: #333; 
+}
 #UpdateuserPage .Input-user {
   width: 70%;
+  
 }
 
 #UpdateuserPage .image-userupdate {
@@ -29,12 +66,7 @@
   border-radius: 50%;
 }
 
-#UpdateuserPage .indentity-title {
-  color: black;
-  margin-left: 25%;
-  width: 100%;
-  font-size: 2vh;
-}
+
 
 #UpdateuserPage .indentity-sub {
   color: #9A9A9A;
@@ -51,23 +83,17 @@
 
 #UpdateuserPage .indentity-tong {
   margin-top: 20%;
+  margin-left: 20%;
 }
 
-#UpdateuserPage .info-title-update {
-  color: black;
-  margin-left: 30%;
-  font-size: 2vh;
-}
+
 
 #UpdateuserPage .info-sub {
   margin-left: 15%;
   color: #9A9A9A;
   margin-top: 10px;
 }
-.info-sub-email{
-  margin-left: 12%;
-  font-size: 2vh;
-}
+
 #UpdateuserPage .info-confirm {
   height: 30vh;
 }
@@ -78,20 +104,25 @@
 }
 
 #UpdateuserPage .basic-info-title {
-  font-size: 4vh;
+  font-size: 5vh;
   font-weight: bold;
-  margin-bottom: 15px;
+ 
+  font-family: 'Poppins';
+  background: linear-gradient(to right, #ff7eb3, #915dd1);
+    -webkit-background-clip: text;
+    color: transparent;
 }
 
 #UpdateuserPage .input-container {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  
 }
 
 #UpdateuserPage .input-row {
   display: flex;
   gap: 20px;
+  
 }
 
 #UpdateuserPage .input-group {
@@ -101,7 +132,7 @@
 }
 
 #UpdateuserPage .input-group .labelne {
-  font-size: 14px;
+  font-size: 3vh;
   margin-bottom: 5px;
   font-weight: bold;
 }
@@ -114,7 +145,7 @@
  {
   padding: 10px;
   border-radius: 5px;
-  font-size: 14px;
+  font-size: 2vh;
   background-color: white;
   color: black;
 }
@@ -124,6 +155,7 @@
   font-size: 14px;
   background-color: white;
   color: black;
+  font-size: 2vh;
 }
 
 #UpdateuserPage .email-input-wrapper {
@@ -148,31 +180,27 @@
 }
 
 
-#UpdateuserPage .save-button {
-  padding: 2vh 4vh;
-  font-size: 2vh;
-  border-radius: 5px;
-  border: none;
-  cursor: pointer;
-  height: 5vh;
-}
-
-
-
-
-
-#UpdateuserPage .save-button {
-  background-color: black;
+.save-button {
+  background-color: #000; 
   color: #fff;
-  border-radius: 20px;
+  border: none; 
+  padding: 10px 20px;
+  font-size: 2.5vh;
+  border-radius: 5px; 
+  cursor: pointer; 
+  transition: background-color 0.3s ease, transform 0.2s ease; 
+  
 }
 
-#UpdateuserPage .save-button:hover {
-  background-color: white;
-  color: black;
-  border: 1px solid black;
+.save-button:hover {
+  background-color:  #9747FF;
+  transform: scale(1.05); 
 }
 
+.save-button:active {
+  background-color: #4a148c; 
+  transform: scale(0.95); 
+}
 #UpdateuserPage .header-container {
   display: flex;
   justify-content: space-between;
@@ -191,9 +219,8 @@
 }
 
 #UpdateuserPage .view-profile-button:hover {
-  background-color: white;
-  color: black;
-  border: 1px solid black;
+  background-color:  #9747FF;
+  transform: scale(1.05); 
 }
 
 #UpdateuserPage .emailne {
@@ -205,17 +232,19 @@
   background-color: #fff;
   position: relative;
   display: flex;
-  gap: 10px;
+  gap: 2vh;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 10px;
- bottom: 4.5vh;
+  padding: 2vh;
+  top:8vh;
+ width: 80%;
   border-radius: 10px;
   border: 2px dashed rgb(171, 202, 255);
   color: #444;
   cursor: pointer;
   transition: background .2s ease-in-out, border .2s ease-in-out;
+  left: -2vh;
 }
 
 .drop-container:hover {
@@ -225,11 +254,12 @@
 
 .drop-container:hover .drop-title {
   color: #222;
+  font-size: 3vh;
 }
 
 .drop-title {
   color: #444;
-  font-size: 20px;
+  font-size: 2vh;
   font-weight: bold;
   text-align: center;
   transition: color .2s ease-in-out;

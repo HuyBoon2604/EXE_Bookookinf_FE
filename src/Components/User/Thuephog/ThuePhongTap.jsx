@@ -45,6 +45,9 @@ const handleCardClick = (id) => {
   const formatCurrency = (value) => {
     return value.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 };
+const parseCurrency = (value) => {
+  return parseInt(value.replace(/\./g, ""), 10) || 0;
+};
 const handleMinPriceChange = (e) => {
   const formattedValue = formatCurrency(e.target.value);
   setMinPrice(formattedValue);
@@ -55,14 +58,18 @@ const handleMaxPriceChange = (e) => {
   setMaxPrice(formattedValue);
 };
  
-  const filteredStudio = Studio.filter(studio => {
-    const matchesName = studio.studioName.toLowerCase().includes(searchName.toLowerCase());
-    const matchesAddress = studio.studioAddress.toLowerCase().includes(searchAddress.toLowerCase());
-    const matchesPrice = (minPrice === '' || studio.pricing >= minPrice) && 
-                         (maxPrice === '' || studio.pricing <= maxPrice);
-    return matchesName && matchesAddress && matchesPrice;
+const filteredStudio = Studio.filter(studio => {
+  const matchesName = studio.studioName.toLowerCase().includes(searchName.toLowerCase());
+  const matchesAddress = studio.studioAddress.toLowerCase().includes(searchAddress.toLowerCase());
+  
+  const minPriceNumber = parseCurrency(minPrice);
+  const maxPriceNumber = parseCurrency(maxPrice);
+  
+  const matchesPrice = (minPrice === '' || studio.pricing >= minPriceNumber) && 
+                       (maxPrice === '' || studio.pricing <= maxPriceNumber);
+  
+  return matchesName && matchesAddress && matchesPrice;
 });
-
 const totalLocations = filteredStudio.length;
   return (
     <div className="locations-container">
