@@ -14,7 +14,7 @@ const SearchPage = () => {
     if (location) {
         try {
             // Giải mã URL & chuẩn hóa thành NFC và NFD
-            const decodedLocation = decodeURIComponent(location).normalize("NFD");
+            const decodedLocation = decodeURIComponent(location).normalize("NFC");
            
 
            
