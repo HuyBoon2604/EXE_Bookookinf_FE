@@ -232,19 +232,7 @@ const CreateStudioRequest = () => {
             <input type="hidden" name="pricingNumeric" value={studioData.pricing} />
           </div>
 
-          <div className="form-group">
-            <label>Địa Chỉ:</label>
-            <input
-              type="text"
-              name="studioAddress"
-              placeholder='[Số nhà] [Tên đường], [Quận/Huyện] [Tên quận/huyện], [Thành phố/Tỉnh] [Tên thành phố/tỉnh]
-Không Viết Tắt'
-              value={studioData.studioAddress}
-              onChange={handleInputChange}
-              required
-            />
-            {error && <p className="error">{error}</p>}
-          </div>
+          
 
           <div className="form-group">
             <label>Tỉnh/Thành Phố:</label>
@@ -271,7 +259,19 @@ Không Viết Tắt'
                 ))}
             </select>
           </div>
-
+          <div className="form-group">
+            <label>Địa Chỉ:</label>
+            <input
+              type="text"
+              name="studioAddress"
+              placeholder='[Số nhà] [Tên đường], [Quận/Huyện] [Tên quận/huyện], [Thành phố/Tỉnh] [Tên thành phố/tỉnh]
+Không Viết Tắt'
+              value={studioData.studioAddress}
+              onChange={handleInputChange}
+              required
+            />
+            {error && <p className="error">{error}</p>}
+          </div>
           <div className="form-group">
             <label>Thời gian mở cửa:</label>
             <input type="time" name="timeon" value={studioData.timeon} onChange={handleInputChange} required />
