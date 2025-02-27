@@ -40,7 +40,7 @@
   }
   
   .export-btnn:hover, .logout-btn:hover {
-    background-color: #007bff;
+    background: linear-gradient(to right, #ff7eb3, #915dd1);
     border-radius: 5px;
   }
   
@@ -72,12 +72,12 @@
   }
   
   .tabs a:hover {
-    background-color: #007bff;
+    background: linear-gradient(to right, #ff7eb3, #915dd1);
     color: #fff;
   }
   
   .tabs a.active-tab {
-    background-color: #007bff;
+    background: linear-gradient(to right, #ff7eb3, #915dd1);
     color: #fff;
   }
   .tabs span {
