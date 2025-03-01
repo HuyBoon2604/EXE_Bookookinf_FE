@@ -307,9 +307,16 @@ const MapClickHandler = ({ center }) => {
     
     window.open(`https://www.google.com/maps?q=${lat},${lng}`, "_blank");
   });
+ 
 
   return null; 
 };
+const customIcon = new L.Icon({
+  iconUrl: "/icons8-marker-48.png", 
+  iconSize: [40, 40],
+  iconAnchor: [20, 40],
+  popupAnchor: [0, -40],
+});
   
   return (
     <div id="StudioInfor">
@@ -431,10 +438,10 @@ const MapClickHandler = ({ center }) => {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         />
-        <Marker position={center}>
+        <Marker position={center} icon={customIcon}>
           <Popup>Đây là vị trí của studio.</Popup>
         </Marker>
-        {/* Thêm component xử lý sự kiện click */}
+       
         <MapClickHandler center={center} />
       </MapContainer>
     </div>
