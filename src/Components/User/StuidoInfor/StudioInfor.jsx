@@ -272,24 +272,28 @@ const ZOOM_LEVEL = 100;
  const addressdata =[
   { id: 1, name: "phường 12 quận gò vấp thành phố hồ chí minh"}
  ]
+ const apiKey = "C6gl6YCxg3oeLpfO2atFBY2ia1m1rBr9";
  useEffect(() => {
-  if (!studio.studio?.studioAddress) return; 
+  if (!studio?.studio?.studioAddress) return; 
 
+ 
+  const encodedAddress = encodeURIComponent(studio?.studio?.studioAddress);
+
+ 
   axios
     .get(
-      `https://api.mapbox.com/search/geocode/v6/forward?q=${encodeURIComponent(
-        studio.studio.studioAddress
-      )}&access_token=pk.eyJ1IjoiZ2wtanMtdGVhbSIsImEiOiJjbTV1d3l0d3AwMThnMmpzZ2M5OTNyeDE1In0.2nygBIo7PXbkFCCt6LEBgw`
+      `https://mapapis.openmap.vn/v1/geocode/forward?address=${encodedAddress}&apikey=${apiKey}`
     )
     .then(function (response) {
       console.log(response);
-      const coordinates = response.data.features[0].geometry.coordinates;
-      const [longitude, latitude] = coordinates;
+      const coordinates = response.data.results[0].geometry.location;
+      const latitude = coordinates.lat;
+const longitude = coordinates.lng; 
 
-     
-      console.log("Tọa độ:", latitude, longitude);
+console.log("Tọa độ:", latitude, longitude);
 
-      setCenter([latitude, longitude]);
+      
+setCenter([latitude, longitude]);
     })
     .catch(function (error) {
       console.log(error);
@@ -304,7 +308,7 @@ const MapClickHandler = ({ center }) => {
     window.open(`https://www.google.com/maps?q=${lat},${lng}`, "_blank");
   });
 
-  return null; // Không render gì cả
+  return null; 
 };
   
   return (
@@ -418,7 +422,7 @@ const MapClickHandler = ({ center }) => {
         <h2 className="diadiem">Vị trí</h2>
       </div>
       <MapContainer
-        key={center.toString()} // Đảm bảo MapContainer render lại khi center thay đổi
+        key={center.toString()} 
         center={center}
         zoom={ZOOM_LEVEL}
         style={{ width: "100%", height: "400px", marginTop: "20px" }}
