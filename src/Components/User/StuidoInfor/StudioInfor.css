@@ -181,9 +181,12 @@
 .review-vui {
   display: flex;
   align-items: center; 
-  gap: 8px; }
+  gap: 8px; 
+  margin-left: 2%;
+}
 .review-title, .rate-review {
-  margin: 0; 
+  
+  
 }
 
 #StudioInfor .star-review {
@@ -618,5 +621,8 @@
   text-align: right;
 }
 .chuareviewandrating{
+  margin-left: 2%;
+}
+.location-hehe{
   margin-left: 2%;
 }
