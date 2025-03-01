@@ -1,5 +1,7 @@
 /* Thêm vào đầu file, trước các rules khác */
-
+html, body {
+  min-width: 800px; /* Giảm xuống thấp hơn để scroll sớm hơn */
+}
 
 /* Sửa lại phần body và html */
 html, body {
@@ -543,5 +545,54 @@ html, body {
     width: 100%;
     min-width: 1200px;
     max-width: none;
+  }
+}
+
+/* Thêm các media queries để điều chỉnh zoom */
+@media (max-width: 1912px) {
+  #Header body {
+      zoom: 1.2;
+  }
+}
+
+@media (max-width: 1300px) {
+  #Header body {
+      zoom: 0.9;
+  }
+}
+
+@media (max-width: 1090px) {
+  #Header body {
+      zoom: 0.8;
+  }
+}
+
+@media (max-width: 900px) {
+  #Header body {
+      zoom: 0.7;
+  }
+}
+
+@media (max-width: 840px) {
+  #Header body {
+      zoom: 0.6;
+  }
+}
+
+@media (max-width: 750px) {
+  #Header body {
+      zoom: 0.5;
+  }
+}
+
+@media (max-width: 478px) {
+  #Header body {
+      zoom: 0.4;
+  }
+}
+
+@media (max-width: 382.40px) {
+  #Header body {
+      zoom: 0.3;
   }
 }

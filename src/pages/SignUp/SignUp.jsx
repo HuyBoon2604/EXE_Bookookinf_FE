@@ -148,7 +148,7 @@ const Signup = () => {
               </div>
 
               <div className="input-group">
-                <label htmlFor="emailAddress">Tên Đăng Nhập</label>
+                <label htmlFor="emailAddress">Email</label>
                 <input
                   type="email"
                   id="emailAddress"
