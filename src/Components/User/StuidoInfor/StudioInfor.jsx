@@ -1,4 +1,4 @@
-import React, { useState,useCallback,useEffect } from "react";
+import React, { useState,useCallback,useEffect,useRef } from "react";
 import "./StudioInfor.css";
 import { toast, ToastContainer } from 'react-toastify';
 import api from '../../utils/requestAPI';
@@ -26,6 +26,7 @@ import { MdOutlineSurroundSound } from "react-icons/md";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import axios from "axios";
+import { useMapEvent } from "react-leaflet";
 
 
 dayjs.extend(utc);
@@ -47,7 +48,7 @@ const [BookingId, setBookingId] = useState([]);
 const [isExpanded, setIsExpanded] = useState(false);
 const [bookedTimes, setBookedTimes] = useState([]);
 
-const center = [21.03279, 105.78788];
+
 
     const toggleExpand = () => {
       setIsExpanded(!isExpanded);
@@ -138,7 +139,7 @@ const center = [21.03279, 105.78788];
     navigate(`/Profile/${accountId}`);
   };
   const validateTime = (checkin, checkout) => {
-    if (!checkin || !checkout) return false; // Nếu một trong hai là null, trả về false
+    if (!checkin || !checkout) return false; 
     return checkout.isAfter(checkin);
   };
    const Showconfirmbooking = () => {
@@ -265,6 +266,58 @@ const center = [21.03279, 105.78788];
   
     return time.isAfter(timeOn.subtract(1, "minute")) && time.isBefore(timeOff.add(1, "minute"));
   };
+  const [center, setCenter] = useState([21.03024, 105.85237]);
+const ZOOM_LEVEL = 100; 
+  const mapRef = useRef();
+ const addressdata =[
+  { id: 1, name: "phường 12 quận gò vấp thành phố hồ chí minh"}
+ ]
+ const apiKey = "C6gl6YCxg3oeLpfO2atFBY2ia1m1rBr9";
+ useEffect(() => {
+  if (!studio?.studio?.studioAddress) return; 
+
+ 
+  const encodedAddress = encodeURIComponent(studio?.studio?.studioAddress);
+
+ 
+  axios
+    .get(
+      `https://mapapis.openmap.vn/v1/geocode/forward?address=${encodedAddress}&apikey=${apiKey}`
+    )
+    .then(function (response) {
+      console.log(response);
+      const coordinates = response.data.results[0].geometry.location;
+      const latitude = coordinates.lat;
+const longitude = coordinates.lng; 
+
+console.log("Tọa độ:", latitude, longitude);
+
+      
+setCenter([latitude, longitude]);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+}, [studio.studio?.studioAddress]); 
+const MapClickHandler = ({ center }) => {
+  useMapEvent("click", (e) => {
+    const { lat, lng } = e.latlng; 
+    console.log("Tọa độ click:", lat, lng);
+
+    
+    window.open(`https://www.google.com/maps?q=${lat},${lng}`, "_blank");
+  });
+ 
+
+  return null; 
+};
+const customIcon = new L.Icon({
+  iconUrl: "/icons8-marker-48.png", 
+  iconSize: [40, 40],
+  iconAnchor: [20, 40],
+  popupAnchor: [0, -40],
+});
+  
   return (
     <div id="StudioInfor">
   
@@ -370,25 +423,28 @@ const center = [21.03279, 105.78788];
    
   </ul>
 </div>
-{/* <div className="location-hehe">
+<hr width="100%" align="left"></hr>
+<div className="location-hehe">
       <div className="tittle-local">
-        <h2 className="diadiem">Location</h2>
+        <h2 className="diadiem">Vị trí</h2>
       </div>
       <MapContainer
+        key={center.toString()} 
         center={center}
-        zoom={15}
-        style={{ width: "100%", height: "400px" }}
+        zoom={ZOOM_LEVEL}
+        style={{ width: "100%", height: "400px", marginTop: "20px" }}
       >
-      
         <TileLayer
-  url={`https://mapapis.openmap.vn/v1/tiles/{z}/{x}/{y}?apikey=${"C6gl6YCxg3oeLpfO2atFBY2ia1m1rBr9"}`}
-  attribution='&copy; <a href="https://openmap.vn/">OpenMap.vn</a>'
-/>
-        <Marker position={center}>
-          <Popup>Vị trí của bạn</Popup>
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        />
+        <Marker position={center} icon={customIcon}>
+          <Popup>Đây là vị trí của studio.</Popup>
         </Marker>
+       
+        <MapClickHandler center={center} />
       </MapContainer>
-    </div> */}
+    </div>
 <hr width="100%" align="left"></hr>
 <div class="listing-section-margins" id="ophours_section"><h2 class="h5"><span>Giờ hoạt động</span></h2>
 <div className="thuchua"><div class="flex space-between "><div class="flex-one">Thứ hai</div><div class="flex-one"><div>{studio.studio?.timeOn} Giờ - {studio.studio?.timeOff} Giờ</div>
