@@ -196,50 +196,50 @@
   border-top: 1px solid #ccc;
 }
 
-/* @media (max-width: 1912px) {
-  body {
+@media (max-width: 1912px) {
+  #Login {
       zoom: 1.2;
   }
 }
 
 @media (max-width: 1300px) {
-  body {
+  #Login {
       zoom: 0.9;
   }
 }
 
 @media (max-width: 1090px) {
-  body {
+  #Login {
       zoom: 0.8;
   }
 }
 
 @media (max-width: 900px) {
-  body {
+  #Login {
       zoom: 0.7;
   }
 }
 
 @media (max-width: 840px) {
-  body {
+  #Login{
       zoom: 0.6;
   }
 }
 
 @media (max-width: 750px) {
-  body {
+  #Login{
       zoom: 0.5;
   }
 }
 
 @media (max-width: 478px) {
-  body {
+  #Login {
       zoom: 0.4;
   }
 }
 
 @media (max-width: 382.40px) {
-  body {
+  #Login {
       zoom: 0.3;
   }
-} */
+}

@@ -60,7 +60,7 @@ export default function Header() {
   }, []);
 
   return (
-    <div id="Header">
+    <div id="Header" data-role={auth?.user?.roleId || "1"}>
       <div className="mainHeader">
         <div className="navGroup">
           <a href="/home" className='thea'>
@@ -128,18 +128,25 @@ export default function Header() {
           <div className="hostGroup">
             <div>
               {auth?.user ? (
-                <div className="imageContainer">
-                  <img
-                    loading="lazy"
-                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/5df20729ee94e58904c9f308479cb5c731926066ec9735296b6160062a8c308b?placeholderIfAbsent=true&apiKey=c05fb6b607a34c3cab6bc37bd3664ed7"
-                    className="contentImage"
-                    alt="User profile"
-                    onClick={(e) => toggleDropdownVisible(e)}
-                    style={{ cursor: 'pointer' }}
-                  />
+                <div className="profile-container">
+                  <div className="profile-wrapper">
+                    <img
+                      loading="lazy"
+                      src={auth.user.imageUrl || "https://cellphones.com.vn/sforum/wp-content/uploads/2023/10/avatar-trang-4.jpg"}
+                      className="profile-avatar"
+                      alt="User profile"
+                    />
+                    <button className="menu-toggle" onClick={(e) => toggleDropdownVisible(e)}>
+                      <span className="toggle-line"></span>
+                      <span className="toggle-line"></span>
+                      <span className="toggle-line"></span>
+                    </button>
+                  </div>
                   
                   {dropdownVisible && (
                     <div className="dropdownMenu" ref={accountDropdownRef}>
+                      <h2>{auth?.user?.userName}</h2>
+                      ---------------------------------
                       <button className="logout-button">
                         <a href="/Reservation">Lịch Sử</a>
                       </button>
@@ -151,6 +158,7 @@ export default function Header() {
                           <a href="/studio">Quản lý studio</a>
                         </button>
                       )}
+                      ---------------------------------
                       <button className="logout-button" onClick={handleLogout}>
                         Đăng Xuất
                       </button>
