@@ -169,16 +169,16 @@ const UpdateuserPage = () => {
         <div className='Input-user'>
           <div className='header-container'>
             <h2 className='basic-info-title'>Thông tin cá nhân</h2>
-            <button onClick={() => handleviewprofile()} className='view-profile-button'>View Profile</button>
+            <button onClick={() => handleviewprofile()} className='view-profile-button'>Xem Hồ Sơ</button>
           </div>
           <div className='input-container'>
             <div className='input-row'>
               <div className='input-group'>
-                <label htmlFor='firstName' className='labelne'>First name</label>
+                <label htmlFor='firstName' className='labelne'>Họ</label>
                 <input type='text' id='firstName' value={Fname} onChange={(e) => setFName(e.target.value)} name='firstName' placeholder='First name' className='fname'required />
               </div>
               <div className='input-group'>
-                <label htmlFor='lastName' className='labelne'>Last name</label>
+                <label htmlFor='lastName' className='labelne'>Tên</label>
                 <input type='text' id='lastName' value={Sname} onChange={(e) => setSName(e.target.value)} name='lastName' placeholder='Last name' className='lname'required />
               </div>
             </div>

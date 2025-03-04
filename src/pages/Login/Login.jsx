@@ -5,6 +5,8 @@ import api from '../../Components/utils/requestAPI';
 import useAuth from '../../hooks/useAuth';
 import { jwtDecode } from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
+import { GoogleAuthProvider, signInWithRedirect, getRedirectResult, signInWithPopup } from 'firebase/auth';
+import { auth } from '../../firebase/config';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -14,6 +16,8 @@ const Login = () => {
   const [loginError, setLoginError] = useState('');
   const [authen, setAuthen] = useState('');
   const { setAuth } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -108,6 +112,69 @@ useEffect(() => {
   }
 }, [authen, navigate]);
 
+useEffect(() => {
+  const checkRedirectResult = async () => {
+    try {
+      const result = await getRedirectResult(auth);
+      if (result) {
+        const user = {
+          userName: result.user.displayName,
+          imageUrl: result.user.photoURL,
+          email: result.user.email,
+          roleId: "1",
+          isActive: true
+        };
+        
+        setAuth({ user, authen: null });
+        localStorage.setItem('user', JSON.stringify(user));
+        
+        navigate('/Home');
+      }
+    } catch (error) {
+      console.error('Lỗi đăng nhập:', error);
+      setError('Đăng nhập thất bại. Vui lòng thử lại.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  checkRedirectResult();
+}, [navigate]);
+
+const handleGoogleLogin = async () => {
+  try {
+    setIsLoading(true);
+    setError(null);
+    
+    const provider = new GoogleAuthProvider();
+    const result = await signInWithPopup(auth, provider);
+    
+    // Tạo đối tượng user phù hợp với cấu trúc auth context
+    const user = {
+      userName: result.user.displayName,
+      imageUrl: result.user.photoURL,
+      email: result.user.email,
+      roleId: "1", // Đặt roleId mặc định cho người dùng Google
+      isActive: true
+    };
+
+    // Cập nhật auth context
+    setAuth({ user, authen: null }); // authen có thể null vì đây là đăng nhập Google
+    
+    // Lưu thông tin user vào localStorage
+    localStorage.setItem('user', JSON.stringify(user));
+    
+    console.log('Đăng nhập thành công, đang chuyển hướng...');
+    navigate('/Home');
+    
+  } catch (error) {
+    console.error('Lỗi đăng nhập:', error);
+    setError('Đăng nhập thất bại. Vui lòng thử lại.');
+  } finally {
+    setIsLoading(false);
+  }
+};
+
   return (
     <div id="Login" >
     <div className="login-container">
@@ -139,12 +206,12 @@ useEffect(() => {
           <p>Bạn Chưa Có Tài Khoản Colordanhub? <a href="/Signup">Đăng Ký</a></p>
           <form onSubmit={handleSubmit}>
             <div className="input-group">
-              <label htmlFor="emailAddress">Tên Đăng Nhập</label>
+              <label htmlFor="emailAddress">Email</label>
               <input
                 type="text"
                 id="emailAddress"
                 required
-                placeholder="Điền Tên Đăng NHập"
+                placeholder="nguyenvananh@gmail.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -178,9 +245,14 @@ useEffect(() => {
   <hr className="flex-grow-1" />
   </div>
           <div className="social-login">
-            <button className="facebook-btn">Facebook</button>
-            <button className="google-btn">Google</button>
-            <button className="twitter-btn">Twitter</button>
+            <button 
+              className="google-btn" 
+              onClick={handleGoogleLogin}
+              disabled={isLoading}
+            >
+              {isLoading ? 'Đang đăng nhập...' : 'Google'}
+            </button>
+            {error && <p className="error-message">{error}</p>}
           </div>
           <p>Bạn Không Nhớ <a href="forgot-password-5.html">Mật Khẩu</a>?</p>
         </div>
