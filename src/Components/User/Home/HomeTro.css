@@ -291,6 +291,11 @@ font-family: 'Poppins';
 }
 
 @media (max-width: 768px) {
+  .search-section{
+    width: 50%;
+    height: 50vh;
+    position: relative;
+  }
   .studio-card {
     margin: 10px;
   }
@@ -305,6 +310,17 @@ font-family: 'Poppins';
 
   .studio-price {
     font-size: 1rem;
+  }
+  .search-bar{
+    width: 25%;
+  }
+  .image-pop{
+    margin-right: 10vh;
+  }
+  .title-hometro{
+    position: absolute;
+    margin-top: 20vh;
+    margin-left: 10vh;
   }
 }
 
@@ -594,10 +610,253 @@ text-decoration: underline;
 
 
 @media screen and (max-width: 480px) {
+  .next-button {
+    right: 47% !important;
+    top: 50% !important;
+  }
+  .carousel-container {
+    background-color: black !important;
+    color: white !important;
+    text-align: center !important;
+    padding: 50px 0 !important;
+    margin-top: 10% !important;
+    animation-timeline: scroll() !important;
+    position: relative !important;
+   width: 55% !important;
+    height: 50vh !important;
+   
+   
+  }
+  
+  .carousel {
+   width: 60% !important          ;
+    margin: auto !important;
+    overflow: hidden !important;
+  }
+  
+  .carousel-inner {
+    display: flex !important;
+    transition: transform 0.5s ease-in-out !important;
+  }
+  
+  .carousel-item {
+    min-width: 100% !important;
+    box-sizing: border-box !important;
+    display: none !important;
+    height: 70vh !important;
+  }
+  
+  .carousel-item.active {
+    display: block !important;
+    
+  }
+  
+  .carousel-item .hinhtheloai {
+   
+    border-radius: 10px !important;
+    transition: transform 0.3s ease, filter 0.3s ease !important; 
+    width: 100% !important;
+    
+    
+  }
+  
+  .carousel-item .hinhtheloai:hover {
+    transform: translateY(-10px) !important; 
+    filter: brightness(1.2) !important; 
+    
+  }
+  
+  .carousel-button {
+    position: absolute !important;
+    top: 50% !important; 
+    transform: translateY(-50%) !important;
+    background-color: rgba(0, 0, 0, 0.5) !important;
+    
+    border: none !important;
+    padding: 10px !important;
+    cursor: pointer !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 1vh !important; 
+    transition: background-color 0.3s ease, transform 0.3s ease !important;
+  }
+  
+  .carousel-button.prev {
+    left: 5% !important;
+    font-size: 40px !important;
+    margin-top: 10% !important;
+    color: pink !important;
+  }
+  .carousel-button:hover {
+    background-color: rgba(0, 0, 0, 0.8) !important; 
+    transform: translateY(-50%) scale(1.1) !important; 
+  }
+  
+  
+  
+  .carousel-button.next {
+    right: 5% !important;
+    font-size: 40px !important;
+    margin-top: 10% !important;
+    color: pink !important;
+    
+  }
+  
+  .madein {
+    font-size: 5vh !important;
+    margin-bottom: 20px !important;
+    font-family: 'Poppins' !important;
+    background: linear-gradient(to right, #ff7eb3, #915dd1) !important;
+      -webkit-background-clip: text !important;
+      color: transparent !important;
+  
+  }
+  
+   .colordan {
+    font-size: 6vh !important;
+    font-weight: bold !important;
+    font-family: 'Poppins' !important;
+    background: linear-gradient(to right, #ff7eb3, #915dd1) !important;
+      -webkit-background-clip: text !important;
+      color: transparent !important;
+  }
+  
+  .nenhometong {
+    height: 100vh !important;
+    width: 55% !important;
+    position: relative !important;
+    background-image: url('/dance-4661508_1280.jpg') !important; 
+    background-size: cover !important; 
+  
+    background-repeat: no-repeat !important; 
+    background-position: center !important;
+  }
+  .khungcha{
+    width: 70%;
+    position: absolute;
+    height: 50vh !important;
+    background: transparent;
+    margin-left: 10% !important;
+    margin-top: 40% !important;
+    border-radius:20px ;
+    box-sizing: border-box;
+    background-color: rgba(255, 255, 255, 0.5);
+    border: 1px solid wheat;
+    display: flex;
+  }
+  .title-con{
+    width:100% !important;
+    font-size: 2vh !important;
+    font-family: 'Montserrat', sans-serif;
+    color: black;
+    font-style: italic;
+  
+  }
+  .chua-title-con{
+    height: 60%;
+    position: absolute;
+  
+  }
+  .des-con{
+    font-size: 1vh !important;
+   
+   
+   font-family: 'Montserrat', sans-serif;
+   font-style: italic;
+  }
+  .khungconcon{
+  position: relative;
+  width: 70%;
+  margin-left: 5%;
+  height: 100%;
+  }
+  .chua-des-con{
+    height: 10%;
+    position: absolute;
+    top: 25% !important;
+  }
+  .khungcon{
+    width: 70%;
+  }
+  .btn-thuephongtap{
+    height: 5% !important;
+    position: absolute;
+    top:40% !important;
+    font-size: 1vh !important;
+  }
+  .thuephongcon{
+   height:3vh !important;
+   border-radius: 20px;
+   background: black;
+   color: WHITE;
+   border: black;
+   font-size: 1vh !important;
+   transform: rotateX('2px');
+   font-family: 'Montserrat', sans-serif;
+   font-style: italic;
+  }
+  .thuephongcon:hover{
+    background: #9747FF;
+    color: WHITE;
+    border: 1px solid black;
+  }
+  .slideanhstu {
+    width: 80% !important;
+    height: 100%; 
+    background: red;
+    border-radius: 20px;
+    overflow: hidden; 
+  }
+  
+  .anhluot {
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+  
+  .anhluotcon {
+    width: 100%;
+    height: 100%; 
+    object-fit: cover; 
+  }
+  .logo-trai-tren {
+    position: absolute;
+    top: 10px; 
+    left: 10px; 
+    width: 50px; 
+    height: auto; 
+    z-index: 10; 
+    border-radius: 50%;
+    border: 1px solid white;
+    animation:rotateLogo 4s  linear infinite ;
+    transform-style: preserve-3d;
+  }
+  @keyframes rotateLogo {
+    from {
+      transform: rotateY(0deg);
+    }
+    to {
+      transform: rotateY(360deg);
+    }
+  }
+  .logos-duoi-trai {
+    position: absolute;
+    bottom: 5%; 
+    left:3%; 
+    display: flex;
+    gap: 10px; 
+  }
+  
+  .logo-duoi-trai {
+    width: 30px; 
+    height: auto;
+  }
 body {
     font-size: 14px;
     overflow-x: hidden;
 }
+
 
 .header-lo {
     flex-direction: column;
@@ -635,37 +894,26 @@ body {
   height: 5vh;
   
 }
-
-
- .search-bar .search-looking {
-  padding: 5px;
-  border: none;
-  border-radius: 5px;
-  width: 70px;
-  background-color: white;
-  color: black;
+.search-bar .search-where::placeholder {
+  font-size: 1vh; /* Giảm kích thước placeholder */
+  color: #666; /* Màu chữ placeholder */
 }
+
+
+ 
 .search-bar .search-where {
   padding: 5px;
   border: none;
   border-radius: 5px;
-  width: 70px;
-  background-color: white;
-  color: black;
-  margin-left: 30px;
-}
-.search-bar .search-When {
-  padding: 5px;
-  border: none;
-  border-radius: 5px;
-  width: 70px;
+  width: 80%;
   background-color: white;
   color: black;
   margin-left: 30px;
 }
 
-.search-bar button {
- height: 30px;
+
+.search-bar .button-search {
+ height: 3vh;
  width: 80px;
   background: black;
   color: white;
@@ -673,12 +921,13 @@ body {
   border-radius: 5px;
  margin-right: 10px;
   margin-top: 10px;
+  font-size: 1vh;
 }
-.search-bar button:hover {
+.search-bar .button-search:hover {
 
   background-color: white;
   color: black;
-  border: 2px solid black;
+  border: 1px solid black;
   border-radius: 5px;
 }
 
@@ -695,8 +944,8 @@ body {
 
 .popular-title {
     font-size:25px;
-    left: 25vh;
-    width: 40%;
+    left: 7vh;
+    width: 60%;
    position: absolute;
   align-items: center;
  height: 30px;
@@ -710,25 +959,28 @@ body {
     flex-direction: column;
     align-items: center;
     gap: 20px;
+    width: 55%;
 }
 
 .studio-card,
 .card {
-    width: 70%;
+    width: 55%;
     margin-bottom: 20px;
+   
 }
 
 .title-hometro {
-    font-size: 15px;
+    font-size: 4vh;
     text-align: left;
     margin: 10vh auto 0;
-    width: 25%;
-    top: 20vh;
+    width: 80%;
+    top: 30vh;
     position: absolute;
 }
 .image-pop-chua{
 
   background-color: transparent;
+  width: 10%;
 }
 .image-pop{
   width: 30px;
@@ -741,8 +993,122 @@ body {
 .pop-title-contian {
     height: 50px;
     padding: 10px;
+    width: 55%;
     position: relative;
 }
+
+.wcolordancecontain  {
+  height: auto !important;
+  padding: 20px 10px !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+/* Điều chỉnh "Chọn" */
+.whychua {
+  position: relative !important;
+  left: 0 !important;
+  bottom: 0 !important;
+  width: 100% !important;
+  text-align: center !important;
+  margin: 20px 0 !important;
+}
+
+.whyne {
+  font-size: 6vh !important;
+  margin-right: 70vh !important;
+}
+
+/* Điều chỉnh "Colordanhub" */
+.Colordanchua {
+  position: relative !important;
+  left: 0 !important;
+  top: 0 !important;
+  width: 100% !important;
+  text-align: center !important;
+  margin: 10px 0 !important;
+}
+
+.Colordanhub {
+  font-size: 6vh !important;
+  margin-right: 40vh !important;
+}
+
+/* Điều chỉnh ảnh */
+.imagewhychua {
+  position: relative !important;
+  width: 55% !important;
+  left: -1% !important;
+  top: 0 !important;
+  margin: 20px 0 !important;
+}
+
+.imagewwhy {
+  width: 100% !important;
+  aspect-ratio: 16/9 !important;
+}
+.Colordanbanchua {
+  position: relative !important;
+  left: 0 !important;
+  top: 0 !important;
+  width: 100% !important;
+  text-align: center !important;
+  margin: 10px 0 !important;
+}
+
+.Colordanban {
+  font-size: 5vh !important;
+  margin-right: 60vh !important;
+}
+
+/* Điều chỉnh "Được" */
+.Colordanduocchua {
+  position: relative !important;
+  left: 0 !important;
+  top: 0 !important;
+  width: 100% !important;
+  text-align: center !important;
+  margin: 10px 0 !important;
+}
+
+.Colordanduoc {
+  font-size: 5vh !important;
+  margin-right: 40vh !important;
+}
+
+/* Điều chỉnh "Gì?" */
+.Colordangichua {
+  position: relative !important;
+  left: 0 !important;
+  top: 0 !important;
+  width: 100% !important;
+  text-align: center !important;
+  margin: 10px 0 !important;
+}
+
+.Colordangi {
+  font-size: 5vh !important;
+  margin-right: 30vh !important;
+}
+.baihopchus {
+  position: relative !important;
+ max-width:  50% !important;
+  margin: 20px auto !important;
+  padding: 15px !important;
+  height: auto !important;
+  right: 22vh !important;
+}
+
+.thebaihoc {
+  font-size: 2vh !important;
+  margin-bottom: 15px !important;
+}
+
+.desbaihoc {
+  font-size: 1.5vh !important;
+  line-height: 1.4 !important;
+}
+
 }
 .wcolordancecontain{
 color: black;
@@ -765,6 +1131,7 @@ from{
   to{
     scale: 1; opacity: 1;
   }
+  
 }
 .whyne{
 font-size: 20vh;
@@ -1069,7 +1436,7 @@ border: 1px solid black;
   background-size: cover; 
 
   background-repeat: no-repeat; 
-  width: 100%;
+  
   
 }
 .khungcha{
