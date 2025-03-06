@@ -1,155 +1,96 @@
 import { useState, useEffect } from "react";
 import "./Contact.css";
 import { FaTimes } from "react-icons/fa";
-import api from "../../utils/requestAPI";
+
+const GOOGLE_SHEET_API = "https://script.google.com/macros/s/AKfycbwGO9k2y8Fa1fPc4_LrUOL-TX7j5mGVHy0YZWqzMlBx2bmS5Vem4RhEtbJ6uBFXBYIQ/exec";
 
 const Contact = () => {
-  const [blogPosts, setBlogPosts] = useState([
-    {
-      id: 1,
-      title: "Top Những Dancer Đỉnh Nhất Tại Việt Nam: Tài Năng Bùng Nổ, Chinh Phục Mọi Sân Khấu!",
-      fbUrl: "https://www.facebook.com/Colordanhub/posts/122110684058729479?ref=embed_post",
-      imageUrl: "https://i.imgur.com/pRy9nMo.png"
-    },
-    {
-      id: 2,
-      title: "Bắt đầu hành trình nhảy múa của bạn ngay hôm nay ! Với những mẹo nhỏ này, bạn sẽ tự tin thể hiện mình trên sàn nhảy.",
-     
-      
-      
-      fbUrl: "https://www.facebook.com/Colordanhub/posts/pfbid02mPGrbyVtrshAnHWzqH2GBTpcW2CVzgdMTeSAPJ4o36P2fV5GQTS544fX5bNVa8CDl",
-      imageUrl: "https://i.imgur.com/pRy9nMo.png"
-    },
-    {
-      id: 3,
-      title: "NHẢY GIÚP BẠN THÔNG MINH HƠN – SỰ THẬT HAY CHỈ LÀ LỜI ĐỒN? 💃🕺",
-      
-      
-      
-      fbUrl: "https://www.facebook.com/photo.php?fbid=122110321286729479&set=a.122106401876729479&type=3&ref=embed_post",
-      imageUrl: "https://i.imgur.com/pRy9nMo.png"
-    },
-    {
-      id: 4,
-      title: "SLAY STUDIO1",
-      
-      
-      
-      fbUrl: "https://www.facebook.com/Colordanhub/posts/pfbid0nfsBxrXEDCSTq3dGEGjrrkQNwY44N4EmJd9TD4FtQe375Ui4oB2g7MouUq4JX1Tvl",
-      imageUrl: "https://i.imgur.com/pRy9nMo.png"
-    },
-    {
-      id: 6,
-      title: "Lalaland Studio",
-     
-      
-      
-      fbUrl: "https://www.facebook.com/photo.php?fbid=122109826742729479&set=a.122106111542729479&type=3&ref=embed_post",
-      imageUrl: "https://i.imgur.com/pRy9nMo.png"
-    },
-    {
-      id: 7,
-      title: "Lalaland Studio",
-      
-      
-      
-      fbUrl: "https://www.facebook.com/photo.php?fbid=122109663080729479&set=a.122106111542729479&type=3&ref=embed_post",
-      imageUrl: "https://i.imgur.com/pRy9nMo.png"
-    },
-    {
-      id: 8,
-      title: "Lalaland Studio",
-      
-      
-      
-      fbUrl: "https://www.facebook.com/Colordanhub/posts/pfbid02mPGrbyVtrshAnHWzqH2GBTpcW2CVzgdMTeSAPJ4o36P2fV5GQTS544fX5bNVa8CDl",
-      imageUrl: "https://i.imgur.com/pRy9nMo.png"
-    },
-    {
-      id: 9,
-      title: "Lalaland Studio",
-      
-      
-      
-      fbUrl: "https://www.facebook.com/Colordanhub/posts/pfbid02mPGrbyVtrshAnHWzqH2GBTpcW2CVzgdMTeSAPJ4o36P2fV5GQTS544fX5bNVa8CDl",
-      imageUrl: "https://i.imgur.com/pRy9nMo.png"
-    },
-    {
-      id: 10,
-      title: "Lalaland Studio",
-      
-      
-      
-      fbUrl: "https://www.facebook.com/Colordanhub/posts/pfbid02mPGrbyVtrshAnHWzqH2GBTpcW2CVzgdMTeSAPJ4o36P2fV5GQTS544fX5bNVa8CDl",
-      imageUrl: "https://i.imgur.com/pRy9nMo.png"
-    },
-    {
-      id: 11,
-      title: "Lalaland Studio",
-      
-      
-      
-      fbUrl: "https://www.facebook.com/Colordanhub/posts/pfbid02mPGrbyVtrshAnHWzqH2GBTpcW2CVzgdMTeSAPJ4o36P2fV5GQTS544fX5bNVa8CDl",
-      imageUrl: "https://i.imgur.com/pRy9nMo.png"
-    },
-    {
-      id: 12,
-      title: "Lalaland Studio",
-      
-      
-      
-      fbUrl: "https://www.facebook.com/Colordanhub/posts/pfbid02mPGrbyVtrshAnHWzqH2GBTpcW2CVzgdMTeSAPJ4o36P2fV5GQTS544fX5bNVa8CDl",
-      imageUrl: "https://i.imgur.com/pRy9nMo.png"
-    },
-    {
-      id: 13,
-      title: "Lalaland Studio",
-      
-      
-      
-      fbUrl: "https://www.facebook.com/Colordanhub/posts/pfbid02mPGrbyVtrshAnHWzqH2GBTpcW2CVzgdMTeSAPJ4o36P2fV5GQTS544fX5bNVa8CDl",
-      imageUrl: "https://i.imgur.com/pRy9nMo.png"
-    },
-    {
-      id: 14,
-      title: "Lalaland Studio",
-      
-      
-      
-      fbUrl: "https://www.facebook.com/Colordanhub/posts/pfbid02mPGrbyVtrshAnHWzqH2GBTpcW2CVzgdMTeSAPJ4o36P2fV5GQTS544fX5bNVa8CDl",
-      imageUrl: "https://i.imgur.com/pRy9nMo.png"
-    },
-    {
-      id: 15,
-      title: "Lalaland Studio",
-      
-      
-      
-      fbUrl: "https://www.facebook.com/Colordanhub/posts/pfbid02mPGrbyVtrshAnHWzqH2GBTpcW2CVzgdMTeSAPJ4o36P2fV5GQTS544fX5bNVa8CDl",
-      imageUrl: "https://i.imgur.com/pRy9nMo.png"
-    },
-    {
-      id: 16,
-      title: "Lalaland Studio",
-      
-      
-      
-      fbUrl: "https://www.facebook.com/Colordanhub/posts/pfbid02mPGrbyVtrshAnHWzqH2GBTpcW2CVzgdMTeSAPJ4o36P2fV5GQTS544fX5bNVa8CDl",
-      imageUrl: "https://i.imgur.com/pRy9nMo.png"
-    }
-  ]);
-
+  const [blogPosts, setBlogPosts] = useState([]);
   const [selectedPost, setSelectedPost] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setIsLoading(true);
+        const response = await fetch(GOOGLE_SHEET_API);
+        const data = await response.json();
+        
+        // Log để kiểm tra dữ liệu nhận được
+        console.log("Raw data from API:", data);
+        
+        // Đảm bảo data là một mảng và có dữ liệu
+        if (Array.isArray(data) && data.length > 0) {
+          const formattedPosts = data.map((row, index) => {
+            // Log từng row để debug
+            console.log("Processing row:", row);
+            
+            // Kiểm tra và lấy giá trị từ row
+            const title = row["TIÊU ĐỀ"] || row["tiêu đề"] || row["Tieu de"] || "Không có tiêu đề";
+            // Thử nhiều cách khác nhau để lấy link Facebook
+            const fbUrl = row["Link BÀI"] || 
+                         row["link bài"] || 
+                         row["Link bai"] || 
+                         row["LINK BÀI"] || 
+                         row["LINK BAI"] || 
+                         row["Link Facebook"] || 
+                         row["link facebook"] || 
+                         row["LINK FACEBOOK"] || 
+                         row["Facebook Link"] || 
+                         row["facebook link"] || 
+                         row["FACEBOOK LINK"] || "";
+            const imageUrl = row["HÌNH ẢNH"] || row["hình ảnh"] || row["Hinh anh"] || "https://i.imgur.com/pRy9nMo.png";
+
+            // Log các giá trị đã trích xuất
+            console.log("Extracted values:", { title, fbUrl, imageUrl });
+
+            return {
+              id: index + 1,
+              title,
+              fbUrl,
+              imageUrl
+            };
+          });
+
+          // Log để kiểm tra dữ liệu đã format
+          console.log("Formatted posts:", formattedPosts);
+          
+          // Lọc bỏ các bài viết không có link Facebook
+          const validPosts = formattedPosts.filter(post => {
+            console.log("Checking post:", post);
+            return post.fbUrl && post.fbUrl.trim() !== "";
+          });
+          
+          // Log số lượng bài viết hợp lệ
+          console.log("Valid posts count:", validPosts.length);
+          console.log("Valid posts:", validPosts);
+          
+          setBlogPosts(validPosts);
+        } else {
+          console.error("Dữ liệu trống hoặc không đúng định dạng");
+          setBlogPosts([]);
+        }
+      } catch (error) {
+        console.error("Lỗi khi lấy dữ liệu từ Google Sheets: ", error);
+        setBlogPosts([]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   useEffect(() => {
     const loadFacebookSDK = () => {
       if (window.FB) return;
       
       window.fbAsyncInit = function() {
-        window.FB.init({
-          xfbml: true,
-          version: 'v18.0'
+        window.FB.init({ 
+          xfbml: true, 
+          version: 'v18.0',
+          cookie: true
         });
       };
 
@@ -170,6 +111,7 @@ const Contact = () => {
     setIsModalOpen(true);
     document.body.style.overflow = 'hidden';
     
+    // Đợi một chút để đảm bảo modal đã render
     setTimeout(() => {
       if (window.FB) {
         window.FB.XFBML.parse();
@@ -187,31 +129,38 @@ const Contact = () => {
     <div id="Contact">
       <div className="blog-container">
         <div className="blog-header">
-          <h1>Danh Sách Bài Viết </h1>
+          <h1>Danh Sách Bài Viết</h1>
           <p>Khám phá những không gian tập luyện chất lượng tại Colordanhub</p>
         </div>
 
         <div className="blog-content">
-          <div className="postsgrid">
-            {blogPosts.map((post) => (
-              <div key={post.id} className="post-wrapper">
-                <article className="studio-card" onClick={() => handlePostClick(post)}>
-                  <div className="studio-image">
-                    <img src={post.imageUrl} alt={post.title} />
-                    
-                  </div>
-                  <div className="studio-content">
-                    <h2>{post.title}</h2>
-                    <p className="studio-address">{post.address}</p>
-                    <div className="studio-rating">
-                      <span className="stars">★</span>
-                      <span>{post.rating}</span>
+          {isLoading ? (
+            <div className="loading">Đang tải dữ liệu...</div>
+          ) : blogPosts.length === 0 ? (
+            <div className="no-data">Không có bài viết nào</div>
+          ) : (
+            <div className="postsgrid">
+              {blogPosts.map((post) => (
+                <div key={post.id} className="post-wrapper">
+                  <article className="studio-card" onClick={() => handlePostClick(post)}>
+                    <div className="studio-image">
+                      <img 
+                        src={post.imageUrl} 
+                        alt={post.title}
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src = "https://i.imgur.com/pRy9nMo.png";
+                        }}
+                      />
                     </div>
-                  </div>
-                </article>
-              </div>
-            ))}
-          </div>
+                    <div className="studio-content">
+                      <h2>{post.title}</h2>
+                    </div>
+                  </article>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         {isModalOpen && selectedPost && (

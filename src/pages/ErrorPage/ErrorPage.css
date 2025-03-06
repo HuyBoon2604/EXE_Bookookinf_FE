@@ -1,20 +1,19 @@
-#SucessPage {
+#ErrorPage {
     display: flex;
     flex-direction: column;
     min-height: 100vh; /* Để giữ Footer ở dưới cùng */
   }
   
-  #SucessPage > Header,
-  #SucessPage > Footer {
+  #ErrorPage > Header,
+  #ErrorPage > Footer {
     flex-shrink: 0; /* Giữ nguyên kích thước của Header và Footer */
   }
   
-  #SucessPage > .content {
-    flex-grow: 1; /* Đẩy phần tử CheckoutSucess vào giữa */
+  #ErrorPage > .content {
+    /* flex-grow: 1; */
     display: flex;
     justify-content: center; /* Căn giữa theo chiều ngang */
     align-items: center; /* Căn giữa theo chiều dọc */
-    padding: 20px 0; /* Tạo khoảng cách giữa Header và Footer */
-    margin-top: 50px;
+    margin-top: -2px;
   }
   
