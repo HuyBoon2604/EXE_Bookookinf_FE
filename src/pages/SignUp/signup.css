@@ -76,15 +76,15 @@
 #Signup .login-form {
   background-color: rgba(255, 255, 255, 0.5);
   backdrop-filter: blur(15px);
-  padding: 15px;
+  padding: 25px;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 35%;
-  max-width: 90vw; /* Đảm bảo form không quá lớn trên màn hình nhỏ */
+  width: 100%;
+  max-width: 700px; /* Đảm bảo form không quá lớn trên màn hình nhỏ */
 }
 
 #Signup h3 {
@@ -581,4 +581,106 @@
     height: 55px;
     font-size: 24px;
   }
+  /* Responsive styles */
+@media (max-width: 768px) {
+  #Signup .login-form {
+    width: 90%;
+    padding: 30px;
+  }
+
+  #Signup .hero-wrap {
+    background-attachment: scroll; /* Bỏ cố định hình nền trên mobile */
+  }
+
+  #Signup h1 {
+    font-size: 24px;
+  }
+
+  #Signup h3 {
+    font-size: 28px;
+  }
+
+  #Signup button {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  #Signup .social-login {
+    flex-direction: column;
+  }
+
+  #Signup .social-login button {
+    margin: 5px 0;
+  }
+
+  #Signup .input-group input {
+    padding: 10px;
+    font-size: 16px;
+  }
+
+  #Signup .user-type-selection {
+    margin: 15px 0;
+    padding: 20px 15px;
+  }
+
+  #Signup .radio-group {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  #Signup .radio-group label {
+    max-width: 100%;
+    padding: 14px 20px;
+  }
+
+  #Signup .verification-form {
+    padding: 30px 20px;
+  }
+
+  #Signup .verification-inputs {
+    gap: 8px;
+    padding: 15px;
+  }
+
+  #Signup .verification-inputs input {
+    width: 45px;
+    height: 55px;
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  #Signup .login-form {
+    width: 95%;
+    padding: 20px;
+  }
+
+  #Signup h1 {
+    font-size: 22px;
+  }
+
+  #Signup h3 {
+    font-size: 24px;
+  }
+
+  #Signup .input-group input {
+    padding: 8px;
+    font-size: 14px;
+  }
+
+  #Signup button {
+    font-size: 12px;
+    padding: 8px;
+  }
+
+  #Signup .verification-form {
+    padding: 20px 15px;
+  }
+
+  #Signup .verification-inputs input {
+    width: 40px;
+    height: 50px;
+    font-size: 20px;
+  }
+}
 }

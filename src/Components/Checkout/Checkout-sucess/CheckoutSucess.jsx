@@ -1,71 +1,114 @@
 import React, { useEffect, useState } from "react";
-import "./CheckoutSucess.css";
-import { useNavigate,useLocation } from "react-router-dom";
+import { Button, Typography, Space, Card, Steps, Tag, message } from "antd";
+import { CheckCircleFilled, HomeOutlined } from "@ant-design/icons";
+import { useNavigate, useLocation } from "react-router-dom";
 import api from "../../utils/requestAPI";
 
-const CheckoutSucess = () => {
+const { Title, Paragraph, Text } = Typography;
+
+const CheckoutSuccess = () => {
   const navigate = useNavigate();
   const location = useLocation();
- 
+  const [paymentData, setPaymentData] = useState(null);
 
-  const getQueryparams = () => {
+  const getQueryParams = () => {
     const query = new URLSearchParams(location.search);
-    // const status1 = query.get("status");
-    const trancode = query.get("orderCode");
-    return { trancode  };
+    return {
+      trancode: query.get("orderCode"),
+      amount: query.get("amount"),
+    };
   };
-
-  // const [status1, setStatus1] = useState(null);
-  const [trancode, settrancode] = useState(null);
 
   useEffect(() => {
-    // const { status1 } = getQueryparams();
-    const {trancode} = getQueryparams();
-    settrancode(trancode)
-    // setStatus1(status1);
-
+    const { trancode } = getQueryParams();
+    const { amount } = getQueryParams();
     if (trancode) {
-      const fetchCancel = async () => {
-       
-        const url = `/create-payment-link/update-status-2?odercode=${trancode}`;
-        console.log('URL being called:', url);
-
+      const updatePaymentStatus = async () => {
         try {
-         
+          const url = `/create-payment-link/update-status-2?odercode=${trancode}`;
           const response = await api.get(url);
           console.log("Status updated successfully:", response.data);
+          message.success("Cập nhật thanh toán thành công");
+          setPaymentData({ orderCode: trancode, status: "PAID", amount: amount });
         } catch (error) {
           console.error("Error updating payment status:", error);
+          message.error("Lỗi khi cập nhật thanh toán");
         }
       };
-
-      fetchCancel();
+      updatePaymentStatus();
     }
-  }, [ location.search]);
+  }, [location.search]);
 
-  const Back = () => {
-    navigate("/Home");
+  const formatCurrency = (amount) => {
+    return new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(amount);
   };
 
+  // if (!paymentData) return null;
+
   return (
-    <div id="checksuccess" className="success-container">
-      <div className="success-box">
-            <div className="check-icon">
-              <span>✔️</span>
+    <div
+      style={{
+        minHeight: "50vh",
+        background: "linear-gradient(135deg, #6a0dad 0%, #b266ff 100%)",
+        padding: "40px 20px",
+        width: "100%",
+      }}
+    >
+      <div style={{ maxWidth: "800px", margin: "0 auto" }}>
+        {/* <Steps current={3} items={[{ title: "Chọn gói" }, { title: "Thanh toán" }, { title: "Xác nhận" }]} style={{ marginBottom: "40px" }} /> */}
+
+        <Card style={{ borderRadius: "20px", boxShadow: "0 10px 30px rgba(0,0,0,0.1)", border: "none" }}>
+          <div style={{ textAlign: "center", marginBottom: "24px" }}>
+            <div
+              style={{
+                width: "80px",
+                height: "80px",
+                borderRadius: "50%",
+                background: "#f6ffed",
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                marginBottom: "16px",
+              }}
+            >
+              <CheckCircleFilled style={{ fontSize: "40px", color: "#52c41a" }} />
             </div>
-            <h2>Bạn Đã Thanh</h2>
-            <h2>Toán Thành Công</h2>
-            <div className="transaction-info">
-              {/* <p><strong>Transaction ID:</strong> {trancode}</p> */}
-              {/* <p><strong>Transaction Time:</strong> {transactionTime}</p> */}
-            </div>
-            {/* Back to Home Button */}
-            <button className="back-to-home-btn" onClick={Back}>
-              Quay Lại Trang Chủ
-            </button>
+            <Title level={2} style={{ color: "#006e61", margin: 0 }}>Thanh toán thành công!</Title>
+          </div>
+
+          <Card style={{ background: "#f8fffe", marginBottom: "24px", borderRadius: "12px" }}>
+            <Space direction="vertical" size="middle" style={{ width: "100%" }}>
+              <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <Text>Mã đơn hàng:</Text>
+                <Text strong>{paymentData.orderCode}</Text>
+                {/* <Text strong>1234567890</Text> */}
+              </div>
+              <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <Text>Trạng thái:</Text>
+                <Tag color="success">Đã thanh toán</Tag>
+              </div>
+              <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <Text>Số tiền:</Text>
+                <Text strong style={{ color: "#00c0b5", fontSize: "18px" }}>{formatCurrency(paymentData.amount)}</Text>
+                {/* <Text strong style={{ color: "#00c0b5", fontSize: "18px" }}>1000000</Text> */}
+              </div>
+            </Space>
+          </Card>
+
+          {/* <div style={{ textAlign: "center", marginBottom: "24px" }}>
+            <Title level={4} style={{ color: "#006e61", marginBottom: "16px" }}>Tài khoản của bạn đã được nâng cấp!</Title>
+            <Paragraph style={{ color: "#666" }}>Bạn có thể bắt đầu sử dụng các tính năng Premium ngay bây giờ.</Paragraph>
+          </div> */}
+
+          <Space size="middle" style={{ width: "100%", justifyContent: "center" }}>
+            <Button type="primary" icon={<HomeOutlined />} onClick={() => navigate("/Home")} style={{ height: "44px", padding: "0 24px", fontSize: "16px", borderRadius: "8px", backgroundColor: "#00c0b5", borderColor: "#00c0b5" }}>
+              Về trang chủ
+            </Button>
+          </Space>
+        </Card>
       </div>
     </div>
   );
 };
 
-export default CheckoutSucess;
+export default CheckoutSuccess;

@@ -191,121 +191,295 @@
 }
 
 #Contact .blog-container {
-  max-width: 1200px;
+  max-width: 1700px;
   margin: 0 auto;
   padding: 40px 20px;
+  font-family: 'Poppins', sans-serif;
 }
 
-#Contact .blog-title {
+#Contact .blog-header {
   text-align: center;
-  color: #333;
-  margin-bottom: 40px;
-  font-size: 2.5rem;
+  margin-bottom: 50px;
+  padding: 40px 0;
+  background: linear-gradient(135deg, #9747FF 0%, #AD49E1 100%);
+  border-radius: 20px;
+  color: white;
 }
 
-#Contact .blog-posts {
+#Contact .blog-header h1 {
+  font-size: 3.5em;
+  margin-bottom: 15px;
+  font-weight: 700;
+}
+
+#Contact .blog-header p {
+  font-size: 1.9em;
+  opacity: 0.9;
+}
+
+/* Flex Layout for Studios */
+#Contact .posts-flex {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+#Contact .postsgrid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /* 5 columns */
+  gap: 20px;
+  width: 100%;
+}
+
+/* #Contact .post-wrapper {
   display: flex;
   flex-direction: column;
-  gap: 30px;
-}
+  gap: 15px;
+} */
 
-#Contact .blog-post {
-  display: flex;
+#Contact .studio-card {
+  width: 100%;
   background: white;
-  border-radius: 8px;
+  border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
-  height: 300px;
+  height: 100%;
 }
 
-#Contact .blog-post:hover {
+#Contact .studio-card:hover {
   transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
-#Contact .post-image {
-  flex: 0 0 40%;
+#Contact .studio-image {
+  position: relative;
+  width: 100%;
+  height: 160px;
   overflow: hidden;
 }
 
-#Contact .post-image img {
+#Contact .studio-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   transition: transform 0.3s ease;
 }
 
-#Contact .blog-post:hover .post-image img {
+#Contact .studio-card:hover .studio-image img {
   transform: scale(1.05);
 }
 
-#Contact .post-content {
-  flex: 1;
-  padding: 25px;
-  display: flex;
-  flex-direction: column;
-}
-
-#Contact .post-title {
-  font-size: 1.5rem;
-  color: #333;
-  margin: 0 0 15px;
-}
-
-#Contact .post-meta {
-  display: flex;
-  gap: 20px;
-  color: #666;
-  font-size: 0.9rem;
-  margin-bottom: 15px;
-}
-
-#Contact .post-excerpt {
-  color: #555;
-  line-height: 1.6;
-  margin: 0;
-  flex-grow: 1;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-}
-
-#Contact .post-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 20px;
-}
-
-#Contact .social-links {
-  display: flex;
-  gap: 15px;
-}
-
-#Contact .read-more {
-  background: #9747FF;
+#Contact .studio-price {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background: rgba(0, 0, 0, 0.7);
   color: white;
-  border: none;
-  padding: 8px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background 0.3s ease;
+  padding: 5px 10px;
+  border-radius: 15px;
+  font-size: 0.8em;
+  font-weight: 600;
 }
 
-#Contact .read-more:hover {
-  background: #7A39C4;
+#Contact .studio-content {
+  padding: 15px;
+}
+
+#Contact .studio-content h2 {
+  font-size: 1.1em;
+  color: #333;
+  margin: 0 0 8px 0;
+  font-weight: 600;
+}
+
+#Contact .studio-address {
+  font-size: 0.9em;
+  color: #666;
+  margin: 0 0 8px 0;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+#Contact .studio-rating {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #666;
+  font-size: 0.9em;
+}
+
+#Contact .stars {
+  color: #FFD700;
+}
+
+/* Lightbox Styles */
+#Contact .lightbox-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  backdrop-filter: blur(5px);
+}
+
+#Contact .lightbox-content {
+  background: white;
+    padding: 30px;
+    border-radius: 12px;
+    position: relative;
+    width: 95%;
+    max-width: 900px;
+    max-height: 85vh;
+    overflow-y: auto;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  animation: modalFadeIn 0.3s ease-out;
+}
+
+#Contact .lightbox-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(0, 0, 0, 0.5);
+  border: none;
+  color: white;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10000;
+  transition: all 0.3s ease;
+}
+
+#Contact .lightbox-close:hover {
+  background: rgba(0, 0, 0, 0.8);
+  transform: scale(1.1);
+}
+
+#Contact .fb-embed, #Contact .fb-post {
+  /* display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 200px; */
+  width: 100%;
+  text-align: center;
+}
+
+#Contact .fb-embed iframe {
+  max-width: 100% !important;
+  width: 100% !important;
+  margin: 0 auto;
+}
+
+#Contact .fb-embed-wrapper {
+  width: 100%;
+  margin-top: -10px;
+  padding: 10px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+#Contact .fb-post {
+  width: 85% !important;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    min-height: 600px;
+    transform: scale(1.2);
+  transform-origin: top center;
+}
+
+#Contact .fb-post > span {
+  width: 100% !important;
+  margin: 0 auto;
+}
+
+#Contact .fb-post iframe {
+  width: 100% !important;
+  min-height: 600px !important;
+}
+
+/* Thêm animation cho modal */
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+#Contact .lightbox-content {
+  animation: modalFadeIn 0.3s ease-out;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  #Contact .lightbox-content {
+    margin: 10px;
+    padding: 15px;
+  }
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 1400px) {
+  #Contact .posts-grid {
+    grid-template-columns: repeat(4, 1fr); /* 4 columns */
+  }
+}
+
+@media (max-width: 1100px) {
+  #Contact .posts-grid {
+    grid-template-columns: repeat(3, 1fr); /* 3 columns */
+  }
 }
 
 @media (max-width: 768px) {
-  #Contact .blog-post {
-    flex-direction: column;
-    height: auto;
+  #Contact .posts-grid {
+    grid-template-columns: repeat(2, 1fr); /* 2 columns */
   }
+}
 
-  #Contact .post-image {
-    height: 200px;
+@media (max-width: 480px) {
+  #Contact .posts-grid {
+    grid-template-columns: 1fr; /* 1 column */
   }
 }

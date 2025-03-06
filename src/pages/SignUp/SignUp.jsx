@@ -153,7 +153,7 @@ const Signup = () => {
                   type="email"
                   id="emailAddress"
                   required
-                  placeholder="Nhập Tài Khoản"
+                  placeholder="Nhập Email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
@@ -225,9 +225,7 @@ const Signup = () => {
   <hr className="flex-grow-1" />
   </div>
           <div className="social-login">
-            <button className="facebook-btn">Facebook</button>
             <button className="google-btn">Google</button>
-            <button className="twitter-btn">Twitter</button>
           </div>
           {/* <p>Need to find <a href="forgot-password-5.html">your password</a>?</p> */}
         </div>
