@@ -9,35 +9,55 @@ const { Title, Paragraph, Text } = Typography;
 const CheckoutSuccess = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [paymentData, setPaymentData] = useState(null);
 
+  // Hàm lấy params từ URL
   const getQueryParams = () => {
     const query = new URLSearchParams(location.search);
-    return {
-      trancode: query.get("orderCode"),
-      amount: query.get("amount"),
-    };
+    const status1 = query.get("status");
+    const amount = query.get("amount");
+    const trancode = query.get("orderCode");
+    return { status1,trancode, amount };
   };
 
+  // State lưu giá trị từ query params
+  const [status, setStatus] = useState(null);
+  const [trancode, setTrancode] = useState(null);
+  const [amount, setAmount] = useState(null);
+
   useEffect(() => {
-    const { trancode } = getQueryParams();
-    const { amount } = getQueryParams();
-    if (trancode) {
+    const { status, trancode, amount } = getQueryParams();
+
+    setStatus(status);
+    setTrancode(trancode);
+    setAmount(amount);
+
+    if (trancode && status) {
       const updatePaymentStatus = async () => {
+        const url = `/create-payment-link/update-status-2?odercode=${trancode}`;
+        console.log("URL being called:", url);
+
         try {
-          const url = `/create-payment-link/update-status-2?odercode=${trancode}`;
           const response = await api.get(url);
           console.log("Status updated successfully:", response.data);
           message.success("Cập nhật thanh toán thành công");
-          setPaymentData({ orderCode: trancode, status: "PAID", amount: amount });
         } catch (error) {
           console.error("Error updating payment status:", error);
           message.error("Lỗi khi cập nhật thanh toán");
         }
       };
+
       updatePaymentStatus();
     }
   }, [location.search]);
+
+  // Nếu chưa có dữ liệu, hiển thị loading
+  // if (!trancode || !status || !amount) {
+  //   return (
+  //     <div style={{ textAlign: "center", padding: "20px" }}>
+  //       <p>Đang tải dữ liệu...</p>
+  //     </div>
+  //   );
+  // }
 
   const formatCurrency = (amount) => {
     return new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(amount);
@@ -80,7 +100,7 @@ const CheckoutSuccess = () => {
             <Space direction="vertical" size="middle" style={{ width: "100%" }}>
               <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <Text>Mã đơn hàng:</Text>
-                <Text strong>{paymentData.orderCode}</Text>
+                <Text strong>{trancode}</Text>
                 {/* <Text strong>1234567890</Text> */}
               </div>
               <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -89,7 +109,7 @@ const CheckoutSuccess = () => {
               </div>
               <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <Text>Số tiền:</Text>
-                <Text strong style={{ color: "#00c0b5", fontSize: "18px" }}>{formatCurrency(paymentData.amount)}</Text>
+                <Text strong style={{ color: "#00c0b5", fontSize: "18px" }}>{formatCurrency(amount)}</Text>
                 {/* <Text strong style={{ color: "#00c0b5", fontSize: "18px" }}>1000000</Text> */}
               </div>
             </Space>
