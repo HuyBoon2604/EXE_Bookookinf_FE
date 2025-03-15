@@ -3,6 +3,7 @@ import api from '../../Components/utils/requestAPI';
 import './signup.css'; // Thêm style CSS nếu cần thiết
 import useAuth from '../../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
+import { showNotification, showConfirmDialog } from '../../Components/utils/notifications';
 
 const Signup = () => {
   const [userName, setUserName] = useState('');
@@ -16,9 +17,11 @@ const Signup = () => {
   const [showVerification, setShowVerification] = useState(false);
   const [verificationCode, setVerificationCode] = useState(['', '', '', '', '', '']);
   const [account, setAccount] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     const url = '/api/Account/registration';
     const roleId = userType === "customer" ? "1" : "2";
     const data = {
@@ -34,10 +37,17 @@ const Signup = () => {
       if (response.status === 200) {
         setAccount(response.data);
         setShowVerification(true);
+        showNotification('Đăng ký thành công! Vui lòng kiểm tra email để xác thực.', 'success');
       }
     } catch (error) {
       console.error(error);
-      alert("Đã xảy ra lỗi khi đăng ký!");
+      if (error.response?.status === 400) {
+        showNotification('Tài khoản đã tồn tại, vui lòng dùng tài khoản khác', 'error');
+      } else {
+        showNotification('Đã xảy ra lỗi khi đăng ký!', 'error');
+      }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -62,12 +72,30 @@ const Signup = () => {
       const response = await api.post(`/api/Account/verify-account?email=${email}&verificationCode=${code}`);
       if (response.status === 200) {
         setAuth({ user: response.data, authen: true });
-        alert("Xác thực thành công!");
+        showNotification('Xác thực thành công!', 'success');
         navigate('/login');
       }
     } catch (error) {
-      alert("Mã xác thực không đúng!");
+      showNotification('Mã xác thực không đúng!', 'error');
     }
+  };
+
+  const handleBack = async () => {
+    showConfirmDialog('Bạn đang trong quá trình đăng ký tài khoản, bạn vẫn muốn quay lại?', async () => {
+      try {
+        // Gọi API trước khi thực hiện các hành động khác
+        await api.delete(`/api/Account/remove-${account.id}`);
+  
+        // Nếu API gọi thành công, tiếp tục thực hiện các bước khác
+        setShowVerification(false);
+        setAccount(null);
+        setVerificationCode(['', '', '', '', '', '']);
+        navigate('/Signup');
+      } catch (error) {
+        console.error('Lỗi khi gọi API:', error);
+        showNotification('Xóa tài khoản không thành công, vui lòng thử lại!', 'error');
+      }
+    });
   };
 
   return (
@@ -99,10 +127,12 @@ const Signup = () => {
         <div className="container">
           <h3>Chào Mừng Bạn Đến Với Colordanhub</h3>
           <p>Bạn Đã Có Tài Khoản Rồi? <a href="/login">Đăng Nhập Ngay</a></p>
-          {showVerification ? (
+          {isLoading ? (
+            <div className="loading">Đang tải dữ liệu...</div>
+          ) : showVerification ? (
             <div className="verification-form">
               <div className="verification-header">
-                <button className="back-arrow" onClick={() => setShowVerification(false)}>
+                <button className="back-arrow" onClick={handleBack}>
                   ←
                 </button>
                 <h2>Xác thực email của bạn</h2>
@@ -130,8 +160,8 @@ const Signup = () => {
               </div>
 
               <button className="verify-button" onClick={handleVerify}>
-  <span>Xác thực</span>
-</button>
+                <span>Xác thực</span>
+              </button>
             </div>
           ) : (
             <form onSubmit={handleSubmit}>
@@ -181,7 +211,7 @@ const Signup = () => {
                 />
               </div>
               <div className="user-type-selection">
-                <label >Bạn Muốn Trở Thành:</label>
+                <label>Bạn Muốn Trở Thành:</label>
                 <div className="radio-group">
                   <label>
                     <input
@@ -205,28 +235,17 @@ const Signup = () => {
                   </label>
                 </div>
               </div>
-              
-              {/* <div className="remember-me">
-                <input
-                  type="checkbox"
-                  id="remember-me"
-                  name="remember"
-                  checked={rememberMe}
-                  onChange={() => setRememberMe(!rememberMe)}
-                />
-                <label htmlFor="remember-me">Keep me signed in</label>
-              </div> */}
               <button type="submit">Đăng Ký</button>
             </form>
           )}
-          <div className='mutee'>
+          {/* <div className='mutee'>
           <hr className="flex-grow-1" />
   <span className="muted">Hoặc đăng nhập với</span>
   <hr className="flex-grow-1" />
-  </div>
-          <div className="social-login">
+  </div> */}
+          {/* <div className="social-login">
             <button className="google-btn">Google</button>
-          </div>
+          </div> */}
           {/* <p>Need to find <a href="forgot-password-5.html">your password</a>?</p> */}
         </div>
       </div>
@@ -234,5 +253,6 @@ const Signup = () => {
     </div>
   );
 }
+
 
 export default Signup;
