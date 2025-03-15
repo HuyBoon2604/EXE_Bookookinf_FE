@@ -57,10 +57,21 @@
 }
 
 #Signup p {
-  font-size: 14px;
-  margin-bottom: 15px;
-  text-align: center;
-  color: black;
+  margin-bottom: 10px;
+  font-size: 18px;
+
+text-align: center;
+color: #333;
+}
+#Signup p a {
+  color: #9747FF;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+#Signup p a:hover {
+  text-decoration: underline;
+  color: #6a11cb;
 }
 
 #Signup .qr-code {
@@ -74,7 +85,7 @@
 
 /* Login Form styles */
 #Signup .login-form {
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(15px);
   padding: 20px;
   border-radius: 8px;
@@ -83,12 +94,12 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 90%;
+  width: 100%;
   max-width: 500px;
-  max-height: 85vh;
-  overflow-y: auto;
+  max-height: 90vh;
+  /* overflow-y: auto;
   scrollbar-width: thin;
-  scrollbar-color: #9747FF #f0f0f0;
+  scrollbar-color: #9747FF #f0f0f0; */
 }
 
 /* Custom scrollbar for Webkit browsers */
@@ -397,13 +408,23 @@
     margin-bottom: 10px;
   }
   
-  #Signup p {
+  /* #Signup p {
     margin-bottom: 10px;
+    font-size: 18px;
+ 
+  text-align: center;
+  color: #333;
   }
-  
-  #Signup .verification-inputs {
-    gap: 6px;
+  #Signup p a {
+    color: #9747FF;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.3s ease;
   }
+  #Signup p a:hover {
+    text-decoration: underline;
+    color: #6a11cb;
+  } */
   
   #Signup .verification-inputs input {
     width: 36px;
@@ -547,4 +568,147 @@
     height: 40px;
     font-size: 18px;
   }
+}
+
+#Signup .loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+  font-size: 18px;
+  color: #6a11cb;
+  font-weight: 500;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.verification-form {
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.verification-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.back-arrow {
+  position: absolute;
+  left: 20px;
+  top: 20px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #6a11cb;
+  transition: transform 0.2s;
+}
+
+.back-arrow:hover {
+  transform: scale(1.1);
+}
+
+.verification-inputs {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 30px 0;
+}
+
+.verification-inputs input {
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  font-size: 20px;
+  border: 2px solid #6a11cb;
+  border-radius: 8px;
+  outline: none;
+  transition: all 0.3s;
+}
+
+.verification-inputs input:focus {
+  border-color: #2575fc;
+  box-shadow: 0 0 0 3px rgba(106, 17, 203, 0.2);
+}
+
+.verify-button {
+  background: linear-gradient(45deg, #6a11cb, #2575fc);
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.verify-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(106, 17, 203, 0.3);
+}
+
+/* Toast Container Styles */
+.Toastify__toast-container {
+  width: auto !important;
+  min-width: 320px;
+  max-width: 500px;
+}
+
+.Toastify__toast {
+  margin-bottom: 15px !important;
+}
+
+.dance-toast {
+  animation: bounceIn 0.5s !important;
+}
+
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Override Toastify's default close button */
+.Toastify__close-button {
+  color: white !important;
+  opacity: 0.8 !important;
+  transition: all 0.2s !important;
+}
+
+.Toastify__close-button:hover {
+  opacity: 1 !important;
+  transform: scale(1.1);
+}
+
+/* Ensure the toast is always visible properly */
+.Toastify__toast-body {
+  padding: 0 !important;
+  margin: 0 !important;
 }

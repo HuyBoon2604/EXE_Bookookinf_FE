@@ -7,6 +7,7 @@ import { jwtDecode } from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
 import { GoogleAuthProvider, signInWithRedirect, getRedirectResult, signInWithPopup } from 'firebase/auth';
 import { auth } from '../../firebase/config';
+import { showNotification } from '../../Components/utils/notifications';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -21,6 +22,9 @@ const Login = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setIsLoading(true);
+    setError(null);
+    
     const url = '/api/Account/log-in';
     const data = {
       email: email,
@@ -28,187 +32,165 @@ const Login = () => {
     };
 
     try {
-        console.log(data);
-        const response = await api.post(url, data);
-        console.log(response.data)
-        localStorage.setItem('Authen', JSON.stringify(response.data));
-        setAuthen(response.data)
+      const response = await api.post(url, data);
+      localStorage.setItem('Authen', JSON.stringify(response.data));
+      setAuthen(response.data);
     } catch (error) {
-        console.error(error);
-        setLoginError('Tên đăng nhập hoặc mật khẩu không chính xác'); 
-        window.alert('Tên đăng nhập hoặc mật khẩu không chính xác'); 
-    }
-}
-
-useEffect(() => {
-  const authData = localStorage.getItem('Authen');
-  if (authData) {
-      try {
-          // const decodedAuth = JSON.parse(authData);
-          const decodedToken = jwtDecode(authData);
-          const currentTime = Date.now() / 1000;
-          if (decodedToken.exp > currentTime) {
-              setAuthen(authData);
-          }
-      } catch (error) {
-          console.error(error);
-      }
-  }
-}, []);
-
-useEffect(() => {
-  async function fetchUserData() {
-      try {
-          var decode = jwtDecode(authen);
-          var userid = decode.AccountID;
-          const url = `/api/Account/get-by-id?accountId=${userid}`;
-          // const paymentUrl = `/api/Payment/get-payment?OrderId=${cartItems[0]?.orderId}`;
-          const headers = {
-              'accept': '*/*',
-              'Content-Type': 'application/json-patch+json'
-          };
-          // const data = {
-          //   accountId: userid
-          // };
-          const response = await api.get(url);
-          var user = response.data;
-
-          if (!user.isActive) {
-            window.alert("Tài khoản của bạn chưa được kích hoạt. Vui lòng liên hệ Admin để kích hoạt tài khoản");
-            localStorage.removeItem('Authen'); // Xóa thông tin đăng nhập
-            setAuthen(null); // Đặt lại state
-            return;
-          }
-
-          setAuth({ user, authen });
-          if (user.roleId === '1') {
-              console.log('ys');
-              navigate('/Home');
-              window.alert('Đăng nhập thành công');
-          }
-          if (user.roleId === '2') {
-              navigate('/Home');
-              window.alert('Đăng nhập thành công');
-          } 
-          if (user.roleId === '4') {
-              navigate('/content');
-              window.alert('Đăng nhập thành công');
-          }
-          if (user.roleId === '3') {
-              navigate('/adminmanager');
-              window.alert('Đăng nhập thành công');
-          }
-      } catch (error) {
-          console.error(error);
-          console.log(decode);
-          console.log(userid);
-          console.log(user);
-          // console.log(respone);
-          localStorage.removeItem('Authen'); // Xóa thông tin đăng nhập khi có lỗi xảy ra
-      }
-  }
-  if (authen) {
-      fetchUserData();
-  }
-}, [authen, navigate]);
-
-useEffect(() => {
-  const checkRedirectResult = async () => {
-    try {
-      const result = await getRedirectResult(auth);
-      if (result) {
-        const user = {
-          userName: result.user.displayName,
-          imageUrl: result.user.photoURL,
-          email: result.user.email,
-          roleId: "1",
-          isActive: true
-        };
-        
-        setAuth({ user, authen: null });
-        localStorage.setItem('user', JSON.stringify(user));
-        
-        navigate('/Home');
-      }
-    } catch (error) {
-      console.error('Lỗi đăng nhập:', error);
-      setError('Đăng nhập thất bại. Vui lòng thử lại.');
+      console.error(error);
+      setError('Tên đăng nhập hoặc mật khẩu không chính xác');
+      showNotification('Tên đăng nhập hoặc mật khẩu không chính xác', 'error');
     } finally {
       setIsLoading(false);
     }
   };
 
-  checkRedirectResult();
-}, [navigate]);
+  useEffect(() => {
+    const authData = localStorage.getItem('Authen');
+    if (authData) {
+      try {
+        const decodedToken = jwtDecode(authData);
+        const currentTime = Date.now() / 1000;
+        if (decodedToken.exp > currentTime) {
+          setAuthen(authData);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  }, []);
 
-const handleGoogleLogin = async () => {
-  try {
-    setIsLoading(true);
-    setError(null);
+  useEffect(() => {
+    async function fetchUserData() {
+      try {
+        var decode = jwtDecode(authen);
+        var userid = decode.AccountID;
+        const url = `/api/Account/get-by-id?accountId=${userid}`;
+        const response = await api.get(url);
+        var user = response.data;
+
+        if (!user.isActive) {
+          showNotification("Tài khoản của bạn chưa được kích hoạt. Vui lòng liên hệ Admin để kích hoạt tài khoản", 'error');
+          localStorage.removeItem('Authen');
+          setAuthen(null);
+          return;
+        }
+
+        setAuth({ user, authen });
+        
+        // Chuyển hướng dựa trên vai trò
+        if (user.roleId === '1') {
+          navigate('/Home');
+          showNotification('Đăng nhập thành công!', 'success');
+        }
+        if (user.roleId === '2') {
+          navigate('/Home');
+          showNotification('Đăng nhập thành công!', 'success');
+        } 
+        if (user.roleId === '4') {
+          navigate('/content');
+          showNotification('Đăng nhập thành công!', 'success');
+        }
+        if (user.roleId === '3') {
+          navigate('/adminmanager');
+          showNotification('Đăng nhập thành công!', 'success');
+        }
+      } catch (error) {
+        console.error(error);
+        localStorage.removeItem('Authen');
+      }
+    }
     
-    const provider = new GoogleAuthProvider();
-    const result = await signInWithPopup(auth, provider);
-    
-    // Tạo đối tượng user phù hợp với cấu trúc auth context
-    const user = {
-      userName: result.user.displayName,
-      imageUrl: result.user.photoURL,
-      email: result.user.email,
-      roleId: "1", // Đặt roleId mặc định cho người dùng Google
-      isActive: true
+    if (authen) {
+      fetchUserData();
+    }
+  }, [authen, navigate, setAuth]);
+
+  useEffect(() => {
+    const checkRedirectResult = async () => {
+      try {
+        const result = await getRedirectResult(auth);
+        if (result) {
+          const user = {
+            userName: result.user.displayName,
+            imageUrl: result.user.photoURL,
+            email: result.user.email,
+            roleId: "1",
+            isActive: true
+          };
+          
+          setAuth({ user, authen: null });
+          localStorage.setItem('user', JSON.stringify(user));
+          
+          navigate('/Home');
+        }
+      } catch (error) {
+        console.error('Lỗi đăng nhập:', error);
+        setError('Đăng nhập thất bại. Vui lòng thử lại.');
+      } finally {
+        setIsLoading(false);
+      }
     };
 
-    // Cập nhật auth context
-    setAuth({ user, authen: null }); // authen có thể null vì đây là đăng nhập Google
-    
-    // Lưu thông tin user vào localStorage
-    localStorage.setItem('user', JSON.stringify(user));
-    
-    console.log('Đăng nhập thành công, đang chuyển hướng...');
-    navigate('/Home');
-    
-  } catch (error) {
-    console.error('Lỗi đăng nhập:', error);
-    setError('Đăng nhập thất bại. Vui lòng thử lại.');
-  } finally {
-    setIsLoading(false);
-  }
-};
+    checkRedirectResult();
+  }, [navigate]);
+
+  const handleGoogleLogin = async () => {
+    try {
+      setIsLoading(true);
+      setError(null);
+      
+      const provider = new GoogleAuthProvider();
+      const result = await signInWithPopup(auth, provider);
+      
+      const user = {
+        userName: result.user.displayName,
+        imageUrl: result.user.photoURL,
+        email: result.user.email,
+        roleId: "1",
+        isActive: true
+      };
+
+      setAuth({ user, authen: null });
+      localStorage.setItem('user', JSON.stringify(user));
+      
+      navigate('/Home');
+      showNotification('Đăng nhập thành công!', 'success');
+      
+    } catch (error) {
+      console.error('Lỗi đăng nhập:', error);
+      setError('Đăng nhập thất bại. Vui lòng thử lại.');
+      showNotification('Đăng nhập thất bại. Vui lòng thử lại.', 'error');
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
-    <div id="Login" >
-    <div className="login-container">
-      {/* Hero Section */}
-      <div className="hero-wrap">
-        <div className="hero-content">
-          <div className="container">
-            <div className="row">
-              <div className="col">
-                <div className="logo">
-                  <a href="index.html" title="Oxyy">
-                    {/* <img src={P35} alt="Oxyy" /> */}
-                  </a>
+    <div id="Login">
+      <div className="login-container">
+        <div className="hero-wrap">
+          <div className="hero-content">
+            <div className="container">
+              <div className="row">
+                <div className="col">
+                  <div className="logo">
+                    {/* Logo content if needed */}
+                  </div>
                 </div>
-                {/* <h1>We are glad to see you again!</h1>
-                <p>Log In with QR Code</p> */}
-                {/* <img src="images/qr-code.jpg" className="qr-code" alt="QR code" /> */}
-                {/* <p className="description">Scan this with your camera or our mobile app to login instantly.</p> */}
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Login Form Section */}
-      <div className="login-form">
-        <div className="container">
-          <h3 className='chaomung'>Chào Mừng Bạn Đến Với Colordanhub</h3>
-          <p>Bạn Chưa Có Tài Khoản Colordanhub? <a href="/Signup">Đăng Ký</a></p>
+        <div className="login-form">
+          <h3 className="chaomung">Chào Mừng Đến Colordanhub</h3>
+          <p>Bạn chưa có tài khoản? <a href="/Signup">Đăng ký ngay</a></p>
+          
           <form onSubmit={handleSubmit}>
             <div className="input-group">
               <label htmlFor="emailAddress">Email</label>
               <input
-                type="text"
+                type="email"
                 id="emailAddress"
                 required
                 placeholder="nguyenvananh@gmail.com"
@@ -216,17 +198,19 @@ const handleGoogleLogin = async () => {
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
+            
             <div className="input-group">
               <label htmlFor="loginPassword">Mật Khẩu</label>
               <input
                 type="password"
                 id="loginPassword"
                 required
-                placeholder="Điền Mật Khẩu"
+                placeholder="Nhập mật khẩu"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
+            
             <div className="remember-me">
               <input
                 type="checkbox"
@@ -235,29 +219,36 @@ const handleGoogleLogin = async () => {
                 checked={rememberMe}
                 onChange={() => setRememberMe(!rememberMe)}
               />
-              <label htmlFor="remember-me">Lưu Thông Tin Đăng Nhập</label>
+              <label htmlFor="remember-me">Lưu thông tin đăng nhập</label>
             </div>
-            <button type="submit">Đăng Nhập</button>
+            
+            <button 
+              type="submit" 
+              disabled={isLoading}
+            >
+              {isLoading ? 'Đang xử lý...' : 'Đăng Nhập'}
+            </button>
           </form>
-          <div className='mutee'>
-          <hr className="flex-grow-1" />
-  <span className="muted">Hoặc Đăng Nhập Với</span>
-  <hr className="flex-grow-1" />
-  </div>
-          <div className="social-login">
+          
+          {/* <div className="divider">
+            <div className="divider-line"></div>
+            <div className="divider-text">Hoặc</div>
+            <div className="divider-line"></div>
+          </div> */}
+          
+          {/* <div className="social-login">
             <button 
               className="google-btn" 
               onClick={handleGoogleLogin}
               disabled={isLoading}
             >
-              {isLoading ? 'Đang đăng nhập...' : 'Google'}
+              {isLoading ? 'Đang xử lý...' : 'Đăng nhập với Google'}
             </button>
-            {error && <p className="error-message">{error}</p>}
-          </div>
-          <p>Bạn Không Nhớ <a href="forgot-password-5.html">Mật Khẩu</a>?</p>
+          </div> */}
+          
+          <p>Quên mật khẩu? <a href="/forgot-password">Khôi phục ngay</a></p>
         </div>
       </div>
-    </div>
     </div>
   );
 }
