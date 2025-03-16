@@ -31,7 +31,7 @@ const CheckoutSuccess = () => {
     setTrancode(trancode);
     setAmount(amount);
 
-    if (trancode && status) {
+    if (trancode) {
       const updatePaymentStatus = async () => {
         const url = `/create-payment-link/update-status-2?odercode=${trancode}`;
         console.log("URL being called:", url);
@@ -107,11 +107,11 @@ const CheckoutSuccess = () => {
                 <Text>Trạng thái:</Text>
                 <Tag color="success">Đã thanh toán</Tag>
               </div>
-              <div style={{ display: "flex", justifyContent: "space-between" }}>
+              {/* <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <Text>Số tiền:</Text>
                 <Text strong style={{ color: "#00c0b5", fontSize: "18px" }}>{formatCurrency(amount)}</Text>
-                {/* <Text strong style={{ color: "#00c0b5", fontSize: "18px" }}>1000000</Text> */}
-              </div>
+                
+              </div> */}
             </Space>
           </Card>
 
