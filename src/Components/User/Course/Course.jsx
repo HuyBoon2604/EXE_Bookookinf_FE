@@ -1,10 +1,14 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState,useEffect,useRef } from 'react';
 // import { StudioHeader } from './StudioHeader';
 import './Course.css';
 import api from '../../utils/requestAPI';
 import useAuth from '../../../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
+import axios from "axios";
+import { useMapEvent } from "react-leaflet";
 
 
 const galleryImages = [
@@ -383,6 +387,58 @@ const handleShowMoreReviews = () => {
   setShowAllReviews(true);
 };
 
+const [center, setCenter] = useState([21.03024, 105.85237]);
+const ZOOM_LEVEL = 100; 
+  const mapRef = useRef();
+ const addressdata =[
+  { id: 1, name: "phường 12 quận gò vấp thành phố hồ chí minh"}
+ ]
+ const apiKey = "C6gl6YCxg3oeLpfO2atFBY2ia1m1rBr9";
+ useEffect(() => {
+  if (!studio?.studio?.studioAddress) return; 
+
+ 
+  const encodedAddress = encodeURIComponent(studio?.studio?.studioAddress);
+
+ 
+  axios
+    .get(
+      `https://mapapis.openmap.vn/v1/geocode/forward?address=${encodedAddress}&apikey=${apiKey}`
+    )
+    .then(function (response) {
+      console.log(response);
+      const coordinates = response.data.results[0].geometry.location;
+      const latitude = coordinates.lat;
+const longitude = coordinates.lng; 
+
+console.log("Tọa độ:", latitude, longitude);
+
+      
+setCenter([latitude, longitude]);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+}, [studio.studio?.studioAddress]); 
+const MapClickHandler = ({ center }) => {
+  useMapEvent("click", (e) => {
+    const { lat, lng } = e.latlng; 
+    console.log("Tọa độ click:", lat, lng);
+
+    
+    window.open(`https://www.google.com/maps?q=${lat},${lng}`, "_blank");
+  });
+ 
+
+  return null; 
+};
+const customIcon = new L.Icon({
+  iconUrl: "/icons8-marker-48.png", 
+  iconSize: [40, 40],
+  iconAnchor: [20, 40],
+  popupAnchor: [0, -40],
+});
+
   return (
     <div id="Course">
     <div className="pageContainer">
@@ -489,6 +545,7 @@ const handleShowMoreReviews = () => {
             <div className="titleContainer">
               <h1 className="className">{ClassId.className}</h1>
               <p className="teacherName">Giáo Viên: Nguyễn Việt Anh</p>
+              <hr width="300%" align="left"></hr>
               </div>
               <div className="actionButtons">
               {/* <button
@@ -519,7 +576,39 @@ const handleShowMoreReviews = () => {
               <p className="description">
                 {ClassId.description}
               </p>
+              <hr width="100%" align="left"></hr>
+              
+              
+              
             </section>
+        
+<div className="location-hehe">
+      <div className="tittle-local">
+        <h2 className="diadiem">Vị trí</h2>
+        <p className="description">
+              {studio.studio?.studioAddress}
+              </p>
+      </div>
+      <MapContainer
+        key={center.toString()} 
+        center={center}
+        zoom={ZOOM_LEVEL}
+        style={{ width: "100%", height: "400px", marginTop: "20px" }}
+      >
+        <TileLayer
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        />
+        <Marker position={center} icon={customIcon}>
+          <Popup>Đây là vị trí của studio.</Popup>
+        </Marker>
+       
+        <MapClickHandler center={center} />
+      </MapContainer>
+    </div>
+
+
+<hr  width="100%" align="left" />
 
             <section className="reviewsSection" aria-labelledby="reviewsTitle">
               <div className="reviewsHeader">

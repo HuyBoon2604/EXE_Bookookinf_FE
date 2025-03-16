@@ -148,11 +148,12 @@ const [bookedTimes, setBookedTimes] = useState([]);
               message: <span className='custom-confirm'>Bạn có muốn kiểm tra lại thông tin trước khi đặt studio ?</span>,
               buttons: [
                   {
-                      label: 'Có',
-                      onClick: () => handleBooking(),
+                      label: 'Có'
+                      
                   },
                   {
-                      label: 'Không'
+                      label: 'Không',
+                      onClick: () => handleBooking(),
                   },
               ],
           });
